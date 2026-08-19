@@ -42,6 +42,22 @@ For what each part does on the board, see [Jumpers, Switches & LEDs](Jumpers-Swi
 When ordering boards, regenerate the fabrication outputs (Gerber / drill / pick‑and‑place) from
 the final `PCB1.PcbDoc` in the Altium project.
 
+### As built
+
+Automated optical inspection scans of an assembled board (**serial 0010**, assembled
+13 August 2026). The green cast and the panel rails visible at the edges are artefacts of the
+AOI scanner.
+
+![Assembled board, top side](../img/board_assembled_top.jpg)
+
+*Top — the DIP‑28 socket at `U1` is empty here; `S1`, the MCP2200/MCP2210 module headers, the
+`R20` Vcore trimmer and the `R7` 0.01 Ω shunt are all populated.*
+
+![Assembled board, bottom side](../img/board_assembled_bottom.jpg)
+
+*Bottom — CW308 edge connectors `J7`/`J8`/`J9`, LED resistors `R11`–`R18` and decoupling
+`C5`–`C10`. The current‑sense pair `SHUNTH`/`SHUNTL` leaves the board on `J8`.*
+
 ## Rebuilding the docs
 
 Every diagram in these pages (architecture, pinout, clock tree, power path, placement/silkscreen

@@ -12,7 +12,7 @@ is the index: what exists, which one to read, and how each piece is produced.
 |---|---|
 | understand the whole system in one sitting | the **[PDF manual](manual/proact_manual.pdf)** |
 | get a board working today | [Getting-Started](wiki/Getting-Started.md), then [bringup_guide.md](bringup_guide.md) |
-| learn the libraries by running code | the **[tutorial notebook](../examples/PROACT_Tutorial.ipynb)** |
+| learn the libraries by running code | the **[tutorial notebook](../examples/)** |
 | look up an address or a register bit | [address_map.md](address_map.md) |
 | know why your firmware hangs | [hardware_hazards.md](hardware_hazards.md) |
 | work on one directory of the repo | that directory's own README (see [below](#directory-readmes)) |
@@ -40,7 +40,7 @@ itself is tracked.)
 
 ## Tutorial notebook
 
-**[`../examples/PROACT_Tutorial.ipynb`](../examples/PROACT_Tutorial.ipynb)** — a
+**[`../examples/PROACT_Tutorial.ipynb`](../examples/)** — a
 runnable, section-by-section guide to the Python and C libraries: connect and
 program, register access, AES1/AES2 encrypt/decrypt, AEAD hardware encryption
 with software decryption, PRNG, Sw-RV loading, ChipWhisperer capture, and the
@@ -91,7 +91,7 @@ the repository sits next to the code it describes.
 | [`../PCB/`](../PCB/README.md) | the carrier board (with its own wiki set under `PCB/Doc/`) |
 | [`../tests/`](../tests/README.md) | what the offline suite pins, and what it deliberately does not |
 | [`../examples/`](../examples/README.md) | the tutorial notebook |
-| [`../INSTALL.md`](../INSTALL.md) | toolchain, USB permissions, optional components |
+| [`../INSTALL.md`](../README.md) | toolchain, USB permissions, optional components |
 
 ## Provenance of the documented facts
 

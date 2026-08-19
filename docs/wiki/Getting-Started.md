@@ -75,7 +75,7 @@ All commands are run from the repository root; paths are relative to it.
 
 ## 1. Install the host tools
 
-Full detail is in **[INSTALL.md](../../INSTALL.md)**. The short form:
+Full detail is in **[the installation guide](../../README.md)**. The short form:
 
 ```bash
 bash tools/setup_env.sh                 # one-time: builds the dedicated ~/.proact-venv for the GUI/CLI

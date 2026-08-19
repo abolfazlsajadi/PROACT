@@ -257,6 +257,24 @@ kept as read-only reference under [`ASIC/`](ASIC/README.md), and the Vivado flow
 [`FPGA/`](FPGA/README.md) reuses the *same* `PROACT.source_list.tcl` to build the CW305
 bitstream, so the two targets cannot diverge.
 
+
+<table align="center">
+<tr>
+<td width="50%" align="center">
+  <img alt="Assembled PROACT evaluation board, top side" src="PCB/Doc/img/board_assembled_top.jpg" width="100%">
+  <br><em>Evaluation board, top — the ASIC sits in the central DIP‑28 socket</em>
+</td>
+<td width="50%" align="center">
+  <img alt="Assembled PROACT evaluation board, bottom side" src="PCB/Doc/img/board_assembled_bottom.jpg" width="100%">
+  <br><em>Bottom — CW308 edge connectors and the current‑sense header <code>J8</code></em>
+</td>
+</tr>
+</table>
+
+<p align="center"><em>Optical inspection scans of an assembled board (serial 0010). The chip is
+socketed on a <a href="PCB/README.md">ChipWhisperer CW308 target board</a> that brings out the
+0.8&nbsp;V core rail through a 0.01&nbsp;Ω sense shunt for power measurement.</em></p>
+
 <p align="center">
   <img alt="PROACT SoC — two Ibex cores on one bus" src="docs/images/soc_architecture.png" width="88%">
   <br>

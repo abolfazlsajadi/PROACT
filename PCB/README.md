@@ -13,7 +13,7 @@ oscillator**, an **external SMA input**, or the **ChipWhisperer**, and the 0.8 V
 **trimmable (0.80 – 0.90 V)** and measured through a 0.01 Ω sense shunt.
 
 <p align="center">
-<sub>🔎 <a href="https://abolfazlsajadi.github.io/PROACT/PCB/">Interactive board wiki</a> — clickable board map with a live jumper simulator · 📖 <a href="Doc/wiki/Home.md">wiki pages</a> · 📄 <a href="docs/PROACT_Board_Reference.pdf">PDF reference</a></sub></p>
+<sub>🔎 <a href="https://abolfazlsajadi.github.io/PROACT/PCB/">Interactive board wiki</a> — clickable board map with a live jumper simulator · 📖 <a href="Doc/wiki/Home.md">wiki pages</a> · 📄 <a href="Doc/PROACT_Board_Reference.pdf">PDF reference</a></sub></p>
 
 <p align="center">
   <img src="Doc/img/board_final_top.png" alt="PROACT board — top, silkscreened" width="42%">
@@ -22,8 +22,34 @@ oscillator**, an **external SMA input**, or the **ChipWhisperer**, and the 0.8 V
 
 ---
 
+## The board as manufactured
+
+Automated optical inspection (AOI) scans of an assembled board, **serial 0010**, taken at the
+assembly house on 13 August 2026. These are the boards in service on the bench — the green cast
+and the panel rails at the edges are artefacts of the AOI scanner, not of the board itself.
+
+<table align="center">
+<tr>
+<td width="50%" align="center">
+  <img alt="Assembled PROACT board, top side, AOI inspection scan" src="Doc/img/board_assembled_top.jpg" width="100%">
+  <br><em><b>Top</b> — DIP‑28 socket for the ASIC (centre), <code>S1</code> read‑back DIP switch and the
+  MCP2200 / MCP2210 module headers (right), <code>R20</code> Vcore trimmer and <code>R7</code> 0.01&nbsp;Ω sense
+  shunt (left and bottom), <code>J11</code> external‑clock SMA (top right)</em>
+</td>
+<td width="50%" align="center">
+  <img alt="Assembled PROACT board, bottom side, AOI inspection scan" src="Doc/img/board_assembled_bottom.jpg" width="100%">
+  <br><em><b>Bottom</b> — CW308 edge connectors <code>J7</code>/<code>J8</code>/<code>J9</code>, the LED series
+  resistors <code>R11</code>–<code>R18</code> and the supply decoupling <code>C5</code>–<code>C10</code>.
+  <code>J8</code> carries the <code>SHUNTH</code>/<code>SHUNTL</code> current‑sense pair</em>
+</td>
+</tr>
+</table>
+
+---
+
 ## Table of contents
 
+- [The board as manufactured](#the-board-as-manufactured)
 - [At a glance](#at-a-glance)
 - [Board tour](#board-tour)
 - [System architecture &amp; signal routing](#system-architecture--signal-routing)
