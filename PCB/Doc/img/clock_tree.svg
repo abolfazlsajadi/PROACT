@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 580" font-family="Inter, Segoe UI, Arial, sans-serif">
+<rect width="1400" height="580" fill="#0b1220"/>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/></marker><marker id="arb" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#38bdf8"/></marker><marker id="arc" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker></defs>
+<text x="700.0" y="36" font-size="21" font-weight="800" text-anchor="middle" fill="#f8fafc">PROACT Evaluation Board — Clock Tree (J12 clock-source select)</text>
+<text x="700.0" y="58" font-size="11.5" font-weight="600" text-anchor="middle" fill="#94a3b8">One net — CLK_pin — feeds SYSCLK_P. Fit exactly ONE J12 source link: 1-2 SMA · 3-4 on-board 50 MHz · 5-6 ChipWhisperer. The running clock is always echoed to the CW on J7.5.</text>
+<text x="40" y="96" font-size="11" font-weight="800" text-anchor="start" fill="#67e8f9">CLOCK SOURCES — exactly ONE link · silk SMA / Osc / Cw</text>
+<rect x="32" y="106" width="330" height="72" rx="8" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<circle cx="50" cy="118" r="9" fill="#22d3ee" fill-opacity="0.15" stroke="#22d3ee" stroke-width="1.6"/>
+<text x="50" y="121.5" font-size="10" font-weight="800" text-anchor="middle" fill="#22d3ee">1</text>
+<text x="66" y="122" font-size="9.5" font-weight="700" text-anchor="start" fill="#94a3b8">EXTERNAL — SMA · link 1-2</text>
+<rect x="64" y="128" width="180" height="42" rx="10" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+<text x="154.0" y="145.0" font-size="12.5" font-weight="800" text-anchor="middle" fill="#f1f5f9">J11 — SMA jack</text>
+<text x="154.0" y="162.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">board silk reads BNC — it is SMA</text>
+<line x1="244" y1="149" x2="418" y2="146" stroke="#22d3ee" stroke-width="2.2" marker-end="url(#arc)"/>
+<rect x="32" y="190" width="330" height="72" rx="8" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<circle cx="50" cy="202" r="9" fill="#22d3ee" fill-opacity="0.15" stroke="#22d3ee" stroke-width="1.6"/>
+<text x="50" y="205.5" font-size="10" font-weight="800" text-anchor="middle" fill="#22d3ee">2</text>
+<text x="66" y="206" font-size="9.5" font-weight="700" text-anchor="start" fill="#94a3b8">ON-BOARD OSC — 50 MHz · link 3-4</text>
+<rect x="64" y="212" width="158" height="42" rx="10" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+<text x="143.0" y="229.0" font-size="12" font-weight="800" text-anchor="middle" fill="#f1f5f9">Y1 — 50 MHz osc</text>
+<text x="143.0" y="246.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">VDDIO · C13 1µF + C16 100n</text>
+<rect x="248" y="216" width="74" height="32" rx="10" fill="#111827" stroke="#64748b" stroke-width="2"/>
+<text x="285.0" y="237.0" font-size="11" font-weight="800" text-anchor="middle" fill="#f1f5f9">R22 · 20Ω</text>
+<line x1="222" y1="231" x2="248" y2="231" stroke="#22d3ee" stroke-width="2.2" marker-end="url(#arc)"/>
+<line x1="322" y1="231" x2="418" y2="230" stroke="#22d3ee" stroke-width="2.2" marker-end="url(#arc)"/>
+<rect x="32" y="274" width="330" height="72" rx="8" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<circle cx="50" cy="286" r="9" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1.6"/>
+<text x="50" y="289.5" font-size="10" font-weight="800" text-anchor="middle" fill="#38bdf8">3</text>
+<text x="66" y="290" font-size="9.5" font-weight="700" text-anchor="start" fill="#7dd3fc">CHIPWHISPERER CLOCK — link 5-6</text>
+<rect x="64" y="296" width="158" height="42" rx="10" fill="#082f49" stroke="#38bdf8" stroke-width="2"/>
+<text x="143.0" y="313.0" font-size="12" font-weight="800" text-anchor="middle" fill="#f1f5f9">J7.3 — CLKFB</text>
+<text x="143.0" y="330.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">CW308 drives its clock here</text>
+<rect x="248" y="300" width="74" height="32" rx="10" fill="#111827" stroke="#64748b" stroke-width="2"/>
+<text x="285.0" y="321.0" font-size="11" font-weight="800" text-anchor="middle" fill="#f1f5f9">R8 · 100Ω</text>
+<line x1="222" y1="317" x2="248" y2="316" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#arb)"/>
+<line x1="322" y1="316" x2="418" y2="314" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#arb)"/>
+<text x="468.0" y="96" font-size="12" font-weight="800" text-anchor="middle" fill="#f1f5f9">J12 — CLKSEL (2×3 header)</text>
+<rect x="400" y="104" width="136" height="256" rx="10" fill="#111827" stroke="#475569" stroke-width="2"/>
+<circle cx="410" cy="134" r="3" fill="#a78bfa"/>
+<text x="432" y="118" font-size="8.5" font-weight="700" text-anchor="middle" fill="#64748b">src</text>
+<text x="504" y="118" font-size="8.5" font-weight="700" text-anchor="middle" fill="#64748b">bus</text>
+<rect x="420" y="134" width="24" height="24" rx="3" fill="#1e293b" stroke="#64748b" stroke-width="1.6"/>
+<text x="432" y="150" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">1</text>
+<rect x="492" y="134" width="24" height="24" rx="6" fill="#1e293b" stroke="#22d3ee" stroke-width="1.6"/>
+<text x="504" y="150" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">2</text>
+<rect x="420" y="218" width="24" height="24" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.6"/>
+<text x="432" y="234" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">3</text>
+<rect x="492" y="218" width="24" height="24" rx="6" fill="#1e293b" stroke="#22d3ee" stroke-width="1.6"/>
+<text x="504" y="234" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">4</text>
+<rect x="420" y="302" width="24" height="24" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.6"/>
+<text x="432" y="318" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">5</text>
+<rect x="492" y="302" width="24" height="24" rx="6" fill="#1e293b" stroke="#22d3ee" stroke-width="1.6"/>
+<text x="504" y="318" font-size="11" font-weight="800" text-anchor="middle" fill="#e2e8f0">6</text>
+<rect x="414" y="131" width="108" height="30" rx="15" fill="#a78bfa" fill-opacity="0.28" stroke="#a78bfa" stroke-width="2"/>
+<text x="468" y="176" font-size="9.5" font-weight="700" text-anchor="middle" fill="#c4b5fd">1-2  EXT (SMA)</text>
+<rect x="414" y="215" width="108" height="30" rx="15" fill="#a78bfa" fill-opacity="0.28" stroke="#a78bfa" stroke-width="2"/>
+<text x="468" y="260" font-size="9.5" font-weight="700" text-anchor="middle" fill="#c4b5fd">3-4  OSC 50M</text>
+<rect x="414" y="299" width="108" height="30" rx="15" fill="#a78bfa" fill-opacity="0.28" stroke="#a78bfa" stroke-width="2"/>
+<text x="468" y="344" font-size="9.5" font-weight="700" text-anchor="middle" fill="#c4b5fd">5-6  CW clock</text>
+<line x1="516" y1="146" x2="634" y2="146" stroke="#22d3ee" stroke-width="2.2"/>
+<circle cx="640" cy="146" r="3.6" fill="#22d3ee"/>
+<line x1="516" y1="230" x2="634" y2="230" stroke="#22d3ee" stroke-width="2.2"/>
+<circle cx="640" cy="230" r="3.6" fill="#22d3ee"/>
+<line x1="516" y1="314" x2="634" y2="314" stroke="#22d3ee" stroke-width="2.2"/>
+<circle cx="640" cy="314" r="3.6" fill="#22d3ee"/>
+<rect x="629" y="125" width="22" height="222" rx="9" fill="#22d3ee" opacity="0.12"/>
+<rect x="634" y="130" width="12" height="212" rx="6" fill="#22d3ee" opacity="0.9"/>
+<text x="640" y="120" font-size="11.5" font-weight="800" text-anchor="middle" fill="#67e8f9">CLK_pin</text>
+<text x="860" y="108" font-size="11" font-weight="800" text-anchor="start" fill="#67e8f9">CLK_pin LOADS &amp; ECHO</text>
+<rect x="860" y="120" width="330" height="64" rx="10" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+<text x="1025.0" y="148.0" font-size="15" font-weight="800" text-anchor="middle" fill="#f1f5f9">SYSCLK_P — U1 pin 9</text>
+<text x="1025.0" y="165.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">PROACT ASIC · DIP-28 socket U1</text>
+<line x1="646" y1="152" x2="856" y2="152" stroke="#22d3ee" stroke-width="2.4" marker-end="url(#arc)"/>
+<rect x="860" y="204" width="210" height="44" rx="10" fill="#111827" stroke="#e2e8f0" stroke-width="2"/>
+<text x="965.0" y="222.0" font-size="12.5" font-weight="800" text-anchor="middle" fill="#f1f5f9">CLK — test point</text>
+<text x="965.0" y="239.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">scope probe pad</text>
+<line x1="646" y1="226" x2="856" y2="226" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="860" y="268" width="330" height="64" rx="10" fill="#082f49" stroke="#38bdf8" stroke-width="2"/>
+<text x="1025.0" y="296.0" font-size="13.5" font-weight="800" text-anchor="middle" fill="#f1f5f9">J7.5 — clock echo out</text>
+<text x="1025.0" y="313.0" font-size="10" font-weight="600" text-anchor="middle" fill="#94a3b8">ChipWhisperer observes/samples the running clock</text>
+<line x1="646" y1="300" x2="856" y2="300" stroke="#38bdf8" stroke-width="2.4" marker-end="url(#arb)"/>
+<text x="750" y="290" font-size="9.5" font-weight="700" text-anchor="middle" fill="#7dd3fc">clock echo out (always connected)</text>
+<rect x="96" y="392" width="229" height="36" rx="18" fill="#3f1d0b" stroke="#f59e0b" stroke-width="1.6"/>
+<text x="114" y="415.5" font-size="14" font-weight="700" text-anchor="start" fill="#fbbf24">&#9888;</text>
+<text x="136" y="414.5" font-size="11" font-weight="700" text-anchor="start" fill="#fdba74">fit exactly ONE J12 source link</text>
+<rect x="350.70000000000005" y="392" width="736" height="36" rx="18" fill="#3f1d0b" stroke="#f59e0b" stroke-width="1.6"/>
+<text x="368.70000000000005" y="415.5" font-size="14" font-weight="700" text-anchor="start" fill="#fbbf24">&#9888;</text>
+<text x="390.70000000000005" y="414.5" font-size="11" font-weight="700" text-anchor="start" fill="#fdba74">Leave the CW308's J3 clock jumper unpopulated — it drives J7.5 (the clock-echo pin) and would fight the selected source.</text>
+<rect x="32" y="456" width="1336" height="58" rx="10" fill="#0e1729" stroke="#334155" stroke-width="1.4"/>
+<rect x="32" y="456" width="6" height="58" rx="3" fill="#22d3ee"/>
+<text x="60" y="491" font-size="13" font-weight="800" text-anchor="start" fill="#f1f5f9">Sync capture recipe:</text>
+<rect x="220" y="472" width="79" height="26" rx="13" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+<text x="259.45" y="489" font-size="11" font-weight="700" text-anchor="middle" fill="#a78bfa">J12 → 3-4</text>
+<rect x="316.9" y="472" width="280" height="26" rx="13" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="457.0" y="489" font-size="11" font-weight="700" text-anchor="middle" fill="#38bdf8">chip clock echoed on J7.5 — sample from it</text>
+<rect x="615.0999999999999" y="472" width="109" height="26" rx="13" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="669.8" y="489" font-size="11" font-weight="700" text-anchor="middle" fill="#f59e0b">CW308 J3 empty</text>
+<text x="750.4999999999999" y="489" font-size="10.5" font-weight="600" text-anchor="start" fill="#94a3b8">&#8594;  capture is synchronous to the 50 MHz device clock</text>
+<text x="700.0" y="552" font-size="9.5" font-weight="600" text-anchor="middle" fill="#64748b">CLK_pin net (final netlist):  U1.9 SYSCLK_P · J12.2/4/6 · J7.5 (clock echo) · CLK test point   —   CW clock in:  J7.3 CLKFB → R8 100Ω → J12.5</text>
+</svg>

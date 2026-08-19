@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1190 900" font-family="Inter,Segoe UI,Arial,sans-serif">
+<rect x="0.0" y="0.0" width="1190.0" height="900.0" rx="0.0" fill="#0b1220"/>
+<text x="24.0" y="38.0" font-size="24" font-weight="800" text-anchor="start" fill="#f1f5f9">PROACT — configuration jumpers</text>
+<text x="24.0" y="60.0" font-size="11.5" font-weight="600" text-anchor="start" fill="#94a3b8">where every jumper sits and what its positions mean · details on the per-jumper cards</text>
+<rect x="16.0" y="76.0" width="500.0" height="808.0" rx="10.0" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<rect x="50.6" y="98.6" width="430.8" height="746.8" rx="8.5" fill="#0e4b34" stroke="#1f7a54" stroke-width="1.6"/>
+<rect x="236.8" y="468.2" width="25.6" height="20.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="221.2" y="470.2" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="213.4" y="496.8" width="63.2" height="44.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="266.8" y="468.3" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="285.0" y="468.3" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="194.8" y="761.2" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="211.4" y="749.4" width="38.4" height="54.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.5" y="751.3" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.4" y="791.9" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.5" y="771.6" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.5" y="731.0" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="417.2" y="517.3" width="20.8" height="60.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="64.4" y="298.7" width="72.0" height="104.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.4" y="751.7" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.4" y="792.4" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.5" y="772.1" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="413.5" y="731.3" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="120.0" y="562.9" width="288.0" height="124.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="380.0" y="578.0" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="430.3" y="444.5" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="403.7" y="451.7" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="410.0" y="108.7" width="20.8" height="142.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="288.6" y="706.2" width="40.8" height="101.6" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="346.4" y="732.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="346.4" y="749.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="346.4" y="783.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="346.4" y="766.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="346.4" y="800.6" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="143.5" y="779.7" width="25.6" height="25.6" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="93.3" y="737.3" width="27.2" height="27.2" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="398.3" y="402.0" width="27.2" height="27.2" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="365.6" y="488.1" width="48.0" height="48.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="160.5" y="365.4" width="148.0" height="80.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="136.1" y="653.2" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="96.4" y="446.4" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="415.5" y="440.9" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="388.8" y="188.2" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="270.0" y="761.4" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="312.6" y="200.2" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="319.0" y="133.4" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="309.7" y="159.6" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="103.2" y="704.9" width="60.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="302.6" y="514.9" width="60.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="172.9" y="704.9" width="60.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="302.6" y="482.4" width="60.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="339.2" y="704.9" width="60.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="325.9" y="449.9" width="40.8" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="141.0" y="496.8" width="63.2" height="44.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="61.8" y="821.8" width="406.4" height="20.8" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="448.7" y="395.3" width="20.8" height="406.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="62.6" y="395.3" width="20.8" height="406.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="322.9" y="373.8" width="44.8" height="63.2" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="286.1" y="108.7" width="20.8" height="142.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="235.3" y="108.1" width="20.8" height="142.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="110.3" y="107.7" width="20.8" height="142.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="87.7" y="408.2" width="27.2" height="27.2" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="345.4" y="800.6" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="345.4" y="783.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="345.4" y="766.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="345.4" y="749.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="345.4" y="732.5" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="103.4" y="658.6" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="88.0" y="473.1" width="27.2" height="27.2" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="182.8" y="802.6" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="97.8" y="772.4" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="120.5" y="774.9" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="146.7" y="761.7" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="150.7" y="740.1" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="257.0" y="573.6" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="251.9" y="596.3" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="276.0" y="655.3" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="274.6" y="633.9" width="16.0" height="10.4" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="216.9" y="119.9" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="193.1" y="124.0" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="390.9" y="121.1" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<rect x="367.5" y="123.5" width="10.4" height="16.0" rx="1.5" fill="#10573c" stroke="#2f6f52" stroke-width="1"/>
+<text x="264.0" y="630.3" font-size="15.319148936170214" font-weight="700" text-anchor="middle" fill="#94a3b8" stroke="#0e4b34" stroke-width="4.6" style="paint-order:stroke">U1 PROACT</text>
+<text transform="translate(73.0,598.5) rotate(-90)" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#64748b" stroke="#0e4b34" stroke-width="3.8" style="paint-order:stroke">J7 CW-W</text>
+<text transform="translate(459.1,598.5) rotate(-90)" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#64748b" stroke="#0e4b34" stroke-width="3.8" style="paint-order:stroke">J8 CW-E</text>
+<text x="265.0" y="826.8" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#64748b" stroke="#0e4b34" stroke-width="3.8" style="paint-order:stroke">J9 CW-S</text>
+<text transform="translate(183.2,183.2) rotate(-90)" font-size="11.914893617021276" font-weight="700" text-anchor="middle" fill="#64748b" stroke="#0e4b34" stroke-width="3.6" style="paint-order:stroke">MCP2200</text>
+<text transform="translate(358.2,183.2) rotate(-90)" font-size="11.914893617021276" font-weight="700" text-anchor="middle" fill="#64748b" stroke="#0e4b34" stroke-width="3.6" style="paint-order:stroke">MCP2210</text>
+<rect x="234.8" y="466.2" width="29.6" height="24.0" rx="3.0" fill="none" stroke="#22d3ee" stroke-width="1.5" opacity="0.65"/>
+<rect x="62.4" y="296.7" width="76.0" height="108.0" rx="3.0" fill="none" stroke="#22d3ee" stroke-width="1.5" opacity="0.65"/>
+<text x="100.4" y="419.3" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#22d3ee" stroke="#0b1220" stroke-width="3.8" style="paint-order:stroke">SMA</text>
+<rect x="363.6" y="486.1" width="52.0" height="52.0" rx="3.0" fill="none" stroke="#fca5a5" stroke-width="1.5" opacity="0.65"/>
+<text x="389.6" y="551.9" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#fca5a5" stroke="#0b1220" stroke-width="3.8" style="paint-order:stroke">SW1</text>
+<rect x="141.5" y="777.7" width="29.6" height="29.6" rx="3.0" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.65"/>
+<text x="156.3" y="821.1" font-size="12.76595744680851" font-weight="700" text-anchor="middle" fill="#f59e0b" stroke="#0b1220" stroke-width="3.8" style="paint-order:stroke">U2 LDO</text>
+<rect x="413.5" y="438.9" width="20.0" height="14.4" rx="3.0" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.65"/>
+<text x="445.9" y="449.1" font-size="12.76595744680851" font-weight="700" text-anchor="start" fill="#f59e0b" stroke="#0b1220" stroke-width="3.8" style="paint-order:stroke">R7</text>
+<rect x="322.5" y="446.7" width="47.5" height="27.2" rx="4.0" fill="none" stroke="#f87171" stroke-width="7" opacity="0.28"/>
+<rect x="322.5" y="446.7" width="47.5" height="27.2" rx="4.0" fill="none" stroke="#f87171" stroke-width="2.2"/>
+<circle cx="356.5" cy="460.3" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="336.1" cy="460.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="379.9" y="463.8" font-size="17.872340425531917" font-weight="800" text-anchor="start" fill="#f87171" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP1</text>
+<rect x="299.1" y="479.2" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#14b8a6" stroke-width="7" opacity="0.28"/>
+<rect x="299.1" y="479.2" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#14b8a6" stroke-width="2.2"/>
+<circle cx="312.7" cy="492.8" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="333.0" cy="492.8" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="353.3" cy="492.8" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="283.4" y="491.5" font-size="17.872340425531917" font-weight="800" text-anchor="end" fill="#14b8a6" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP3</text>
+<rect x="299.1" y="511.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#14b8a6" stroke-width="7" opacity="0.28"/>
+<rect x="299.1" y="511.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#14b8a6" stroke-width="2.2"/>
+<circle cx="312.7" cy="525.3" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="333.0" cy="525.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="353.3" cy="525.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="328.2" y="557.6" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#14b8a6" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP5</text>
+<rect x="169.3" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="7" opacity="0.28"/>
+<rect x="169.3" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="2.2"/>
+<circle cx="223.6" cy="715.3" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="203.3" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="182.9" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="203.3" y="746.0" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#3b82f6" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP4</text>
+<rect x="99.7" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="7" opacity="0.28"/>
+<rect x="99.7" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="2.2"/>
+<circle cx="113.3" cy="715.3" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="154.0" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="133.6" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="133.6" y="746.0" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#3b82f6" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP6</text>
+<rect x="414.0" y="513.8" width="27.2" height="67.8" rx="4.0" fill="none" stroke="#f59e0b" stroke-width="7" opacity="0.28"/>
+<rect x="414.0" y="513.8" width="27.2" height="67.8" rx="4.0" fill="none" stroke="#f59e0b" stroke-width="2.2"/>
+<circle cx="427.6" cy="527.4" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="427.6" cy="547.7" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="427.6" cy="568.0" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="427.6" y="586.4" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#f59e0b" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP7</text>
+<rect x="321.5" y="371.5" width="47.5" height="67.8" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="7" opacity="0.28"/>
+<rect x="321.5" y="371.5" width="47.5" height="67.8" rx="4.0" fill="none" stroke="#3b82f6" stroke-width="2.2"/>
+<circle cx="335.1" cy="405.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="335.1" cy="385.1" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="335.1" cy="425.8" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="355.4" cy="385.1" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="355.4" cy="405.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="355.4" cy="425.8" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="345.3" y="371.3" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#3b82f6" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">J6</text>
+<rect x="138.6" y="495.5" width="67.8" height="47.5" rx="4.0" fill="none" stroke="#a78bfa" stroke-width="7" opacity="0.28"/>
+<rect x="138.6" y="495.5" width="67.8" height="47.5" rx="4.0" fill="none" stroke="#a78bfa" stroke-width="2.2"/>
+<circle cx="172.6" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="192.9" cy="509.1" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="152.2" cy="509.1" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<circle cx="152.2" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="172.6" cy="509.1" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="192.9" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<text x="172.6" y="493.9" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#a78bfa" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">J10</text>
+<rect x="211.1" y="495.5" width="67.8" height="47.5" rx="4.0" fill="none" stroke="#22d3ee" stroke-width="7" opacity="0.28"/>
+<rect x="211.1" y="495.5" width="67.8" height="47.5" rx="4.0" fill="none" stroke="#22d3ee" stroke-width="2.2"/>
+<circle cx="265.4" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="265.4" cy="509.1" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="245.0" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="245.0" cy="509.1" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="224.7" cy="529.4" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="224.7" cy="509.1" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<text x="245.0" y="556.3" font-size="17.872340425531917" font-weight="800" text-anchor="middle" fill="#22d3ee" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">J12</text>
+<rect x="335.6" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#e2e8f0" stroke-width="7" opacity="0.28"/>
+<rect x="335.6" y="701.7" width="67.8" height="27.2" rx="4.0" fill="none" stroke="#e2e8f0" stroke-width="2.2"/>
+<circle cx="349.2" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="369.6" cy="715.3" r="4.4" fill="#0b1220" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="389.9" cy="715.3" r="4.4" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<text x="404.8" y="718.8" font-size="17.872340425531917" font-weight="800" text-anchor="start" fill="#e2e8f0" stroke="#0b1220" stroke-width="5.4" style="paint-order:stroke">JP2</text>
+<text x="266.0" y="875.0" font-size="14.46808510638298" font-weight="600" text-anchor="middle" fill="#64748b">top view · white dot = pin 1</text>
+<rect x="534.0" y="76.0" width="640.0" height="520.0" rx="10.0" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<text x="552.0" y="102.0" font-size="11" font-weight="800" text-anchor="start" fill="#94a3b8">Jumper</text>
+<text x="652.0" y="102.0" font-size="11" font-weight="800" text-anchor="start" fill="#94a3b8">Role</text>
+<text x="854.0" y="102.0" font-size="11" font-weight="800" text-anchor="start" fill="#94a3b8">Positions</text>
+<line x1="546.0" y1="112.0" x2="1162.0" y2="112.0" stroke="#1e293b" stroke-width="1.2"/>
+<rect x="552.0" y="127.0" width="10.0" height="10.0" rx="2.0" fill="#f87171"/>
+<text x="568.0" y="136.0" font-size="12" font-weight="800" text-anchor="start" fill="#f87171">JP1</text>
+<text x="652.0" y="136.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">Reset from CW308</text>
+<text x="854.0" y="136.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">closed = CW resets chip · open = SW1 only</text>
+<line x1="546.0" y1="170.0" x2="1162.0" y2="170.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="187.0" width="10.0" height="10.0" rx="2.0" fill="#14b8a6"/>
+<text x="568.0" y="196.0" font-size="12" font-weight="800" text-anchor="start" fill="#14b8a6">JP3 / JP5</text>
+<text x="652.0" y="196.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">UART TX / RX routing</text>
+<text x="854.0" y="196.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">1-2 CW308 TIO2/TIO1 · 2-3 MCP2200 module</text>
+<line x1="546.0" y1="230.0" x2="1162.0" y2="230.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="247.0" width="10.0" height="10.0" rx="2.0" fill="#3b82f6"/>
+<text x="568.0" y="256.0" font-size="12" font-weight="800" text-anchor="start" fill="#3b82f6">JP4 / JP6</text>
+<text x="652.0" y="256.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">SPI SCK / MOSI source</text>
+<text x="854.0" y="256.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">1-2 CW308 · 2-3 MCP2210 module</text>
+<line x1="546.0" y1="290.0" x2="1162.0" y2="290.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="307.0" width="10.0" height="10.0" rx="2.0" fill="#f59e0b"/>
+<text x="568.0" y="316.0" font-size="12" font-weight="800" text-anchor="start" fill="#f59e0b">JP7</text>
+<text x="652.0" y="316.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">Vcore rail routing</text>
+<text x="854.0" y="316.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">1-2 CW308 filter (✓ SCA) · 2-3 U2 LDO direct</text>
+<line x1="546.0" y1="350.0" x2="1162.0" y2="350.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="367.0" width="10.0" height="10.0" rx="2.0" fill="#3b82f6"/>
+<text x="568.0" y="376.0" font-size="12" font-weight="800" text-anchor="start" fill="#3b82f6">J6</text>
+<text x="652.0" y="376.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">S-Sel source + trig-in</text>
+<text x="854.0" y="376.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">1-3 module · 3-5 CW · 5-6 CW → trigger_in</text>
+<line x1="546.0" y1="410.0" x2="1162.0" y2="410.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="427.0" width="10.0" height="10.0" rx="2.0" fill="#a78bfa"/>
+<text x="568.0" y="436.0" font-size="12" font-weight="800" text-anchor="start" fill="#a78bfa">J10</text>
+<text x="652.0" y="436.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">Trigger out → CW TRIG</text>
+<text x="854.0" y="436.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">2-4 normal (✓) · 3-4 config · 4-6 reserve</text>
+<line x1="546.0" y1="470.0" x2="1162.0" y2="470.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="487.0" width="10.0" height="10.0" rx="2.0" fill="#22d3ee"/>
+<text x="568.0" y="496.0" font-size="12" font-weight="800" text-anchor="start" fill="#22d3ee">J12</text>
+<text x="652.0" y="496.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">Clock source select</text>
+<text x="854.0" y="496.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">1-2 EXT SMA · 3-4 OSC 50M (✓) · 5-6 CW</text>
+<line x1="546.0" y1="530.0" x2="1162.0" y2="530.0" stroke="#1e293b" stroke-width="1"/>
+<rect x="552.0" y="547.0" width="10.0" height="10.0" rx="2.0" fill="#e2e8f0"/>
+<text x="568.0" y="556.0" font-size="12" font-weight="800" text-anchor="start" fill="#e2e8f0">JP2</text>
+<text x="652.0" y="556.0" font-size="11" font-weight="700" text-anchor="start" fill="#f1f5f9">out_pins[2..4] probe</text>
+<text x="854.0" y="556.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">no jumper — probe pins only</text>
+<rect x="534.0" y="616.0" width="640.0" height="268.0" rx="10.0" fill="#0e1729" stroke="#1e293b" stroke-width="1.2"/>
+<text x="552.0" y="644.0" font-size="13" font-weight="800" text-anchor="start" fill="#f1f5f9">Quick presets</text>
+<text x="552.0" y="672.0" font-size="11.5" font-weight="800" text-anchor="start" fill="#38bdf8">▸ SCA capture — board mounted on CW308</text>
+<text x="568.0" y="692.0" font-size="10.5" font-weight="600" text-anchor="start" fill="#cbd5e1">JP1 closed · JP3/JP5 → 1-2 · JP4/JP6 → 1-2 · JP7 → 1-2 FILTERED</text>
+<text x="568.0" y="709.0" font-size="10.5" font-weight="600" text-anchor="start" fill="#cbd5e1">J6 → 3-5 (CW drives S-Sel) · J10 → 2-4 · J12 → 3-4 (clock echoed on J7.5)</text>
+<text x="552.0" y="746.0" font-size="11.5" font-weight="800" text-anchor="start" fill="#14b8a6">▸ Standalone bench — USB modules fitted</text>
+<text x="568.0" y="766.0" font-size="10.5" font-weight="600" text-anchor="start" fill="#cbd5e1">JP1 open · JP3/JP5 → 2-3 · JP4/JP6 → 2-3 · JP7 → 2-3 DIRECT</text>
+<text x="568.0" y="783.0" font-size="10.5" font-weight="600" text-anchor="start" fill="#cbd5e1">J6 → 1-3 (module drives S-Sel) · J10 → 2-4 · J12 → 3-4 OSC 50M</text>
+<text x="552.0" y="818.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">Always: set R20 for 0.8 V core BEFORE inserting the chip · white dot = pin 1.</text>
+<text x="552.0" y="835.0" font-size="10" font-weight="600" text-anchor="start" fill="#94a3b8">J12: exactly one source link · CW308 J3 stays empty — J7.5 carries the clock echo.</text>
+<text x="552.0" y="866.0" font-size="9" font-weight="600" text-anchor="start" fill="#64748b">Netlist-verified · generated by docs/tools/gen_jumpers.py</text>
+</svg>

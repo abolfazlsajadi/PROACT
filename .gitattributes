@@ -1,0 +1,6 @@
+# Track large binary assets with git-LFS (run `git lfs install` once).
+# The FPGA bitstream, the frozen netlist, and PCB binaries are big and binary.
+*.bit          filter=lfs diff=lfs merge=lfs -text
+PROACT_signoff.v filter=lfs diff=lfs merge=lfs -text
+*.gds          filter=lfs diff=lfs merge=lfs -text
+*.gds.gz       filter=lfs diff=lfs merge=lfs -text
