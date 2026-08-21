@@ -24,10 +24,10 @@ This page describes each panel for new users. It does **not** replace the
 > PASS — 16 pass, 0 fail, 0 skip**, including a real Husky trace capture (5000
 > samples, non-flat) and the Sw-RV software-AES step. The fabricated ASIC is the
 > same design; the same self-check is the intended chip-screening procedure for
-> it. **The ASIC has since been bench-verified too**: a die on the CW308 board is
-> driven from this same GUI — firmware load, UART, AES1/AES2 and Sw-RV known-answer
-> vectors, Husky clock and trigger lock, and sustained trace capture all work. The
-> 16/16 self-check score quoted above is from the CW305 FPGA build, on Linux.
+> it. **The fabricated ASIC has since been screened with this same GUI and passes:
+> 16 pass / 0 fail / 0 skip**, including the ChipWhisperer clock lock and a real trace
+> capture on silicon. Sustained unattended capture campaigns also run from the CLI.
+> The original 16/16 above is the CW305 FPGA build, on Linux.
 
 ![GUI overview](../images/gui_overview.png)
 

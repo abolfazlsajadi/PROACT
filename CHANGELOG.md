@@ -5,18 +5,23 @@ hardware is frozen and is never modified.
 
 ## [1.13.0] — 2026-08-21
 
-### Changed — the fabricated ASIC is now bench-verified
-- **A PROACT die has been brought up on the CW308 target board** and driven from
-  both the GUI and the CLI. Documentation that described the silicon as "not
-  tested" or "not screened" has been updated throughout.
-- **What was verified on silicon:** the controller firmware loads over SPI
-  (MCP2210) and boots; the UART link answers; **AES1, AES2 and the Sw-RV
-  software-AES core each reproduce their known-answer vectors on the chip**; the
-  ChipWhisperer Husky locks its generated clock and the on-chip trigger to the
-  die; and **sustained unattended trace-capture campaigns run for hours with no
-  failed captures**, from the GUI and from the CLI alike.
-- The **CW305 FPGA build remains the reference** for the full A-Z self-check
-  score (16 pass / 0 fail / 0 skip, 2026-08-07). The A-Z check remains the
+### Changed — the fabricated ASIC is screened and passing
+- **The A-Z self-check now runs on a fabricated PROACT die and passes in full:
+  16 pass / 0 fail / 0 skip**, driven from the GUI on a chip in the CW308 target
+  board with a ChipWhisperer Husky attached — the same sweep, over the same UART,
+  that screens the CW305 FPGA build. Documentation that described the silicon as
+  "not tested" or "not screened" has been updated across `README.md`, the wiki pages
+  (Home, Getting-Started, Testing, Troubleshooting, GUI-Guide, Python-API,
+  Controller-Firmware, Target-Software, Address-and-Register-Map),
+  `FPGA/README.md` and `Software/Python/README.md`.
+- **What the 16 passing steps cover on silicon:** UART link and baud integrity;
+  AES1 and AES2 encrypt known-answer plus decrypt round-trip; ASCON and Xoodyak
+  on-chip encrypt KAT plus host-side software decrypt; timer; control register;
+  PRNG; Sw-RV software AES; ChipWhisperer clock lock; and a real trace capture on
+  the chip. Beyond the self-check, **sustained unattended trace-capture campaigns
+  run for hours with no failed captures**, from the GUI and from the CLI alike.
+- The CW305 FPGA build reports the same 16 pass / 0 fail / 0 skip (2026-08-07),
+  so silicon and FPGA now agree step for step. The A-Z check remains the
   screening procedure for further chips.
 - Windows and macOS remain untested.
 

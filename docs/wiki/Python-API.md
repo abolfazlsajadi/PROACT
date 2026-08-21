@@ -3,7 +3,7 @@
 The `proact_host` package is the host-side Python library that drives a PROACT chip from a PC: it opens the UART link, implements the controller command protocol, programs firmware over SPI, drives the reset lines, captures power traces with a ChipWhisperer, validates AES/AEAD results, and stores everything to disk. The `proact` command-line tool and the GUI are both thin wrappers over this package, so every operation they perform is also available from a few lines of Python. Current version: **`proact_host.__version__ == "1.0.0"`**.
 
 > [!NOTE]
-> **Status.** The library is hardware-verified on the **CW305 FPGA build** (2026-08-07): the unified A–Z self-check (`fullcheck.run_full_check`) reports **16 pass / 0 fail / 0 skip** with a ChipWhisperer Husky attached — UART link + baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT, software AEAD decrypt round-trip, timer, control write, PRNG, Sw-RV software AES, plus clock lock and a real trace capture. Without a scope the same sweep is 14 pass / 0 fail / 1 skip. AEAD **decryption** runs on the host with `aead_soft` (see the AEAD section below). The **fabricated ASIC is bench-verified** with this same library — firmware load, UART, AES1/AES2 and Sw-RV known-answer vectors on silicon, Husky clock and trigger lock, and sustained trace capture. Windows/macOS are untested. The one remaining bench-verify stub is `capture.husky_spi()`.
+> **Status.** The library is hardware-verified on the **CW305 FPGA build** (2026-08-07): the unified A–Z self-check (`fullcheck.run_full_check`) reports **16 pass / 0 fail / 0 skip** with a ChipWhisperer Husky attached — UART link + baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT, software AEAD decrypt round-trip, timer, control write, PRNG, Sw-RV software AES, plus clock lock and a real trace capture. Without a scope the same sweep is 14 pass / 0 fail / 1 skip. AEAD **decryption** runs on the host with `aead_soft` (see the AEAD section below). The **fabricated ASIC passes the same sweep — 16 pass / 0 fail / 0 skip** — run from the GUI on a die in the CW308 target board with a Husky attached, including a real on-silicon trace capture. Windows/macOS are untested. The one remaining bench-verify stub is `capture.husky_spi()`.
 
 For a runnable, section-by-section walkthrough of everything on this page, see the tutorial notebook `examples/PROACT_Tutorial.ipynb`.
 
@@ -440,7 +440,7 @@ Each result is a `CheckItem(name, status, detail, category)` with status `PASS`/
 
 The canonical vectors are module constants `KEY = abcdef01…87654321` and `PT = 12345678…deadbeef` — exactly the firmware self-test KAT.
 
-Measured on the CW305 FPGA build on 2026-08-07: **16 pass / 0 fail / 0 skip** with a Husky attached and `do_capture=True`; **14 pass / 0 fail / 1 skip** with no scope. The fabricated ASIC is bench-verified over the same UART (firmware, on-silicon KATs, Husky clock/trigger, sustained trace capture); the same function is the intended screening procedure for further chips.
+Measured on the CW305 FPGA build on 2026-08-07: **16 pass / 0 fail / 0 skip** with a Husky attached and `do_capture=True`; **14 pass / 0 fail / 1 skip** with no scope. The fabricated ASIC has been screened with this same function over the same UART and also reports **16 pass / 0 fail / 0 skip**.
 
 ### Legacy: `selfcheck.run_self_check`
 

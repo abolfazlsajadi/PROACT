@@ -73,7 +73,7 @@ driven by a ChipWhisperer Husky on Linux**, last validated **2026-08-07**.
 | **Offline CPA** | **16/16 key bytes** on `aes1`, `aes2` *and* `swrv` | the reference datasets in [`datasets/`](datasets/) — **no board needed** |
 | **Host test suite** | **1258 passed, 1 skipped, ~5 s** | `tools/run_tests.sh`; the skip is `h5py` not installed |
 | **Bitstream** | `PROACT_top.bit`, part `7a100tftg256`, built 2026-08-07 | includes the corrected 50 MHz timing constraint |
-| **Fabricated ASIC** | **Bench-verified** | die brought up on the CW308 board; firmware loads over SPI, UART answers, AES1/AES2/Sw-RV reproduce their KATs on silicon, Husky clock + trigger lock, sustained trace capture works from GUI and CLI |
+| **Fabricated ASIC** | **Screened — A–Z self-check 16 pass / 0 fail / 0 skip** | run from the GUI on a die in the CW308 board, including Husky clock lock and a real on-silicon trace capture; sustained capture campaigns also run from the CLI |
 | **Windows / macOS** | **Not tested** | developed and validated on Linux only |
 
 See [Verification status](#verification-status) for the full, itemised picture and the
@@ -403,12 +403,13 @@ bytes for `aes1`, `aes2` and `swrv`.
 
 ### Open issues and caveats
 
-- **The fabricated ASIC is bench-verified.** A die has been brought up on the CW308
-  target board and driven from both the GUI and the CLI: firmware loads over SPI, the
-  UART link answers, AES1/AES2 and Sw-RV reproduce their known-answer vectors on silicon,
-  the ChipWhisperer Husky locks clock and trigger to the chip, and long unattended
-  capture campaigns complete without failures. The FPGA build remains the reference for
-  the full A–Z self-check score quoted above.
+- **The fabricated ASIC is screened and passing.** The A–Z self-check runs on a die in
+  the CW308 target board from the GUI and reports **16 pass / 0 fail / 0 skip** — the same
+  sweep, over the same UART, that screens the FPGA build: link and baud, AES1/AES2 encrypt
+  KAT and decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT and software decrypt,
+  timer, control register, PRNG, Sw-RV software AES, plus ChipWhisperer clock lock and a
+  real trace capture on silicon. Long unattended capture campaigns also run from the CLI
+  without failures.
 - **Windows and macOS are untested.** Development and validation are Linux-only.
 - **ASCON and Xoodyak hardware is encrypt-only.** Decryption and tag verification happen
   on the host in `proact_host.aead_soft`. This is a design decision, not a defect — see

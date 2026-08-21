@@ -7,7 +7,7 @@ PROACT is a fabricated lightweight-cryptography RISC-V SoC built around dual Ibe
 *The taped-out PROACT SoC: the dual Ibex cores (controller + Sw-RV target) sit beside the AES1, AES2, ASCON and Xoodyak crypto cores, all sharing one bus, the control/status registers and the trigger fabric.*
 
 > [!NOTE]
-> **Verification status.** The chip is **fabricated and frozen** — the host and firmware are written to match the silicon. Every hardware-in-the-loop step below is bench-verified on the **CW305 FPGA build** (2026-08-07, Linux): the A–Z self-check reports **16 pass / 0 fail / 0 skip**, including a real ChipWhisperer Husky trace capture. The **fabricated ASIC is bench-verified**: a die on the CW308 target board loads firmware over SPI, answers the UART, reproduces the AES1/AES2 and Sw-RV known-answer vectors on silicon, locks the Husky clock and trigger, and sustains long unattended trace capture from both the GUI and the CLI. **Windows and macOS have not been tested.** The same self-check remains the screening procedure for further chips over the identical UART.
+> **Verification status.** The chip is **fabricated and frozen** — the host and firmware are written to match the silicon. Every hardware-in-the-loop step below is bench-verified on the **CW305 FPGA build** (2026-08-07, Linux): the A–Z self-check reports **16 pass / 0 fail / 0 skip**, including a real ChipWhisperer Husky trace capture. The **fabricated ASIC is screened and passing**: the same A–Z self-check, run from the GUI on a die in the CW308 target board, reports **16 pass / 0 fail / 0 skip**, including the ChipWhisperer clock lock and a real trace capture on silicon. Sustained unattended capture campaigns also run from the CLI. **Windows and macOS have not been tested.**
 
 ---
 
