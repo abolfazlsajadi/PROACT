@@ -216,7 +216,7 @@ Memory layout (`Software/SW_RV/link.ld`):
 Entry point is `_vectors_start + 0x80` (the reset vector). The core boots and fetches its code from **`0x00100000`**.
 
 > [!NOTE]
-> The `0x00100000` boot address is taken directly from the linker script and has been confirmed in practice on the real CW305 FPGA build (same frozen RTL as the ASIC) — the loaded target boots, answers the mailbox, and passes the software-AES step of the A-Z self-check. A run on the fabricated ASIC itself is still pending.
+> The `0x00100000` boot address is taken directly from the linker script and has been confirmed in practice on the real CW305 FPGA build (same frozen RTL as the ASIC) — the loaded target boots, answers the mailbox, and passes the software-AES step of the A-Z self-check. The same boot path is confirmed on the **fabricated ASIC**: the Sw-RV image loads over the mailbox and its software AES reproduces the known-answer vector on silicon.
 
 ### Getting the two images onto the chip
 
@@ -246,7 +246,7 @@ A beneficial side effect: keeping the target off the UART means its measured pow
 
 ## 8. Verification status
 
-In the table below, "hardware" denotes the real CW305 FPGA build (identical frozen RTL to the ASIC); the fabricated ASIC has not been screened yet.
+In the table below, "hardware" denotes the real CW305 FPGA build (identical frozen RTL to the ASIC); the fabricated ASIC is separately bench-verified on the CW308 board (firmware, UART, on-silicon KATs, Husky clock/trigger, trace capture).
 
 | Item | Status |
 |---|---|

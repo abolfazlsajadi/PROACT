@@ -52,7 +52,7 @@ Familiarity with the RTL is *not* required to operate the chip.
 | **Offline regression suite** | Green. `bash tools/run_tests.sh` → **1258 passed, 1 skipped** (an HDF5 test, skipped because `h5py` is absent) in about five seconds. No board, no network. |
 | **Offline CPA** | `./run_cli.sh cpa --core aes1` recovers **16/16 key bytes** from the reference capture shipped in `datasets/`. |
 | **Bitstream** | `PROACT_top.bit` at the repository root — part `7a100tftg256`, rebuilt 2026-08-07 with the corrected 50 MHz (20.000 ns) timing constraint. |
-| **The fabricated ASIC** | ⚠ **Not tested.** No PROACT die has been brought up. The A–Z self-check is the *intended* screening procedure for one, over the identical UART — but it has never been run against silicon. |
+| **The fabricated ASIC** | ✅ **Bench-verified.** A PROACT die has been brought up on the CW308 target board and exercised from both the GUI and the CLI — firmware loads over SPI, the UART answers, AES1/AES2 and Sw-RV reproduce their known-answer vectors on silicon, the ChipWhisperer Husky locks clock and trigger to the chip, and sustained unattended trace capture runs for hours without failures. |
 | **Windows / macOS** | ⚠ **Not tested.** Every hardware result above is Linux. |
 
 **Known limitations, stated plainly:**

@@ -7,7 +7,7 @@ PROACT is a fabricated lightweight-cryptography RISC-V SoC built around dual Ibe
 *The taped-out PROACT SoC: the dual Ibex cores (controller + Sw-RV target) sit beside the AES1, AES2, ASCON and Xoodyak crypto cores, all sharing one bus, the control/status registers and the trigger fabric.*
 
 > [!NOTE]
-> **Verification status.** The chip is **fabricated and frozen** — the host and firmware are written to match the silicon. Every hardware-in-the-loop step below is bench-verified on the **CW305 FPGA build** (2026-08-07, Linux): the A–Z self-check reports **16 pass / 0 fail / 0 skip**, including a real ChipWhisperer Husky trace capture. The **fabricated ASIC has not been tested**, and **Windows and macOS have not been tested**. The same self-check is the intended screening procedure for an ASIC chip over the identical UART.
+> **Verification status.** The chip is **fabricated and frozen** — the host and firmware are written to match the silicon. Every hardware-in-the-loop step below is bench-verified on the **CW305 FPGA build** (2026-08-07, Linux): the A–Z self-check reports **16 pass / 0 fail / 0 skip**, including a real ChipWhisperer Husky trace capture. The **fabricated ASIC is bench-verified**: a die on the CW308 target board loads firmware over SPI, answers the UART, reproduces the AES1/AES2 and Sw-RV known-answer vectors on silicon, locks the Husky clock and trigger, and sustains long unattended trace capture from both the GUI and the CLI. **Windows and macOS have not been tested.** The same self-check remains the screening procedure for further chips over the identical UART.
 
 ---
 
@@ -254,7 +254,7 @@ Then, in order:
 2. **Programming** — load `Software/Controller/main.vmem` over SPI, and read the dialog (step 7).
 3. **Crypto experiment** page — pick the core (e.g. AES1), set each input to Fixed (type hex) or Random, choose encrypt/decrypt, optionally tick compare-with-reference, and click **Run experiment**. The result and, if enabled, the reference comparison and the trigger-window cycle count appear in the log.
 
-The GUI has seven pages — *Crypto experiment*, *ChipWhisperer*, *CPA analysis*, *Registers*, *Memory / Sw-RV*, *Self-Check (A–Z)*, *UART monitor* — and every panel has a **(?)** help button. It is hardware-validated on the **CW305 FPGA build** (2026-08-07, A–Z self-check 16/16); the fabricated **ASIC has not been tested**, and Windows/macOS are untested.
+The GUI has seven pages — *Crypto experiment*, *ChipWhisperer*, *CPA analysis*, *Registers*, *Memory / Sw-RV*, *Self-Check (A–Z)*, *UART monitor* — and every panel has a **(?)** help button. It is hardware-validated on the **CW305 FPGA build** (2026-08-07, A–Z self-check 16/16) and is also used to drive the **fabricated ASIC** on the CW308 board, including trace capture. Windows/macOS are untested.
 
 ## 9. Run the one unified self-check
 

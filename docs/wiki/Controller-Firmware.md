@@ -5,7 +5,7 @@ The **controller** is one of PROACT's two [Ibex](https://ibex-core.readthedocs.i
 All of this targets the frozen, fabricated silicon. The firmware never changes hardware behavior — it only drives the hardware along the **safe sequences** that the silicon requires (see [hardware_hazards.md](hardware_hazards.md)). Source lives in `Software/Controller/`.
 
 > [!NOTE]
-> **Status note.** This protocol has been exercised on the real CW305 FPGA build — the unified A-Z self-check (`Software/Python/proact_host/fullcheck.py`, `run_full_check()`) passes in full against it, including the on-chip AEAD encrypt KAT. The fabricated ASIC has not been screened yet; the same self-check serves as the screening tool. Testing labels used below carry the following precise meanings: **RTL-simulated** (iverilog), **unit-tested** (host protocol / AES reference), or **hardware** (real CW305 run).
+> **Status note.** This protocol has been exercised on the real CW305 FPGA build — the unified A-Z self-check (`Software/Python/proact_host/fullcheck.py`, `run_full_check()`) passes in full against it, including the on-chip AEAD encrypt KAT. The fabricated ASIC is bench-verified on the CW308 board — firmware loads over SPI, the UART answers, AES1/AES2 and Sw-RV reproduce their known-answer vectors on silicon, and the Husky locks clock and trigger for sustained trace capture; the same self-check remains the screening tool for further chips. Testing labels used below carry the following precise meanings: **RTL-simulated** (iverilog), **unit-tested** (host protocol / AES reference), or **hardware** (real CW305 run).
 
 ---
 

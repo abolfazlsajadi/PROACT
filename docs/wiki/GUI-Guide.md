@@ -24,8 +24,10 @@ This page describes each panel for new users. It does **not** replace the
 > PASS — 16 pass, 0 fail, 0 skip**, including a real Husky trace capture (5000
 > samples, non-flat) and the Sw-RV software-AES step. The fabricated ASIC is the
 > same design; the same self-check is the intended chip-screening procedure for
-> it. **The ASIC itself has not been tested** — this validation is the CW305
-> FPGA build only, on Linux.
+> it. **The ASIC has since been bench-verified too**: a die on the CW308 board is
+> driven from this same GUI — firmware load, UART, AES1/AES2 and Sw-RV known-answer
+> vectors, Husky clock and trigger lock, and sustained trace capture all work. The
+> 16/16 self-check score quoted above is from the CW305 FPGA build, on Linux.
 
 ![GUI overview](../images/gui_overview.png)
 
@@ -437,7 +439,7 @@ A failed step never aborts the sweep, so a single failing core cannot mask the
 health of the others. The full check passes 100% on the real CW305 board —
 16 pass, 0 fail, 0 skip on 2026-08-07, the run shown above — and is the intended
 screening procedure for fabricated ASIC chips: connect a chip over the same UART
-and run the check. (The ASIC has not been screened yet; the procedure is
+and run the check. (The ASIC is bench-verified and driven from this GUI; the A–Z procedure is
 validated on the FPGA build.)
 
 ---

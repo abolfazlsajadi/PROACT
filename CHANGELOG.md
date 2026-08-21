@@ -3,6 +3,23 @@
 This file records all notable changes to the PROACT software platform. The
 hardware is frozen and is never modified.
 
+## [1.13.0] — 2026-08-21
+
+### Changed — the fabricated ASIC is now bench-verified
+- **A PROACT die has been brought up on the CW308 target board** and driven from
+  both the GUI and the CLI. Documentation that described the silicon as "not
+  tested" or "not screened" has been updated throughout.
+- **What was verified on silicon:** the controller firmware loads over SPI
+  (MCP2210) and boots; the UART link answers; **AES1, AES2 and the Sw-RV
+  software-AES core each reproduce their known-answer vectors on the chip**; the
+  ChipWhisperer Husky locks its generated clock and the on-chip trigger to the
+  die; and **sustained unattended trace-capture campaigns run for hours with no
+  failed captures**, from the GUI and from the CLI alike.
+- The **CW305 FPGA build remains the reference** for the full A-Z self-check
+  score (16 pass / 0 fail / 0 skip, 2026-08-07). The A-Z check remains the
+  screening procedure for further chips.
+- Windows and macOS remain untested.
+
 ## [1.12.0] — 2026-08-07
 
 ### Changed — GUI layout: one page per workflow step, no scrolling
