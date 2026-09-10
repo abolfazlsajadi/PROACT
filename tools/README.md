@@ -1,24 +1,9 @@
-# Maintenance utilities — not published yet
+# Host maintenance tools
 
-> **This directory is intentionally empty for now.**
-> Its contents will be made public soon.
+- `setup_env.sh` / `setup_env.py`: dedicated environment setup.
+- `run_tests.sh`: offline regressions with checked-out imports.
+- `check_gui_layout.py` / `gen_gui_screenshots.py`: disconnected Qt checks and screenshots.
+- `generate_cli_reference.py`: current command help without command dispatch.
+- `install_udev.sh`: optional Linux device-access rules, requires explicit administrator execution.
 
-Documentation build, figure generation and bench diagnostic scripts.
-
-## Why is this empty?
-
-PROACT is being released in stages. The documentation and the evaluation-board
-design are public today; the remaining design and software sources are still
-being prepared for release and will be added to this repository.
-
-## What is available right now
-
-| | |
-|---|---|
-| 📖 **Documentation** | [`../docs/`](../docs/) — architecture, guides, wiki and the PDF manual |
-| 🔌 **Evaluation board** | [`../PCB/`](../PCB/) — schematic, layout, board reference and photographs |
-| 🌐 **Project page** | <https://project-proact.nl/> |
-
----
-
-<sub>Part of the [PROACT](../README.md) side-channel research platform.</sub>
+See [installation](../INSTALL.md), [test instructions](../tests/README.md), and [release evidence](../reports/HOST_SOFTWARE_RELEASE.md). Historical isolated-copy verification and private design-build tools are not part of this host release.

@@ -1,0 +1,34 @@
+{
+  "python": "3.10.12",
+  "qt": "6.11.0",
+  "platform": "Linux-6.8.0-139-generic-x86_64-with-glibc2.35",
+  "measured_utc": "2026-09-09T08:04:28.819643+00:00",
+  "gui_sha256": "3f4eb222ffb23e10fc29d6bc75904f439017950e2b55f7aaec234e6ff2670f7a",
+  "baseline_gui_sha256": "189e4985fda5fe6fb8997b7906d4fbbe98dc350c4f569c09634f24cdb7412866",
+  "fake_external_lock_hold_ms": 150,
+  "trials": 5,
+  "results": {
+    "baseline": {
+      "callback_ms": [
+        150.49367398023605,
+        150.43069800594822,
+        150.43907199287787,
+        150.4517300054431,
+        150.3191340016201
+      ],
+      "median_ms": 150.43907199287787
+    },
+    "updated": {
+      "callback_ms": [
+        1.529931992990896,
+        1.342770003248006,
+        1.3583690160885453,
+        2.3130390036385506,
+        1.6360440058633685
+      ],
+      "median_ms": 1.529931992990896
+    }
+  },
+  "evidence_status": "Historical development measurement, not a new benchmark of the integrated release.",
+  "baseline_availability": "Separately preserved development baseline; not bundled in public Git history."
+}

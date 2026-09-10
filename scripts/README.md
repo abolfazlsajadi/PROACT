@@ -1,24 +1,7 @@
-# Helper scripts — not published yet
+# Offline helper scripts
 
-> **This directory is intentionally empty for now.**
-> Its contents will be made public soon.
+`gen_hardware.py` contains pure `load()` and `gen_py()` functions for comparing the host register map with configuration. Its direct entry point also writes a firmware header and belongs in a complete design checkout.
 
-Convenience scripts for building and running the platform.
+`benchmark_startup.py`, `benchmark_storage.py` and `../tests/test_gui_benchmark.py` require an explicit local `--baseline COMMIT` containing the relevant host sources. They use synthetic inputs or fake handles. The historical development baseline is not bundled in public Git history. Run `--help` for the procedure; no benchmark starts automatically.
 
-## Why is this empty?
-
-PROACT is being released in stages. The documentation and the evaluation-board
-design are public today; the remaining design and software sources are still
-being prepared for release and will be added to this repository.
-
-## What is available right now
-
-| | |
-|---|---|
-| 📖 **Documentation** | [`../docs/`](../docs/) — architecture, guides, wiki and the PDF manual |
-| 🔌 **Evaluation board** | [`../PCB/`](../PCB/) — schematic, layout, board reference and photographs |
-| 🌐 **Project page** | <https://project-proact.nl/> |
-
----
-
-<sub>Part of the [PROACT](../README.md) side-channel research platform.</sub>
+`plot_software_benchmarks.py` plots the saved historical measurements described in [the release report](../reports/HOST_SOFTWARE_RELEASE.md).

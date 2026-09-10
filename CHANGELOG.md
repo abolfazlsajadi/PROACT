@@ -1,7 +1,21 @@
 # Changelog
 
-This file records all notable changes to the PROACT software platform. The
-hardware is frozen and is never modified.
+This file records changes to the PROACT software platform. Historical entries
+describe earlier design and bench work; the current host release does not
+revalidate their hardware or measurement claims.
+
+## [1.1.0.dev1 host software] — 2026-09-10
+
+Development package **1.1.0.dev1** updates the previous Python package **1.0.0**. Historical repository release headings below used a separate numbering sequence and are retained as history. This public update integrates host software and documentation alongside the existing platform/PCB material; full design and firmware sources, generated images, FPGA bitstreams and reference capture datasets remain separate artifacts.
+
+- GUI: serialized foreground work, responsive asynchronous disconnect/close, coalesced polling, bounded/batched display logs, streamed optional logs, clear progress and error state, refreshed seven-page layout, and input/resource preflight before hardware jobs.
+- CLI and libraries: offline `doctor --json`; strict counts, clocks, addresses and firmware inputs; partial-acquisition exit failure; cleanup for UART/SPI/scope failure paths; exact AEAD tag length; byte-buffer ownership and validation; lazy heavy imports.
+- Storage: atomic snapshot replacement, preserved row lengths and metadata types, owned complete records, and optional immutable `.tracepack` chunks with verified committed boundaries.
+- Setup and documentation: nondestructive repository-local environments, exFAT-compatible virtualenv creation, verified editable packaging, generated command reference, architecture map, migration/storage/test guides and five illustrated workflow diagrams.
+- GUI follow-up: copyable **Review setup…** help and clear disconnected, working and incomplete-capture states.
+- Validation: offline regressions, offscreen screenshots and synthetic development benchmarks. Integrated release counts and checks are recorded in the release report. Live hardware and side-channel claims were not revalidated by this update.
+
+See [the release report](reports/HOST_SOFTWARE_RELEASE.md) for validation, tradeoffs and remaining limits.
 
 ## [1.13.0] — 2026-08-21
 
@@ -133,6 +147,34 @@ hardware is frozen and is never modified.
   everywhere to the accurate "ends at the firmware's bounded timeout and
   returns zeros". Behavior, commands, the `proact_host` backend and all
   hardware/crypto code paths are unchanged.
+
+## [1.11.1] — 2026-08-03
+
+### Added
+- **`tools/check_measurement.py`** — verifies that the ChipWhisperer is actually
+  measuring the chip's core current *before* a long capture is started. Three
+  checks with pass/fail verdicts: (1) the crypto window must be busier than the
+  idle tail of the same trace, (2) the traces must correlate with
+  `HW(ciphertext)` above the noise floor, (3) the spectrum must not be dominated
+  by the target-clock line. Prints an ordered list of things to check on the
+  board when it fails.
+
+### Measured — ASIC AES1 capture is not seeing the core rail
+- Captured 100 000 AES1 traces on the fabricated 22FDX chip (Husky generating
+  50 MHz on HS2, `platform="asic"`, high/25 dB, 0 failures, 81% of full scale,
+  no clipping). CPA recovers **0/16** at every filter width.
+- The correlation of the *known* key decays as 1/sqrt(n) across a 50x range
+  (rho·sqrt(n) flat at ~2.9 from n=2 000 to n=100 000) and stays below the
+  detection floor at every n, i.e. it is **pure noise, not weak leakage**.
+  Extrapolated, even 1 M traces would remain invisible — more traces cannot help.
+- Root cause is the measurement path, not the silicon: the trace shows **no data
+  dependence at all** (`HW(ciphertext)` correlation below the floor, where the
+  FPGA gives 0.0876), the AES window is **less** active than the idle tail
+  (ratio 0.70-0.79), and the spectrum is dominated by the **50 MHz clock the
+  Husky itself drives on HS2**. The board's `R7` sense shunt is 0.01 ohm — 10 uV
+  per mA — so without the low-noise amplifier on `MEAS` the data-dependent part
+  sits below one ADC LSB (0.36 LSB at 25 dB); raising the gain only clips
+  (45% clipped at 45 dB) without revealing any data dependence.
 
 ## [1.11.0] — 2026-08-03
 

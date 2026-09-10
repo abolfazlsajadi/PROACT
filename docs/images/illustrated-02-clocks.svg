@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="780" viewBox="0 0 1440 780" role="img" aria-labelledby="title desc">
+<title id="title">Choose the correct platform before connecting</title><desc id="desc">ASIC: Husky generates the target clock on HS2. FPGA: the CW305 PLL clocks the FPGA, Husky HS2 is disabled, and Husky samples using the external target clock. Both routes require the correct target configuration and inspection of reported clock state.</desc>
+<rect width="1440" height="780" fill="#fff"/>
+<text x="44" y="55" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#172b4d" font-weight="700" text-anchor="start">Choose the correct platform before connecting</text>
+<text x="44" y="91" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">These are the current capture backend&#x27;s clock routes, not instructions for wiring a connector.</text>
+<rect x="44" y="116" width="1352" height="2" rx="0" fill="#dfe7f1" stroke="none" stroke-width="2"/>
+<rect x="44" y="153" width="654" height="510" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<text x="69" y="198" font-family="DejaVu Sans, sans-serif" font-size="26" fill="#172b4d" font-weight="700" text-anchor="start">ASIC on PROACT / CW308</text>
+<rect x="742" y="153" width="654" height="510" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<text x="767" y="198" font-family="DejaVu Sans, sans-serif" font-size="26" fill="#172b4d" font-weight="700" text-anchor="start">FPGA on CW305</text>
+<rect x="69" y="237" width="263" height="154" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="69" y="237" width="6" height="154" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="91" y="274" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Husky</text>
+<text x="91" y="313" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Internal clock source</text>
+<text x="91" y="344" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">HS2 = clkgen</text>
+<rect x="410" y="237" width="263" height="154" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="410" y="237" width="6" height="154" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="432" y="274" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">ASIC</text>
+<text x="432" y="313" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">External clock input</text>
+<text x="432" y="344" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Fabricated design</text>
+<polyline points="332,315 410,315" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="398.0,321.0 410,315 398.0,309.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<text x="351" y="295" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#2367d1" font-weight="400" text-anchor="start">clock</text>
+<text x="70" y="454" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">The backend generates the requested target clock.</text>
+<text x="70" y="492" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">ADC rate is configured with adc_mul.</text>
+<text x="70" y="530" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Controller VMEM still loads through MCP2210.</text>
+<text x="70" y="568" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">No FPGA bitstream is loaded on the ASIC.</text>
+<rect x="767" y="237" width="263" height="154" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="767" y="237" width="6" height="154" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="789" y="274" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">CW305 PLL</text>
+<text x="789" y="313" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Clock for FPGA logic</text>
+<text x="789" y="344" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">PROACT bitstream</text>
+<rect x="1108" y="237" width="263" height="154" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="1108" y="237" width="6" height="154" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="1130" y="274" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Husky ADC</text>
+<text x="1130" y="313" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">External clock source</text>
+<text x="1130" y="344" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">HS2 = disabled</text>
+<polyline points="1030,315 1108,315" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="1096.0,321.0 1108,315 1096.0,309.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<text x="1043" y="295" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#087f80" font-weight="400" text-anchor="start">clock</text>
+<text x="767" y="454" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Program or identify the exact FPGA bitstream.</text>
+<text x="767" y="492" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">The backend synchronizes to the target clock.</text>
+<text x="767" y="530" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Controller VMEM is a separate programming step.</text>
+<text x="767" y="568" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Keep bitstream and VMEM identities separate.</text>
+<text x="44" y="704" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#172b4d" font-weight="700" text-anchor="start">Record requested frequency, reported ADC frequency, lock status and platform together.</text>
+<text x="44" y="756" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#52647b" font-weight="400" text-anchor="start">PROACT host guide  •  Explanatory diagram; no measured waveform or physical pin map</text>
+</svg>

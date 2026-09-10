@@ -1,24 +1,3 @@
-# Configuration — not published yet
+# Hardware configuration
 
-> **This directory is intentionally empty for now.**
-> Its contents will be made public soon.
-
-Default bench and capture configuration files.
-
-## Why is this empty?
-
-PROACT is being released in stages. The documentation and the evaluation-board
-design are public today; the remaining design and software sources are still
-being prepared for release and will be added to this repository.
-
-## What is available right now
-
-| | |
-|---|---|
-| 📖 **Documentation** | [`../docs/`](../docs/) — architecture, guides, wiki and the PDF manual |
-| 🔌 **Evaluation board** | [`../PCB/`](../PCB/) — schematic, layout, board reference and photographs |
-| 🌐 **Project page** | <https://project-proact.nl/> |
-
----
-
-<sub>Part of the [PROACT](../README.md) side-channel research platform.</sub>
+`hardware.json` describes the existing register and command mapping consumed by the host library and register tests. It is configuration data, not firmware or proof of a connected board's revision. The declared default clock is 50 MHz and UART divisor is 27; verify the matching firmware before hardware use.

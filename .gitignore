@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+
+# Offline setup outputs and local test caches
+.pytest_cache/
+Acquisition/.venv_path
+Acquisition/data/
+Acquisition/*.config.json

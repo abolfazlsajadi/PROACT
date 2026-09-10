@@ -1,0 +1,2 @@
+# Host dependencies are in the repo-root requirements.txt (single source).
+-r ../../requirements.txt

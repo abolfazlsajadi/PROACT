@@ -1,0 +1,85 @@
+{
+  "_comment": "SINGLE SOURCE OF TRUTH for all software-visible PROACT hardware. Derived from the FROZEN ASIC RTL (ASIC/rtl/PROACTPKG/config_defs.svh, SCreg/s_c_REG_pkg.sv + s_c_REG.sv), verified against PROACT_signoff.v (tapeout 2025-11-14). scripts/gen_hardware.py generates the C header (controller) and Python module from this file so C/Python/GUI/docs never disagree. DO NOT hand-edit the generated files; edit THIS and regenerate. ASIC and FPGA share this map byte-for-byte.",
+  "version": "1.0.0",
+  "_clock_note": "Core clock. Divisor 27 -> ~115741 baud (host uses 115200) and the ~4340-cycle putchar pacing both imply ~50 MHz. Confirm on the bench.",
+  "clock_hz_default": 50000000,
+
+  "devices": [
+    {"name": "RAM",       "base": "0x02000000", "mask": "0xFE000000", "size": "32MB",  "note": "controller data RAM (128KB phys)"},
+    {"name": "RII_IMEM",  "base": "0x04000000", "mask": "0xFE000000", "size": "32MB",  "note": "Sw-RV instruction mem write port"},
+    {"name": "RII_DMEM",  "base": "0x08000000", "mask": "0xF8000000", "size": "128MB", "note": "Sw-RV data mem; controller<->target mailbox"},
+    {"name": "SCREG",     "base": "0x20000000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "WRITE=control, READ=status (same address)"},
+    {"name": "UART",      "base": "0x10000000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "AHBUART"},
+    {"name": "TIMER",     "base": "0x40000000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "32-bit trigger-window counter"},
+    {"name": "RNG",       "base": "0x80000000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "write=seed; read routed only to Sw-RV"},
+    {"name": "AES1",      "base": "0x10001000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "AES-128 hardware core"},
+    {"name": "AES2",      "base": "0x10002000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "AES-128 hardware core (2nd)"},
+    {"name": "XOODYAK",   "base": "0x10003000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "Xoodyak AEAD core"},
+    {"name": "ASCON",     "base": "0x10005000", "mask": "0xFFFFFC00", "size": "1KB",   "note": "ASCON AEAD core"},
+    {"name": "CORE_UNIMPLEMENTED", "base": "0x10007000", "mask": "0xFFFFFC00", "size": "1KB", "note": "HAZARD: no hardware instance -> access HANGS the CPU. Never touch."}
+  ],
+
+  "control_bits": {
+    "_comment": "WRITE side of SCREG. 31-bit register: data bit31 is TRUNCATED by hardware, so trigger is bit30 (0x40000000), NOT bit31.",
+    "ENABLE_TARGET": 0, "ENABLE_AES1": 1, "START_AES1": 2, "DEC_AES1": 3,
+    "ENABLE_AES2": 4, "START_AES2": 5, "DEC_AES2": 6,
+    "ENABLE_XOODYAK": 7, "START_XOODYAK": 8, "DEC_XOODYAK": 9,
+    "ENABLE_ASCON": 10, "START_ASCON": 11, "DEC_ASCON": 12,
+    "ENABLE_RNG": 13, "ENABLE_TIMER": 14, "RESET_UART": 15,
+    "TRIGGERPC": 29, "TRIGGER": 30
+  },
+  "control_fields": {
+    "CFGSEL": {"shift": 20, "width": 3, "note": "trigger-source mux: 0=sw 1=ASCON 2=AES1 3=AES2 4=Xoodyak 5=SwRV",
+               "values": {"SOFTWARE": 0, "ASCON": 1, "AES1": 2, "AES2": 3, "XOODYAK": 4, "SWRV": 5}}
+  },
+
+  "status_bits": {
+    "_comment": "READ side of SCREG. True 32-bit register. Bits[31:17] written by Sw-RV; bit31 = live target-done handshake / Sw-RV trigger source.",
+    "UART_RVALID": 0, "TRIGGER_IN": 1, "DONE_AES1": 2, "TRIGGER_AES1": 3,
+    "DONE_AES2": 4, "TRIGGER_AES2": 5, "DONE_XOODYAK": 6, "READY_XOODYAK": 7,
+    "TRIGGER_XOODYAK": 8, "DONE_ASCON": 9, "READY_ASCON": 10, "TRIGGER_ASCON": 11,
+    "TEST_I": 12, "AES1_ACTIVE": 13, "AES2_ACTIVE": 14, "XOODYAK_ACTIVE": 15,
+    "ASCON_ACTIVE": 16, "TARGET_DONE": 31
+  },
+
+  "aes_offsets": {
+    "_comment": "relative to AES1/AES2 base; AES_fifo_interface.sv 60-74. Read+write ack only when the core's enable bit is set.",
+    "START": "0x00", "DONE": "0x04",
+    "KEY0": "0x08", "KEY1": "0x0C", "KEY2": "0x10", "KEY3": "0x14",
+    "DATA0": "0x18", "DATA1": "0x1C", "DATA2": "0x20", "DATA3": "0x24",
+    "RESULT0": "0x28", "RESULT1": "0x2C", "RESULT2": "0x30", "RESULT3": "0x34"
+  },
+  "aead_offsets": {
+    "_comment": "relative to ASCON/Xoodyak base; ASCON_fifo_interface.sv 62-68 (Xoodyak identical). LEN = {triggercfg[23:16], pt_len[15:8], ad_len[7:0]}, byte lengths.",
+    "LEN": "0x00", "KEY": "0x04", "NPUB": "0x08", "AD": "0x0C", "PT": "0x10", "CT": "0x14", "TAG": "0x18"
+  },
+
+  "uart": {
+    "RXTX": "0x00", "BAUD": "0x04", "baud_default_divisor": 27,
+    "status_rx_empty_bit": 0, "status_tx_full_bit": 1,
+    "tx_fifo_bytes": 512, "rx_fifo_bytes": 32
+  },
+
+  "mailbox": {
+    "_comment": "controller<->Sw-RV shared data-RAM mailbox (aligned; same absolute address both sides).",
+    "KEY": "0x08003F00", "IN": "0x08003F10", "OUT": "0x08003F40",
+    "CMD": "0x08003F80", "DONE": "0x08003F84",
+    "CMD_IDLE": 0, "CMD_ENCRYPT": 1, "CMD_DECRYPT": 2,
+    "swrv_dmem_load_base": "0x08100000"
+  },
+
+  "swrv_trigger": {
+    "status_port": "0x20000000", "trigger_bit": "0x80000000",
+    "_comment": "Sw-RV writes status bit31 via addr[29] port B; with cfg_sel=SWRV this is the capture trigger. This IS 32-bit-correct (unlike control bit31)."
+  },
+
+  "uart_protocol": {
+    "_comment": "controller command bytes (Software/Controller/main.c).",
+    "KEY": 1, "PT": 2, "SB": 3, "DBG": 4, "RDY": 5, "AES2": 6, "XOO": 7, "ASC": 8,
+    "AES1": 9, "ARM": 10, "NONCE": 11, "AD": 12, "DEC": 13, "SEED": 14, "TRIG": 15,
+    "TIME": 16, "TEST": 17, "LDI": 18, "LDD": 19, "SWRV": 20, "CFGSEL": 21,
+    "RDSTAT": 22, "WRCTRL": 23, "POKE": 24, "PEEK": 25, "AEADKAT": 26,
+    "FRAME_MARKER": 165,
+    "modes": {"AES1": 0, "AES2": 1, "XOO": 2, "ASC": 3, "SWRV": 4, "TIMER": 241, "STATUS": 242, "PEEK": 243, "AEADKAT": 244}
+  }
+}

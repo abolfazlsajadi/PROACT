@@ -1,0 +1,10 @@
+# PROACT crypto input file -- one experiment run per line.
+# Fields (all hex, any order): key, pt, nonce, ad. Missing fields default to 0.
+# nonce/ad are only used by the AEAD cores (ASCON, Xoodyak); AES1/AES2/Sw-RV
+# ignore them. Blank lines and lines beginning with '#' are ignored.
+#
+# Example: two AES runs (key + plaintext), one ASCON run (key+pt+nonce+ad).
+
+key=000102030405060708090a0b0c0d0e0f pt=00112233445566778899aabbccddeeff
+key=abcdef01123456780deadbeef8765432 pt=12345678abcdef01876543210deadbee
+key=b970673790d6189480658a26f1153990 pt=712a8602ca9b115bdfff23e20db024be nonce=80dd699040345df48ef8551f6eaff74b ad=bf7977fa96ae8d19162305b8e9390a0d

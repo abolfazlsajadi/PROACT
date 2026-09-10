@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="915" viewBox="0 0 1440 915" role="img" aria-labelledby="title desc">
+<title id="title">A new session, from software checks to a saved record</title><desc id="desc">Six stages: inspect the offline installation, identify the platform and images, establish hardware communication, review capture settings, arm and acquire a bounded pilot, then inspect counts and save. Programming and live checks are distinct from offline checks.</desc>
+<rect width="1440" height="915" fill="#fff"/>
+<text x="44" y="55" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#172b4d" font-weight="700" text-anchor="start">A new session, from software checks to a saved record</text>
+<text x="44" y="91" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Start this sequence when the bench is available. Existing sessions and datasets stay separate.</text>
+<rect x="44" y="116" width="1352" height="2" rx="0" fill="#dfe7f1" stroke="none" stroke-width="2"/>
+<rect x="44" y="158" width="418" height="215" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="44" y="158" width="6" height="215" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="66" y="195" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">1  Check software offline</text>
+<text x="66" y="234" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">doctor → paths and packages</text>
+<text x="66" y="265" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Offline tests → fake devices</text>
+<text x="66" y="296" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Open GUI disconnected</text>
+<rect x="511" y="158" width="418" height="215" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="511" y="158" width="6" height="215" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="533" y="195" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">2  Identify the design</text>
+<text x="533" y="234" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">ASIC or FPGA (CW305)</text>
+<text x="533" y="265" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Matching controller VMEM</text>
+<text x="533" y="296" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Sw-RV images if needed</text>
+<rect x="978" y="158" width="418" height="215" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<rect x="978" y="158" width="6" height="215" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="1000" y="195" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">3  Bring up the bench</text>
+<text x="1000" y="234" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Platform clock / FPGA bitstream</text>
+<text x="1000" y="265" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">UART and SPI bridges</text>
+<text x="1000" y="296" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Program; check real response</text>
+<rect x="978" y="450" width="418" height="215" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<rect x="978" y="450" width="6" height="215" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="1000" y="487" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">4  Review capture setup</text>
+<text x="1000" y="526" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Core, inputs and trigger choice</text>
+<text x="1000" y="557" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Samples, clock and output path</text>
+<text x="1000" y="588" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Actual scope connection</text>
+<rect x="511" y="450" width="418" height="215" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<rect x="511" y="450" width="6" height="215" rx="3" fill="#a6630a" stroke="none" stroke-width="2"/>
+<text x="533" y="487" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">5  Start a small pilot</text>
+<text x="533" y="526" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Inputs → arm → run operation</text>
+<text x="533" y="557" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Read result and ADC buffer</text>
+<text x="533" y="588" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Inspect errors and record length</text>
+<rect x="44" y="450" width="418" height="215" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<rect x="44" y="450" width="6" height="215" rx="3" fill="#a6630a" stroke="none" stroke-width="2"/>
+<text x="66" y="487" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">6  Keep the evidence</text>
+<text x="66" y="526" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Requested versus saved rows</text>
+<text x="66" y="557" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Failures and validation status</text>
+<text x="66" y="588" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Format, settings and run notes</text>
+<polyline points="462,269 511,269" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="499.0,275.0 511,269 499.0,263.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="929,269 978,269" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="966.0,275.0 978,269 966.0,263.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="1187,373 1187,450" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="1181.0,438.0 1187,450 1193.0,438.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<polyline points="978,558 929,558" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="941.0,552.0 929,558 941.0,564.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<polyline points="511,558 462,558" fill="none" stroke="#a6630a" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="474.0,552.0 462,558 474.0,564.0" fill="none" stroke="#a6630a" stroke-width="3"/>
+<rect x="44" y="724" width="1352" height="118" rx="16" fill="#f3f6fb" stroke="none" stroke-width="2"/>
+<text x="69" y="766" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#172b4d" font-weight="700" text-anchor="start">Three independent results</text>
+<text x="69" y="807" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#52647b" font-weight="400" text-anchor="start">Software check passed  ≠  board responded  ≠  waveform and output validated</text>
+<text x="44" y="891" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#52647b" font-weight="400" text-anchor="start">PROACT host guide  •  Explanatory diagram; no measured waveform or physical pin map</text>
+</svg>

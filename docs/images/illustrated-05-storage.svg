@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="906" viewBox="0 0 1440 906" role="img" aria-labelledby="title desc">
+<title id="title">Choose how records become a dataset</title><desc id="desc">NPZ and HDF5 publish atomic whole-dataset snapshots and retain rows in writer memory. Tracepack commits immutable chunks and then a small manifest; readers follow the committed manifest. Rows still waiting in memory can be lost on interruption. The diagram uses abstract records, not captured data.</desc>
+<rect width="1440" height="906" fill="#fff"/>
+<text x="44" y="55" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#172b4d" font-weight="700" text-anchor="start">Choose how records become a dataset</text>
+<text x="44" y="91" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Saved waveforms, operation results and the scrolling text log are separate records.</text>
+<rect x="44" y="116" width="1352" height="2" rx="0" fill="#dfe7f1" stroke="none" stroke-width="2"/>
+<rect x="44" y="156" width="654" height="196" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="44" y="156" width="6" height="196" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="66" y="193" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">NPZ / HDF5 snapshot</text>
+<text x="66" y="232" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Single file for retained analysis tools</text>
+<text x="66" y="263" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Writer keeps the dataset in memory</text>
+<text x="66" y="294" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Each checkpoint replaces the complete snapshot</text>
+<rect x="742" y="156" width="654" height="196" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<rect x="742" y="156" width="6" height="196" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="764" y="193" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Tracepack directory</text>
+<text x="764" y="232" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Opt in with a new *.tracepack path</text>
+<text x="764" y="263" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Writer commits immutable chunks</text>
+<text x="764" y="294" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Use this copy&#x27;s load() or iter_chunks() reader</text>
+<rect x="66" y="402" width="177" height="106" rx="16" fill="#f3f6fb" stroke="none" stroke-width="2"/>
+<text x="87" y="444" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Rows in RAM</text>
+<text x="87" y="475" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">all accepted</text>
+<polyline points="243,455 286,455" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="274.0,461.0 286,455 274.0,449.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<rect x="291" y="402" width="170" height="106" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<text x="311" y="444" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Temporary</text>
+<text x="311" y="475" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">whole file</text>
+<polyline points="461,455 506,455" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="494.0,461.0 506,455 494.0,449.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<rect x="511" y="402" width="164" height="106" rx="16" fill="#ddeafa" stroke="none" stroke-width="2"/>
+<text x="531" y="444" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Published</text>
+<text x="531" y="475" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">snapshot</text>
+<rect x="765" y="402" width="172" height="106" rx="16" fill="#e1f4ef" stroke="none" stroke-width="2"/>
+<text x="851" y="446" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#172b4d" font-weight="700" text-anchor="middle">Chunk 1</text>
+<text x="851" y="481" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#52647b" font-weight="400" text-anchor="middle">committed</text>
+<rect x="963" y="402" width="172" height="106" rx="16" fill="#e1f4ef" stroke="none" stroke-width="2"/>
+<text x="1049" y="446" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#172b4d" font-weight="700" text-anchor="middle">Chunk 2</text>
+<text x="1049" y="481" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#52647b" font-weight="400" text-anchor="middle">committed</text>
+<rect x="1161" y="402" width="172" height="106" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<text x="1247" y="446" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#172b4d" font-weight="700" text-anchor="middle">Pending</text>
+<text x="1247" y="481" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#52647b" font-weight="400" text-anchor="middle">in memory</text>
+<rect x="765" y="547" width="370" height="100" rx="16" fill="#e1f4ef" stroke="none" stroke-width="2"/>
+<text x="785" y="588" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#087f80" font-weight="700" text-anchor="start">Published manifest</text>
+<text x="785" y="622" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Names committed chunks only</text>
+<polyline points="850,547 850,508" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="856.0,520.0 850,508 844.0,520.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<polyline points="1037,547 1037,508" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="1043.0,520.0 1037,508 1031.0,520.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<text x="68" y="565" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">After interruption, inspect the latest</text>
+<text x="68" y="599" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">published snapshot and its row count.</text>
+<text x="68" y="633" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">That file is the recovery point.</text>
+<text x="1170" y="556" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#a6630a" font-weight="400" text-anchor="start">Not yet</text>
+<text x="1170" y="587" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#a6630a" font-weight="400" text-anchor="start">published</text>
+<text x="1170" y="618" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#a6630a" font-weight="400" text-anchor="start">Can be lost</text>
+<rect x="44" y="704" width="1352" height="128" rx="16" fill="#f3f6fb" stroke="none" stroke-width="2"/>
+<text x="69" y="745" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#172b4d" font-weight="700" text-anchor="start">Recovery is not automatic resume</text>
+<text x="69" y="786" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#52647b" font-weight="400" text-anchor="start">Keep the complete dataset, read its failure records, and start a new output for a later acquisition.</text>
+<text x="44" y="882" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#52647b" font-weight="400" text-anchor="start">PROACT host guide  •  Explanatory diagram; no measured waveform or physical pin map</text>
+</svg>

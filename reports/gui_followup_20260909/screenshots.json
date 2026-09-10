@@ -1,0 +1,28 @@
+{
+  "hardware_accessed": false,
+  "generated_utc": "2026-09-10T11:12:16.983567Z",
+  "gui_sha256": "ae8081c4bc302debc883d02c2096546f07f26851d6d098482319dcded714b1ba",
+  "images": [
+    {
+      "file": "overview_1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "state": "Disconnected application; no devices",
+      "sha256": "3f531b12ee6c5319c23a4ac2e04a15a5b40f0eabc6826cfc8b6ade859d7515e4"
+    },
+    {
+      "file": "default_capture_1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "state": "Disconnected application; no devices",
+      "sha256": "c3054e3ea6a74dbfa99d38384e4b8933bd7026a134555a42e62977ee19bffa22"
+    },
+    {
+      "file": "help_capture_780x650.png",
+      "width": 780,
+      "height": 650,
+      "state": "Actual offline review dialog; fake connected handles, ASCON settings",
+      "sha256": "676a317f5d2f29df9794e5ba5fafc7d43c3ca6b7fd8d2aae6ddc165c16afe2d7"
+    }
+  ]
+}

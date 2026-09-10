@@ -1,0 +1,38 @@
+{
+  "repeats": 9,
+  "procedure": "Fresh processes, one warm-up pair excluded; alternating order; same runtime; warm filesystem cache; no devices.",
+  "seconds": {
+    "baseline": [
+      0.1030867229856085,
+      0.09879142700810917,
+      0.0988456400227733,
+      0.09789526902022772,
+      0.0975822740001604,
+      0.09974920601234771,
+      0.09801410100772046,
+      0.09812456599320285,
+      0.09989122799015604
+    ],
+    "updated": [
+      0.03013180900597945,
+      0.03112327097915113,
+      0.031189145985990763,
+      0.030103678989689797,
+      0.02952106701559387,
+      0.029731401009485126,
+      0.031063661008374766,
+      0.029875565000111237,
+      0.029026388976490125
+    ]
+  },
+  "median_seconds": {
+    "baseline": 0.09879142700810917,
+    "updated": 0.030103678989689797
+  },
+  "median_speedup": 3.2817061011693696,
+  "python_version": "3.10.12",
+  "numpy_version": "1.26.4",
+  "h5py_version": "3.16.0",
+  "evidence_status": "Historical development measurement, not a new benchmark of the integrated release.",
+  "baseline_availability": "Separately preserved development baseline; not bundled in public Git history."
+}

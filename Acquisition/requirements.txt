@@ -1,0 +1,4 @@
+# Offline configuration UI only.
+click>=8.0
+rich>=13.0
+questionary>=2.0

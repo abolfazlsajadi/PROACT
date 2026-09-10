@@ -3,8 +3,13 @@
 > **Single source of truth.** All values in this document are taken directly from the **frozen, fabricated** ASIC RTL
 > (`ASIC/rtl/PROACTPKG/config_defs.svh`, `ASIC/rtl/SCreg/s_c_REG_pkg.sv` + `s_c_REG.sv`) and verified against
 > the signoff netlist `PROACT_signoff.v` (tapeout 2025-11-14). The chip is fabricated; this map is fixed.
-> The corresponding firmware header is [`Software/common/proact_regs.h`](../Software/common/).
+> In the separate design package, the corresponding firmware header is `Software/common/proact_regs.h`.
 > The ASIC and FPGA share this map **byte-for-byte** — there is no address divergence.
+
+This retained map documents the platform contract. The complete RTL, signoff
+netlist and firmware sources cited above are not included in the public host
+release, and its offline software tests do not repeat the historical signoff
+verification. See the [release scope](README.md).
 
 ## 1. Bus devices
 

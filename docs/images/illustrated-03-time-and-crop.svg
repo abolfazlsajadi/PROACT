@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="830" viewBox="0 0 1440 830" role="img" aria-labelledby="title desc">
+<title id="title">Samples, time and a crop are different quantities</title><desc id="desc">One sample is 5 ns at 200 MS/s; one target cycle is 20 ns at 50 MHz, or four sample intervals. A conceptual original record has indices 0 through 15. Keeping the half-open crop from index 4 to 12 retains indices 4 through 11, eight samples. The original time coordinate is retained separately.</desc>
+<rect width="1440" height="830" fill="#fff"/>
+<text x="44" y="55" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#172b4d" font-weight="700" text-anchor="start">Samples, time and a crop are different quantities</text>
+<text x="44" y="91" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">Arithmetic example only: 200 MS/s ADC, 50 MHz target clock. The boxes are sample positions, not amplitudes.</text>
+<rect x="44" y="116" width="1352" height="2" rx="0" fill="#dfe7f1" stroke="none" stroke-width="2"/>
+<rect x="44" y="154" width="418" height="145" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="44" y="154" width="6" height="145" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="66" y="191" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Sample interval</text>
+<text x="66" y="230" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Δt = 1 / ADC rate</text>
+<text x="66" y="261" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">200 MS/s → 5 ns</text>
+<rect x="511" y="154" width="418" height="145" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<rect x="511" y="154" width="6" height="145" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="533" y="191" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Target-clock cycle</text>
+<text x="533" y="230" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">T = 1 / target frequency</text>
+<text x="533" y="261" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">50 MHz → 20 ns</text>
+<rect x="978" y="154" width="418" height="145" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<rect x="978" y="154" width="6" height="145" rx="3" fill="#a6630a" stroke="none" stroke-width="2"/>
+<text x="1000" y="191" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Samples per cycle</text>
+<text x="1000" y="230" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">ADC rate / target frequency</text>
+<text x="1000" y="261" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">200 / 50 = 4</text>
+<text x="44" y="352" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#172b4d" font-weight="700" text-anchor="start">Original sample index</text>
+<rect x="44" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="81" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">0</text>
+<rect x="128" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="165" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">1</text>
+<rect x="212" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="249" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">2</text>
+<rect x="296" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="333" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">3</text>
+<rect x="380" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="417" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">4</text>
+<rect x="464" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="501" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">5</text>
+<rect x="548" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="585" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">6</text>
+<rect x="632" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="669" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">7</text>
+<rect x="716" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="753" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">8</text>
+<rect x="800" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="837" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">9</text>
+<rect x="884" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="921" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">10</text>
+<rect x="968" y="380" width="75" height="70" rx="8" fill="#e1f4ef" stroke="#087f80" stroke-width="2"/>
+<text x="1005" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">11</text>
+<rect x="1052" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="1089" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">12</text>
+<rect x="1136" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="1173" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">13</text>
+<rect x="1220" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="1257" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">14</text>
+<rect x="1304" y="380" width="75" height="70" rx="8" fill="#eef1f6" stroke="none" stroke-width="2"/>
+<text x="1341" y="424" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#52647b" font-weight="700" text-anchor="middle">15</text>
+<polyline points="383,477 1048,477" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="1036.0,483.0 1048,477 1036.0,471.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<text x="716" y="518" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#087f80" font-weight="700" text-anchor="middle">Python slice [4:12] keeps indices 4…11 • 8 samples</text>
+<rect x="44" y="553" width="654" height="157" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="44" y="553" width="6" height="157" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="66" y="590" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Keep the original time reference</text>
+<text x="66" y="629" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">For cropped position j: original index = 4 + j</text>
+<text x="66" y="660" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">t = t₀ + (4 + j) / ADC rate</text>
+<text x="66" y="691" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Here t₀ means the first original sample&#x27;s time.</text>
+<rect x="742" y="553" width="654" height="157" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<rect x="742" y="553" width="6" height="157" rx="3" fill="#a6630a" stroke="none" stroke-width="2"/>
+<text x="764" y="590" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Cropping selects; alignment moves</text>
+<text x="764" y="629" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">A crop removes samples outside a chosen interval.</text>
+<text x="764" y="660" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Alignment shifts or resamples each record.</text>
+<text x="764" y="691" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Save the original and document both choices.</text>
+<text x="44" y="750" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">N samples use N / rate as nominal record duration; first-to-last sample spacing is (N − 1) / rate.</text>
+<text x="44" y="806" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#52647b" font-weight="400" text-anchor="start">PROACT host guide  •  Explanatory diagram; no measured waveform or physical pin map</text>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+<title id="title">Where commands and measurements travel</title><desc id="desc">A host uses MCP2210 SPI for controller programming and MCP2200 UART for commands. The controller selects a hardware accelerator or the second Ibex software target. Husky receives separate trigger and analog measurement paths and returns samples to the host.</desc>
+<rect width="1440" height="860" fill="#fff"/>
+<text x="44" y="55" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#172b4d" font-weight="700" text-anchor="start">Where commands and measurements travel</text>
+<text x="44" y="91" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#52647b" font-weight="400" text-anchor="start">The controller runs the board workflow; the selected hardware or software target performs the operation.</text>
+<rect x="44" y="116" width="1352" height="2" rx="0" fill="#dfe7f1" stroke="none" stroke-width="2"/>
+<rect x="44" y="164" width="278" height="488" rx="16" fill="#edf4ff" stroke="none" stroke-width="2"/>
+<rect x="44" y="164" width="6" height="488" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="66" y="201" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Host computer</text>
+<text x="66" y="240" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">GUI: run_gui.sh</text>
+<text x="66" y="271" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">CLI: run_cli.sh</text>
+<text x="66" y="302" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start"></text>
+<text x="66" y="333" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Choose inputs</text>
+<text x="66" y="364" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Start a workflow</text>
+<text x="66" y="395" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Read responses</text>
+<text x="66" y="426" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Store records</text>
+<rect x="382" y="164" width="302" height="157" rx="16" fill="#f3f6fb" stroke="none" stroke-width="2"/>
+<rect x="382" y="164" width="6" height="157" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="404" y="201" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">MCP2210 • SPI</text>
+<text x="404" y="240" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Load controller VMEM</text>
+<text x="404" y="271" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Programming/reset path</text>
+<rect x="382" y="390" width="302" height="166" rx="16" fill="#f3f6fb" stroke="none" stroke-width="2"/>
+<rect x="382" y="390" width="6" height="166" rx="3" fill="#2367d1" stroke="none" stroke-width="2"/>
+<text x="404" y="427" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">MCP2200 • UART</text>
+<text x="404" y="466" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Commands and replies</text>
+<text x="404" y="497" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Baud must match</text>
+<text x="404" y="528" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">the controller</text>
+<rect x="744" y="164" width="652" height="392" rx="16" fill="#eef8f6" stroke="none" stroke-width="2"/>
+<text x="766" y="202" font-family="DejaVu Sans, sans-serif" font-size="26" fill="#172b4d" font-weight="700" text-anchor="start">PROACT design • FPGA or ASIC</text>
+<rect x="767" y="229" width="276" height="302" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="767" y="229" width="6" height="302" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="789" y="266" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Ibex #1</text>
+<text x="789" y="305" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Controller firmware</text>
+<text x="789" y="336" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start"></text>
+<text x="789" y="367" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Selects target</text>
+<text x="789" y="398" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Loads Sw-RV images</text>
+<text x="789" y="429" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Coordinates I/O</text>
+<text x="789" y="460" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">and peripherals</text>
+<rect x="1073" y="229" width="300" height="302" rx="16" fill="#fff" stroke="none" stroke-width="2"/>
+<rect x="1073" y="229" width="6" height="302" rx="3" fill="#087f80" stroke="none" stroke-width="2"/>
+<text x="1095" y="266" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">Selected target</text>
+<text x="1095" y="305" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">AES1 / AES2</text>
+<text x="1095" y="336" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">ASCON / Xoodyak</text>
+<text x="1095" y="367" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start"></text>
+<text x="1095" y="398" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">or Ibex #2 (Sw-RV)</text>
+<text x="1095" y="429" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">with its loaded</text>
+<text x="1095" y="460" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">software program</text>
+<polyline points="322,243 382,243" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="370.0,249.0 382,243 370.0,237.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="684,243 744,243" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="732.0,249.0 744,243 732.0,237.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="322,470 382,470" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="370.0,476.0 382,470 370.0,464.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="382,470 322,470" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="334.0,464.0 322,470 334.0,476.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="684,470 744,470" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="732.0,476.0 744,470 732.0,464.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="744,470 684,470" fill="none" stroke="#2367d1" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="696.0,464.0 684,470 696.0,476.0" fill="none" stroke="#2367d1" stroke-width="3"/>
+<polyline points="1043,380 1073,380" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="1061.0,386.0 1073,380 1061.0,374.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<rect x="382" y="650" width="532" height="139" rx="16" fill="#fff5e7" stroke="none" stroke-width="2"/>
+<rect x="382" y="650" width="6" height="139" rx="3" fill="#a6630a" stroke="none" stroke-width="2"/>
+<text x="404" y="687" font-family="DejaVu Sans, sans-serif" font-size="23" fill="#172b4d" font-weight="700" text-anchor="start">ChipWhisperer Husky</text>
+<text x="404" y="726" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Arm → acquire → read ADC samples</text>
+<text x="404" y="757" font-family="DejaVu Sans, sans-serif" font-size="21" fill="#52647b" font-weight="400" text-anchor="start">Clock behavior is platform dependent</text>
+<polyline points="1050,556 1050,614 782,614 782,650" fill="none" stroke="#a6630a" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="776.0,638.0 782,650 788.0,638.0" fill="none" stroke="#a6630a" stroke-width="3"/>
+<text x="830" y="593" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#a6630a" font-weight="400" text-anchor="start">Selected trigger</text>
+<polyline points="1230,556 1230,715 914,715" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="926.0,709.0 914,715 926.0,721.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<text x="972" y="689" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#087f80" font-weight="400" text-anchor="start">Analog measurement</text>
+<polyline points="382,720 182,720 182,652" fill="none" stroke="#087f80" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="188.0,664.0 182,652 176.0,664.0" fill="none" stroke="#087f80" stroke-width="3"/>
+<text x="55" y="763" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#087f80" font-weight="400" text-anchor="start">Samples to host</text>
+<text x="44" y="836" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#52647b" font-weight="400" text-anchor="start">PROACT host guide  •  Explanatory diagram; no measured waveform or physical pin map</text>
+</svg>
