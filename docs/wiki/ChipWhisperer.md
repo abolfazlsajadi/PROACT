@@ -1,9 +1,9 @@
 # ChipWhisperer Capture & CPA
 
-This page documents the acquisition of side-channel power traces from PROACT with a ChipWhisperer scope and their subsequent use to recover the AES key. It covers scope setup, the capture order (dictated by the on-chip trigger), trigger-source selection, trace storage, the fixed/random/CPA/TVLA acquisitions, and a complete, reproducible **last-round CPA** on real traces captured in this repository.
+This page documents the acquisition of side-channel power traces from PROACT with a ChipWhisperer scope and their subsequent use to recover the AES key. It covers scope setup, the capture order (dictated by the on-chip trigger), trigger-source selection, trace storage, the fixed/random/CPA/TVLA acquisitions, and a complete **last-round CPA** using real reference traces hosted separately from this public source checkout.
 
 > [!NOTE]
-> **Verification status.** The capture path is bench-verified on the **CW305 FPGA build**: the unified A–Z self-check (`proact_host/fullcheck.py`, GUI *Self-Check (A–Z)* tab) passes 100% on the board, including scope clock lock and a real trace capture. The CPA below recovers **all 16** AES-1 key bytes from the 4800-trace reference capture shipped in `datasets/` (11 of 16 with `--filter 1`, i.e. filtering disabled). The host protocol and AES reference are unit-tested; the AES driver sequence is RTL-simulated; the Husky-as-transport path (`husky_spi()`) remains a stub.
+> **Verification status.** The capture path is bench-verified on the **CW305 FPGA build**: the unified A–Z self-check (`proact_host/fullcheck.py`, GUI *Self-Check (A–Z)* tab) passes 100% on the board, including scope clock lock and a real trace capture. The CPA below recovers **all 16** AES-1 key bytes from a separately hosted 4800-trace reference capture (11 of 16 with `--filter 1`, i.e. filtering disabled). This public checkout contains no trace dataset. The host protocol and AES reference are unit-tested; the AES driver sequence is RTL-simulated; the Husky-as-transport path (`husky_spi()`) remains a stub.
 
 ![A real AES-1 power trace captured on the CW305](../images/example_trace.png)
 
@@ -316,9 +316,9 @@ otherwise-good capture "does not break":
 
 All three cores fall to CPA, but each needs a **different leakage model, a different
 point of interest, a different filter width and a different number of traces**. Everything
-below was measured on the CW305 with the reference captures in
-[`datasets/`](https://github.com/abolfazlsajadi/PROACT_Design/tree/main/datasets), so it
-reproduces offline without a board.
+below was measured on the CW305 with reference captures
+[hosted separately](https://github.com/abolfazlsajadi/PROACT_Design/tree/main/datasets).
+After obtaining those files locally, the analysis reproduces offline without a board.
 
 ![CPA leakage per core](../images/cpa_core_comparison.png)
 
@@ -394,6 +394,11 @@ python examples/cpa_swrv.py      datasets/swrv_reference.npz     # MA16,        
 python examples/cpa_lastround.py datasets/aes1_reference.npz --filter 1   # off -> 12/16
 ```
 
+These commands assume the separately hosted companion `examples/cpa_*.py`
+helpers and reference captures have been copied to the shown paths. Neither is
+included in this public source checkout. The public `Acquisition/` workflow
+packages automatic analysis for new native captures.
+
 > [!TIP]
 > If an attack stalls, **compare ρ against the floor above before capturing more traces**.
 > Raising ρ (filter width, gain, a tighter trigger window) is usually far cheaper than the
@@ -418,6 +423,8 @@ core is `swrv`:
 ./run_cli.sh capture --core swrv --traces 3000 --platform fpga --output experiments/swrv
 python examples/cpa_swrv.py experiments/swrv.npz --plot swrv.png
 ```
+
+The `cpa_swrv.py` helper is part of the same separately hosted companion examples.
 
 Because software AES is byte-serial, each key byte leaks at its own sample across the
 first-round window, so `cpa_swrv.py` correlates over the whole fenced span (each byte finds

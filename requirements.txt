@@ -1,0 +1,21 @@
+# PROACT host tooling -- Python dependencies.
+# Install with:  pip install -r requirements.txt
+# (see INSTALL.md for the full setup, including the RISC-V toolchain and iverilog)
+
+# --- core host stack (needed for bench control) ---
+pyserial>=3.5            # UART transport (MCP2200)
+hidapi>=0.14             # USB-HID device detection (MCP2200 / MCP2210)
+mcp2210-python==1.0.4    # MCP2210 SPI code loader; GPIO cache behavior is version-specific
+
+# --- GUI ---
+PyQt6>=6.5
+
+# --- data / analysis ---
+numpy>=1.23
+h5py>=3.7                # primary trace/dataset storage (HDF5); NPZ fallback needs only numpy
+
+# --- side-channel capture (optional, heavy; install separately if used) ---
+# chipwhisperer==6.0.0
+
+# --- docs (optional; only to regenerate the PDF from Markdown-less LaTeX) ---
+# (PDF is built with the system 'pdflatex'; no Python package needed)

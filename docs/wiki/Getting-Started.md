@@ -15,11 +15,11 @@ PROACT is a fabricated lightweight-cryptography RISC-V SoC built around dual Ibe
 
 | You want to… | You need | Notes |
 |---|---|---|
-| Read the docs, run the offline tests, run CPA on the shipped datasets | **Python ≥ 3.9** and the packages in `requirements.txt` | No board, no toolchain, no network. This is the whole [no-hardware path](#the-no-hardware-path). |
-| Talk to a chip at all | The **firmware images**, therefore a bare-metal RV32 toolchain: `riscv32-unknown-elf-gcc` + `srec_cat` | **Not optional on a fresh clone.** `*.vmem` is git-ignored (`.gitignore`), so `Software/Controller/main.vmem` is *not* in the repository — you must build it. |
+| Read the docs, run the offline tests, analyze a separately supplied capture | **Python ≥ 3.9** and the packages in `requirements.txt` | No board or toolchain. CPA needs a local capture file; this public checkout contains no trace dataset. See the [no-hardware path](#the-no-hardware-path). |
+| Talk to a chip at all | Matching controller and Sw-RV **firmware images** | Obtain the VMEM files separately, or build them with a bare-metal RV32 toolchain (`riscv32-unknown-elf-gcc` + `srec_cat`) in the companion design checkout. This public checkout contains neither the images nor their build sources. |
 | Drive the bench | An **MCP2200** (UART, `04D8:00DF`) and an **MCP2210** (SPI loader, `04D8:00DE`), and on Linux the udev rules | See step 1. |
 | Capture power traces | **ChipWhisperer 6** (`pip install chipwhisperer`) + a **Husky**, and a **CW305** for the FPGA target | The CW305 also supplies the 50 MHz target clock from its own PLL. |
-| Run on the CW305 | `PROACT_top.bit` — **already in the repository root** (part `7a100tftg256`, rebuilt 2026-08-07) | Vivado is only needed to *rebuild* it; see `FPGA/README.md`. |
+| Run on the CW305 | A matching `PROACT_top.bit`, supplied separately | Select its path explicitly. Rebuilding requires the companion FPGA/design package and Vivado; this public checkout contains neither the bitstream nor its build sources. |
 | Store captures as HDF5 | `h5py` (optional) | Without it, captures are written as `.npz` instead — nothing else changes. |
 
 Everything below was run on **Linux**. Windows and macOS are untested.
@@ -75,14 +75,14 @@ All commands are run from the repository root; paths are relative to it.
 
 ## 1. Install the host tools
 
-Full detail is in **[the installation guide](../../README.md)**. The short form:
+Full detail is in **[INSTALL.md](../../INSTALL.md)**. The short form:
 
 ```bash
-bash tools/setup_env.sh                 # one-time: builds the dedicated ~/.proact-venv for the GUI/CLI
+bash tools/setup_env.sh --with all      # one-time: creates/reuses this checkout's .venv
 sudo bash tools/install_udev.sh         # Linux only: USB permissions — then REPLUG the devices
 ```
 
-`setup_env.sh` creates `~/.proact-venv` (override with `PROACT_VENV`) inheriting the system-installed heavy packages, and removes the broken `serial` package that shadows pyserial. It refuses to run unless it finds a base Python that already has both `chipwhisperer` and `PyQt6` — install those into the system Python first if it complains. `install_udev.sh` installs `udev/60-proact.rules` (MCP2200, MCP2210, ChipWhisperer) and adds you to the `dialout` group.
+`setup_env.sh` creates or reuses this checkout's isolated `.venv`. Choose another dedicated path with `--venv /path/to/env` and select it later with `PROACT_VENV=/path/to/env`. The installer preserves existing environments and refuses the reserved legacy `~/.proact-venv`. `--with all` installs the GUI, HDF5 and pinned ChipWhisperer extras. `install_udev.sh` installs `udev/60-proact.rules` (MCP2200, MCP2210, ChipWhisperer) and adds you to the `dialout` group.
 
 Then launch everything through the wrapper scripts:
 
@@ -92,14 +92,14 @@ Then launch everything through the wrapper scripts:
 ```
 
 > [!WARNING]
-> **Never run the GUI or CLI with `sudo`.** Device access comes from the udev rules above. The wrappers select the correct Python — the dedicated `~/.proact-venv`, or a system Python that has the packages — avoiding the pyenv pitfall where a bare `python3` resolves to a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. Running with sudo breaks ChipWhisperer, which is installed under the invoking user's `~/.local`.
+> **Never run the GUI or CLI with `sudo`.** Device access comes from the udev rules above. The wrappers prefer an explicit `PROACT_PYTHON`/`PROACT_VENV`, then the project `.venv`, before probing legacy or system interpreters. This avoids the pyenv pitfall where a bare `python3` resolves to a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. Running with sudo breaks user-local installations.
 
 > [!TIP]
 > Wherever `proact <subcommand>` appears below, use `./run_cli.sh <subcommand>`. Global options come *before* the subcommand: `./run_cli.sh --port /dev/ttyACM1 status`.
 
-## 2. Build both firmwares
+## 2. Obtain or build both firmwares
 
-Two separate images: the **controller** firmware (drives the crypto cores + command server) and the **Sw-RV target** firmware (software AES on the target core). Neither is checked into the repository — `*.vmem` is git-ignored — so this step is mandatory before any bench work.
+Two separate images are required: the **controller** firmware (drives the crypto cores + command server) and the **Sw-RV target** firmware (software AES on the target core). Neither the images nor their source trees are included in this public source checkout. Obtain matching images separately, or run the following commands from the companion design checkout before bench work.
 
 ```bash
 make -C Software/Controller     # -> main.vmem (one combined text+data image)
@@ -132,17 +132,23 @@ proact test          # host protocol + AES reference + software ASCON/Xoodyak
 Three more things are worth doing before a board exists — they are the fastest way to understand what the platform is *for*:
 
 ```bash
-bash tools/run_tests.sh                 # the full regression suite: 1258 passed, 1 skipped, ~5 s
-./run_cli.sh cpa --core aes1            # a real CPA attack on the shipped reference capture
+bash tools/run_tests.sh                 # public regression: 1,513 passed, 43 explicit skips
+./run_cli.sh cpa --core aes1 --capture /path/to/aes1_reference.npz  # companion helper required
 ./run_cli.sh decrypt-soft --selftest    # software ASCON/Xoodyak vs the silicon's own vectors
 ```
 
-`cpa` needs no board: with no `--capture` it falls back to `datasets/aes1_reference.npz` (also `aes2`, `swrv`) and prints `RECOVERED 16/16 key bytes`. The GUI's *CPA analysis* page does the same thing with the capture field left empty, so `./run_gui.sh` is also useful with nothing attached.
+`cpa` needs no board once its inputs are available locally. This public checkout
+does not include trace datasets or the legacy `examples/cpa_*.py` helpers: obtain
+both from the companion design package, then pass `--capture FILE` or place the
+capture at `datasets/<core>_reference.npz`. In the GUI's *CPA analysis* page,
+select the same local capture file. The public `Acquisition/` workflow packages
+its own automatic analysis for new native captures.
 
 | Item | Runs offline? | Requires hardware? |
 |---|---|---|
-| `proact info` / `devices` / `test` / `cpa` / `decrypt-soft --selftest` | Yes | No |
-| `bash tools/run_tests.sh` (1258 pass / 1 skip) | Yes | No |
+| `proact info` / `devices` / `test` / `decrypt-soft --selftest` | Yes | No |
+| Legacy `proact cpa` | Yes, after supplying a capture and companion example helper | No |
+| `bash tools/run_tests.sh` (public result: 1,513 pass / 43 explicit skips) | Yes | No |
 | `make -C …` firmware builds | Yes (needs the RV32 toolchain) | No |
 | `proact program` / `run` / `capture` / `selfcheck`, GUI against the chip | — | Yes — **bench-verified on the real CW305 (A–Z self-check 16/16)** |
 
@@ -157,13 +163,13 @@ PROACT uses two USB bridges (auto-detected — leave the port blank to auto-dete
 
 `B_RST_N` on the board is a physical push-button; the controller / global / SPI resets all come from the MCP2210. The core clock is 50 MHz — on the CW305 from its own PLL, on the ASIC generated by the Husky on HS2.
 
-Confirm the bench constants (MCP serials, input clock, reset-pin map) in `Software/Python/proact_host/config.py`. These are the only bench-specific values, and `proact devices` prints the serials of whatever is attached.
+Confirm the bench constants (MCP serials and input clock) in `Software/Python/proact_host/config.py`; `proact devices` prints the serials of whatever is attached. The standard interface-board reset feedback map is fixed from CAD and live validation. A differently wired board can pass an explicit `Mcp2210Pins(...)` override without changing the standard defaults.
 
 ## 5. FPGA only — upload the bitstream **first**
 
 Skip this section on the ASIC. On the CW305 it is the first step that touches the board.
 
-**GUI (recommended).** Set *Target* = **FPGA (CW305)** in the sidebar *Connection* panel, then press **Connect**. Connect opens the UART and SPI *and* uploads the bitstream: it uses the path in the *ChipWhisperer* tab's *PROACT bitstream* box, defaulting to `PROACT_top.bit` in the repository root. The dialog that follows says which file is running and at what clock, and tells you to load the controller firmware next. The *ChipWhisperer* tab also has a standalone **Program FPGA bitstream** button.
+**GUI (recommended).** Set *Target* = **FPGA (CW305)** in the sidebar *Connection* panel, select the separately supplied bitstream in the *ChipWhisperer* tab, then press **Connect**. If that field is empty the GUI checks for `PROACT_top.bit` in the repository root and fails clearly when it is absent; the file is not bundled. The dialog that follows says which file is running and at what clock, and tells you to load the controller firmware next. The *ChipWhisperer* tab also has a standalone **Program FPGA bitstream** button.
 
 **Python.** The upload lives in `ChipWhispererCapture`, and this is the way to do *only* the bitstream from a script:
 
@@ -265,7 +271,7 @@ There is **one** A–Z check for everything: `proact_host/fullcheck.py` (`run_fu
 ./run_cli.sh selfcheck --capture --platform fpga    # with a Husky: 16 pass / 0 fail / 0 skip
 ```
 
-It runs UART link + baud integrity, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT + software decrypt round-trip, the timer, a control write, the PRNG, Sw-RV software AES, and — with a scope connected — clock lock and a real trace capture. Each step reports PASS/FAIL/SKIP independently, so one failing core does not mask the rest. `--log FILE` writes a plain-text report; the exit status is non-zero if anything failed. The ChipWhisperer tab has no separate check of its own — its button jumps to this same page. This is also the intended screening procedure for a fabricated ASIC chip, which has not yet been run.
+It runs UART link + baud integrity, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT + software decrypt round-trip, the timer, a control write, the PRNG, Sw-RV software AES, and — with a scope connected — clock lock and a real trace capture. Each step reports PASS/FAIL/SKIP independently, so one failing core does not mask the rest. `--log FILE` writes a plain-text report; the exit status is non-zero if anything failed. The ChipWhisperer tab has no separate check of its own — its button jumps to this same page. The same procedure has also completed on the fabricated ASIC, as recorded in the verification status above.
 
 ## 10. Save one experiment
 

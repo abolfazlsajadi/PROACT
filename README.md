@@ -55,7 +55,7 @@ validation, visual checks and the remaining limitations.
 
 ## Choose a workflow
 
-- **Plan instrument settings offline:** [frequency/UART/trigger setup wizard and progress demo](Acquisition/README.md). Live acquisition integration is pending.
+- **Acquire and analyze traces:** [frequency-first Husky/scope acquisition framework](Acquisition/README.md) with resumable storage, HDF5/CSV, warm-up, TVLA and target-specific CPA. Built firmware is supplied separately; physical scope validation is pending.
 - **First use:** [start here](docs/START_HERE.md).
 - **Learn with pictures:** [illustrated GUI/CLI guide](docs/ILLUSTRATED_GUIDE.md).
 - **Script the board:** [Python API](Software/Python/README.md) and [CLI reference](docs/CLI_REFERENCE.md).

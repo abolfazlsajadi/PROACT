@@ -1,8 +1,13 @@
 # Controller Firmware
 
+> [!IMPORTANT]
+> This page documents the companion full-design package. This public source
+> checkout contains only the directory notice under `Software/Controller/`; the
+> firmware source and built `main.vmem` must be obtained or built separately.
+
 The **controller** is one of PROACT's two [Ibex](https://ibex-core.readthedocs.io/en/latest/index.html) RISC-V cores (RV32IMC; see the official [Ibex docs](https://ibex-core.readthedocs.io/en/latest/index.html) for the CPU internals). It acts as the central command processor of the board, mediating between the host PC (over UART) and all the hardware crypto cores. Its firmware is a small, freestanding C program (no OS, no standard library) that boots, prints `PROACT controller ready.`, and then enters an infinite loop, reading one-byte commands from the UART and acting on them.
 
-All of this targets the frozen, fabricated silicon. The firmware never changes hardware behavior — it only drives the hardware along the **safe sequences** that the silicon requires (see [hardware_hazards.md](hardware_hazards.md)). Source lives in `Software/Controller/`.
+All of this targets the frozen, fabricated silicon. The firmware never changes hardware behavior — it only drives the hardware along the **safe sequences** that the silicon requires (see [hardware_hazards.md](../hardware_hazards.md)). Source lives in the companion design package under `Software/Controller/`.
 
 > [!NOTE]
 > **Status note.** This protocol has been exercised on the real CW305 FPGA build — the unified A-Z self-check (`Software/Python/proact_host/fullcheck.py`, `run_full_check()`) passes in full against it, including the on-chip AEAD encrypt KAT. The fabricated ASIC has been screened with the same self-check on the CW308 board and passes in full — **16 pass / 0 fail / 0 skip**, including the on-chip AEAD encrypt KAT and a real trace capture on silicon. Testing labels used below carry the following precise meanings: **RTL-simulated** (iverilog), **unit-tested** (host protocol / AES reference), or **hardware** (real CW305 run).
@@ -314,13 +319,13 @@ For **Sw-RV** software-AES, the order at the protocol level is: load code (`0x12
 | Host protocol + AES reference | Unit-tested (byte-stream + FIPS-197 vector) |
 | AEAD encrypt (ASCON/Xoodyak) | **Hardware** — on-chip KAT (`CMD_AEADKAT`) passes on the real CW305: CT+TAG match the reference vectors |
 | On the real CW305 FPGA build | **Passes** — the unified A-Z self-check (`fullcheck.py`, `run_full_check()`) completes with every check passing: UART link + baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT + software decrypt round-trip, timer, control write, PRNG, Sw-RV software AES, scope capture |
-| On the fabricated ASIC | Not yet screened — the same A-Z self-check is the chip-screening tool |
+| On the fabricated ASIC | **Passes** — the same A-Z screen reports 16 pass / 0 fail / 0 skip on the CW308 target board, including clock lock and a real trace capture |
 
 ---
 
 ## See also
 
-- [Address & Register Map](address_map.md) — canonical bases, control/status bits, core offsets
-- [Hardware Hazards](hardware_hazards.md) — the silicon traps H1–H9 the drivers work around
-- [Bring-up Guide](bringup_guide.md) — program → run → capture flow
+- [Address & Register Map](../address_map.md) — canonical bases, control/status bits, core offsets
+- [Hardware Hazards](../hardware_hazards.md) — the silicon traps H1–H9 the drivers work around
+- [Bring-up Guide](../bringup_guide.md) — program → run → capture flow
 - `examples/PROACT_Tutorial.ipynb` — runnable, section-by-section tutorial of the Python and C libraries: connect + program, register access, AES1/AES2 encrypt/decrypt, AEAD hardware encrypt + software decrypt, PRNG, Sw-RV loading, ChipWhisperer capture, and the full A-Z self-check

@@ -598,7 +598,15 @@ def test_output_pins_are_disjoint_from_readback_pins():
 
 def test_pins_default_instance_matches_a_fresh_dataclass():
     """config.PINS is module state that callers may be tempted to mutate; the
-    shipped default must be the documented spi.py map."""
+    shipped default must be the CAD- and bench-confirmed map."""
     assert config.PINS == config.Mcp2210Pins()
-    assert config.Mcp2210Pins().controller_reset == 5
-    assert config.Mcp2210Pins().read_controller_reset == 3
+    assert config.Mcp2210Pins() == config.Mcp2210Pins(
+        controller_reset=5,
+        read_controller_reset=6,
+        spi_reset=1,
+        read_spi_reset=0,
+        global_reset=2,
+        read_global_reset=8,
+        spi_select=4,
+        read_spi_select=3,
+    )

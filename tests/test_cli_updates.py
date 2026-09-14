@@ -1,5 +1,6 @@
 """CLI boundary regressions: all device operations are replaced with fakes."""
 import json
+from pathlib import Path
 from types import SimpleNamespace
 import pytest
 from proact_host import cli
@@ -98,13 +99,81 @@ def test_swrv_accepts_empty_data_image_and_closes_uart(tmp_path, monkeypatch, co
 
 def test_doctor_json_is_clean_and_identifies_this_copy(capsys):
     from proact_host import diagnostics
-    cli.main(["doctor", "--json"])
+    exit_code = 0
+    try:
+        cli.main(["doctor", "--json"])
+    except SystemExit as exc:
+        exit_code = exc.code
     output = capsys.readouterr()
     report = json.loads(output.out)
     assert not output.err
     assert report["hardware_accessed"] is False
     assert report["package"] == str(__import__("pathlib").Path(diagnostics.__file__).parent)
     assert {d["module"] for d in report["dependencies"]} >= {"numpy", "hid", "h5py", "PyQt6"}
+    mcp2210 = next(d for d in report["dependencies"] if d["distribution"] == "mcp2210-python")
+    assert mcp2210["version_requirement"] == "==1.0.4"
+    assert mcp2210["required_version"] == "1.0.4"
+    assert mcp2210["compatible"] is (mcp2210["version"] == "1.0.4")
+    assert report["core_dependencies_available"] is all(
+        dependency["compatible"] for dependency in report["dependencies"]
+        if dependency["required"])
+    assert exit_code == (0 if report["core_dependencies_available"] else 1)
+
+
+def test_doctor_rejects_unvalidated_mcp2210_version(monkeypatch):
+    from proact_host import diagnostics
+    real_version = diagnostics.metadata.version
+
+    def version(distribution):
+        return "1.0.8" if distribution == "mcp2210-python" else real_version(distribution)
+
+    monkeypatch.setattr(diagnostics.metadata, "version", version)
+    report = diagnostics.environment_report()
+    mcp2210 = next(d for d in report["dependencies"] if d["distribution"] == "mcp2210-python")
+    assert mcp2210["discoverable"] is True
+    assert mcp2210["compatible"] is False
+    assert report["core_dependencies_available"] is False
+
+
+def test_doctor_rejects_hidapi_below_manifest_minimum(monkeypatch):
+    from proact_host import diagnostics
+    real_version = diagnostics.metadata.version
+
+    def version(distribution):
+        return "0.13.1" if distribution == "hidapi" else real_version(distribution)
+
+    monkeypatch.setattr(diagnostics.metadata, "version", version)
+    report = diagnostics.environment_report()
+    hidapi = next(d for d in report["dependencies"] if d["distribution"] == "hidapi")
+    assert hidapi["discoverable"] is True
+    assert hidapi["version_requirement"] == ">=0.14"
+    assert hidapi["compatible"] is False
+    assert report["core_dependencies_available"] is False
+
+
+def test_doctor_core_version_rules_match_both_dependency_manifests():
+    from proact_host import diagnostics
+    root = Path(__file__).resolve().parents[1]
+    manifests = [
+        (root / "requirements.txt").read_text(),
+        (root / "Software/Python/pyproject.toml").read_text(),
+    ]
+    for distribution, requirement in diagnostics.VERSION_REQUIREMENTS.items():
+        declaration = distribution + requirement
+        assert all(declaration in manifest for manifest in manifests)
+
+
+@pytest.mark.parametrize("installed, requirement, expected", [
+    ("1.23", ">=1.23", True),
+    ("1.23.1", ">=1.23", True),
+    ("1.22.9", ">=1.23", False),
+    ("1.23rc1", ">=1.23", False),
+    ("1.0.4", "==1.0.4", True),
+    ("1.0.8", "==1.0.4", False),
+])
+def test_doctor_version_requirement_comparison(installed, requirement, expected):
+    from proact_host.diagnostics import _version_satisfies
+    assert _version_satisfies(installed, requirement) is expected
 
 
 def test_interrupt_has_conventional_exit_status(monkeypatch, capsys):

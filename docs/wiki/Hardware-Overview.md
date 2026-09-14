@@ -10,7 +10,7 @@ layout below.
 > **The chip is fabricated and frozen — with a single source of truth.**
 > Everything here is a fixed property of the silicon (tape-out Nov 2025,
 > GlobalFoundries 22FDX). The whole map comes from one machine-readable file,
-> [`config/hardware.json`](../config/hardware.json), which generates the C header,
+> [`config/hardware.json`](../../config/hardware.json), which generates the C header,
 > the Python module, and these docs, so nothing can disagree. Software is
 > developed *against* this map; where a behavior is fixed in gates, the host and
 > firmware accommodate it.
@@ -110,7 +110,7 @@ the firmware, the target then boots and fetches its code from `0x00100000`.
 ## 2. Component table
 
 All software-visible components, with their addresses. All addresses come
-directly from `config/hardware.json` / [`docs/address_map.md`](address_map.md).
+directly from `config/hardware.json` / [`docs/address_map.md`](../address_map.md).
 The *Reachable by* column indicates which core can access each component.
 
 | Component | Address (base) | Size | Reachable by | Role |
@@ -163,7 +163,7 @@ FIFO is empty (they return stale data — **no hang**, unlike the UART).
 > capture measures *encryption*, so ASCON and Xoodyak provide a fast, correct
 > hardware encrypt: the on-chip known-answer test matches the reference vectors on
 > both cores. Decryption and tag verification run on the host with
-> [`Software/Python/proact_host/aead_soft.py`](../Software/Python/proact_host/aead_soft.py)
+> [`Software/Python/proact_host/aead_soft.py`](../../Software/Python/proact_host/aead_soft.py)
 > — a bit-exact, dependency-free ASCON-128 v1.2 / Xoodyak v2 implementation
 > validated against the silicon's own CT+TAG — so the workflow is **hardware
 > encrypt → software decrypt + tag verify**. AES1/AES2 run both directions in
@@ -340,16 +340,17 @@ in the FPGA tree does *not* reproduce the fabricated pinout — treat the frozen
 | Controller + target firmware | **Builds clean**, produces the vmem images |
 | Host protocol + AES reference | **Unit-tested** (byte-stream + FIPS-197 vector) |
 | On the real FPGA (CW305) | **Verified** — the unified A–Z self-check (`proact_host/fullcheck.py`, `run_full_check()`) passes 100%: UART link + baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT + software decrypt round-trip, timer, control write, PRNG, Sw-RV software AES, scope clock lock + trace capture |
-| On the fabricated ASIC | **Not yet run** — the same A–Z self-check is designed to screen the ASIC over the same UART, unchanged |
+| On the fabricated ASIC | **Verified** — the same A-Z screen reports 16 pass / 0 fail / 0 skip on the CW308 target board, including clock lock and a real trace capture |
 
 Every claim on this page is traced to the frozen RTL, to RTL simulation, or —
-for everything the A–Z self-check covers — to a run on the real CW305 board.
+for everything the A-Z self-check covers — to runs on the real CW305 and the
+fabricated ASIC in the CW308 target board.
 
 ---
 
 ## Further reading
 
-- [Address & Register Map](address_map.md) — every address, control/status bit, and core register.
-- [Hardware Hazards](hardware_hazards.md) — the no-timeout traps and the software invariants that avoid them (read before writing firmware).
-- [Bring-up Guide](bringup_guide.md) — program → run → capture, end to end.
+- [Address & Register Map](../address_map.md) — every address, control/status bit, and core register.
+- [Hardware Hazards](../hardware_hazards.md) — the no-timeout traps and the software invariants that avoid them (read before writing firmware).
+- [Bring-up Guide](../bringup_guide.md) — program → run → capture, end to end.
 - `examples/PROACT_Tutorial.ipynb` — runnable, section-by-section tour of the Python and C libraries: connect + program, register access, AES1/AES2 encrypt/decrypt, AEAD hardware encrypt + software decrypt, PRNG, Sw-RV loading, ChipWhisperer capture, and the full A–Z self-check.

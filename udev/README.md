@@ -1,24 +1,13 @@
-# Linux udev rules — not published yet
+# Linux udev rules
 
-> **This directory is intentionally empty for now.**
-> Its contents will be made public soon.
+[`60-proact.rules`](60-proact.rules) grants the active desktop user and members
+of the `dialout` group access to the MCP2200, MCP2210 and NewAE/ChipWhisperer USB
+interfaces, with mode `0660`. It also tells ModemManager to ignore their serial
+ports. Install it once on Linux:
 
-Device rules that give the host stable, permission-free access to the board's USB interfaces.
+```bash
+sudo bash tools/install_udev.sh
+```
 
-## Why is this empty?
-
-PROACT is being released in stages. The documentation and the evaluation-board
-design are public today; the remaining design and software sources are still
-being prepared for release and will be added to this repository.
-
-## What is available right now
-
-| | |
-|---|---|
-| 📖 **Documentation** | [`../docs/`](../docs/) — architecture, guides, wiki and the PDF manual |
-| 🔌 **Evaluation board** | [`../PCB/`](../PCB/) — schematic, layout, board reference and photographs |
-| 🌐 **Project page** | <https://project-proact.nl/> |
-
----
-
-<sub>Part of the [PROACT](../README.md) side-channel research platform.</sub>
+Then unplug and reconnect the USB devices and log out/in if group membership
+changed. Run the PROACT GUI and CLI as your normal user; do not use `sudo`.

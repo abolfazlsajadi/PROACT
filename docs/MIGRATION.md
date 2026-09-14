@@ -29,4 +29,6 @@ Basic imports and CLI information no longer load NumPy/HDF5. `from proact_host i
 
 `Mcp2210Programmer.close()` is idempotent and closes the backend HID handle without changing reset GPIO state. Failed setup and the CLI programming/reset/restart handlers now close acquired resources. Offline fake-device tests cover these paths; physical disconnect timing has not been measured.
 
+The standard interface-board feedback map is now SPI reset GPIO0, SPI select GPIO3, controller reset GPIO6 and global reset GPIO8; GPIO7 is the X1 debug input. Older host scripts mislabeled these readers as controller/global/select GPIO3/6/7. Code for a differently wired board must pass an explicit `Mcp2210Pins(...)` instance to `Mcp2210Programmer`; do not modify the shared standard-board defaults. With the tested standard board and `mcp2210-python` 1.0.4, opening the programmer now preserves observed output levels during one explicit setup flush. A live UART-continuity test confirmed that a status-only connection did not restart the controller.
+
 Retained historical material remains useful for chip architecture, but the new guides take precedence for launch/setup/storage behavior. No universal minimum CPA/TVLA count, measured analog improvement or new board validation follows from these changes.

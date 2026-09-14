@@ -250,7 +250,13 @@ def cmd_doctor(a):
         kv("Python", report["python"])
         kv("workspace", report["workspace"])
         for dep in report["dependencies"]:
-            label = "available" if dep["discoverable"] else "missing"
+            if not dep["discoverable"]:
+                label = "missing"
+            elif not dep["compatible"]:
+                requirement = dep["version_requirement"] or "installed package metadata"
+                label = f"unsupported; requires {requirement}"
+            else:
+                label = "available"
             kv(dep["purpose"], f"{label}: {dep['distribution']} {dep['version'] or ''}".rstrip())
         note(report["check_scope"])
         note("Setup: bash tools/setup_env.sh --with gui --with hdf5 --with dev")
@@ -388,17 +394,25 @@ def cmd_seed(a):
 
 
 def cmd_cpa(a):
-    """Run the CPA attack on a capture file -- no board needed."""
+    """Run a companion CPA helper on a capture file -- no board needed."""
     import subprocess
     import sys
     script = "cpa_swrv.py" if a.core == "swrv" else "cpa_lastround.py"
     path = a.capture
-    if path is None:                       # default to the shipped reference capture
+    if path is None:                       # conventional path for an external capture
         path = os.path.join(REPO, "datasets", f"{a.core}_reference.npz")
-        note(f"no --capture given, using the reference dataset {path}")
+        note(f"no --capture given, looking for a local reference capture at {path}")
     if not os.path.exists(path):
-        bad(f"capture not found: {path}"); return 1
-    cmd = [sys.executable, os.path.join(REPO, "examples", script), path]
+        bad(f"capture not found: {path}")
+        note("supply --capture FILE or place a separately obtained reference capture there")
+        return 1
+    script_path = os.path.join(REPO, "examples", script)
+    if not os.path.exists(script_path):
+        bad(f"CPA helper not found: {script_path}")
+        note("the legacy example scripts are supplied with the companion design package; "
+             "the Acquisition folder contains the packaged automatic analysis workflow")
+        return 1
+    cmd = [sys.executable, script_path, path]
     if a.filter is not None:
         cmd += ["--filter", str(a.filter)]
     if a.window:
@@ -527,7 +541,8 @@ def cmd_selfcheck(a):
             swrv = ([v for _, v in parse_vmem(imf)],
                     [v for _, v in parse_vmem(dmf)], regs.SWRV_DMEM_LOAD_BASE)
         else:
-            note("Sw-RV vmem not built (make -C Software/SW_RV) -- step will SKIP")
+            note("Sw-RV VMEM images are absent; supply them separately or build them "
+                 "from the companion design package -- step will SKIP")
     t, tgt = _target(a)
     lines = []
     try:
@@ -727,12 +742,13 @@ def main(argv=None):
     p.add_argument("--value", type=_u32, required=True, help="32-bit seed (e.g. 0xACE1ACE1)")
     p.set_defaults(func=cmd_seed)
 
-    p = sub.add_parser("cpa", help="run the CPA attack on a capture (offline, no board)")
+    p = sub.add_parser("cpa", help="run a companion CPA helper on a capture (offline)")
     p.add_argument("--core", default="aes1", choices=["aes1", "aes2", "swrv"],
                    help="which attack to run: aes1/aes2 use the last-round ciphertext "
                         "model, swrv the first-round S-box model")
-    p.add_argument("--capture", help="capture .npz/.h5 (default: the matching file in "
-                                     "datasets/, so this works with no board)")
+    p.add_argument("--capture", help="capture .npz/.h5 (default: matching externally "
+                                     "supplied file in datasets/; companion example "
+                                     "script also required)")
     p.add_argument("--filter", help="moving-average width: 'auto', an integer, or 1 to "
                                     "disable (see the ChipWhisperer wiki page)")
     p.add_argument("--window", help="sample window lo:hi, or 'auto' (default)")

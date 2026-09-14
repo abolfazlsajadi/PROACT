@@ -14,6 +14,7 @@ Development package **1.1.0.dev1** updates the previous Python package **1.0.0**
 - Setup and documentation: nondestructive repository-local environments, exFAT-compatible virtualenv creation, verified editable packaging, generated command reference, architecture map, migration/storage/test guides and five illustrated workflow diagrams.
 - GUI follow-up: copyable **Review setup…** help and clear disconnected, working and incomplete-capture states.
 - Validation: offline regressions, offscreen screenshots and synthetic development benchmarks. Integrated release counts and checks are recorded in the release report. Live hardware and side-channel claims were not revalidated by this update.
+- ASIC bench follow-up (2026-09-11): corrected the standard-board MCP2210 feedback map to SPI reset GPIO0, SPI select GPIO3, controller reset GPIO6 and global reset GPIO8. GPIO7 is the X1 debug input. The open path now batches GPIO setup, seeds the SDK output cache from observed levels before one explicit setup flush, and clears the SDK's stale output-dirty flag so status polls issue reads only. A live continuity check on the tested board with `mcp2210-python` 1.0.4 preserved UART frame mode across `Mcp2210Programmer.open()`, proving that the controller was not restarted; the six target paths also passed bounded functional/capture-integrity checks. See the live addendum in the release report for exact scope and limits.
 
 See [the release report](reports/HOST_SOFTWARE_RELEASE.md) for validation, tradeoffs and remaining limits.
 
@@ -194,12 +195,13 @@ See [the release report](reports/HOST_SOFTWARE_RELEASE.md) for validation, trade
 ## [1.10.0] — 2026-07-31
 
 ### Added — reference traces, per-core comparison, offline CPA in CLI and GUI
-- **`datasets/`** ships real CW305 captures so the attacks reproduce **without a
-  board**: `aes1_reference.npz` (4800 traces), `aes2_reference.npz` (5300),
+- Real CW305 reference captures were produced and are hosted separately so the
+  attacks reproduce **without a board** once the files are obtained locally:
+  `aes1_reference.npz` (4800 traces), `aes2_reference.npz` (5300),
   `swrv_reference.npz` (1400) — 9 MB total, `int16` (lossless for the 12-bit ADC,
   and CPA is scale-invariant). Each recovers **16/16 key bytes**.
-- **`./run_cli.sh cpa`** runs the attack on a capture, defaulting to the shipped
-  dataset for the chosen core: `--core aes1|aes2|swrv`, `--capture`, `--filter`,
+- **`./run_cli.sh cpa`** runs the attack on a capture, defaulting to the conventional
+  local `datasets/` path for the chosen core: `--core aes1|aes2|swrv`, `--capture`, `--filter`,
   `--window`, `--plot`. Works with no hardware attached.
 - **GUI: a "CPA attack (offline)" panel** on the ChipWhisperer tab — pick a
   capture (or use the reference dataset), the model and the filter width, and the

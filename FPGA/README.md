@@ -7,9 +7,9 @@ ChipWhisperer CW305 build: constraints, block design and bitstream sources, gene
 
 ## Why is this empty?
 
-PROACT is being released in stages. The documentation and the evaluation-board
-design are public today; the remaining design and software sources are still
-being prepared for release and will be added to this repository.
+PROACT is being released in stages. The documentation, evaluation-board design,
+host Python/GUI tools and source-only Acquisition framework are public today;
+the FPGA build sources and generated bitstream remain outside this repository.
 
 ## What is available right now
 
@@ -17,6 +17,7 @@ being prepared for release and will be added to this repository.
 |---|---|
 | 📖 **Documentation** | [`../docs/`](../docs/) — architecture, guides, wiki and the PDF manual |
 | 🔌 **Evaluation board** | [`../PCB/`](../PCB/) — schematic, layout, board reference and photographs |
+| 💻 **Host and acquisition software** | [`../Software/Python/`](../Software/Python/) and [`../Acquisition/`](../Acquisition/) |
 | 🌐 **Project page** | <https://project-proact.nl/> |
 
 ---

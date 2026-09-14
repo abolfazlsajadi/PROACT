@@ -44,20 +44,19 @@ MCP2200_SERIAL = None
 
 @dataclass
 class Mcp2210Pins:
-    """MCP2210 GPIO map (from the proven GUI spi.py).
+    """MCP2210 GPIO map confirmed from native CAD and live board readback.
 
-    OPEN QUESTION: the readback pins for controller/global reset are 3/6 in
-    spi.py but swapped (6/3) in a standalone SPI_DRIVER.py. These match spi.py,
-    which is the one the working GUI uses -- confirm for the current board.
+    GPIO7 is the X1 debug feedback and is deliberately not part of the four
+    reset/select readback loops.
     """
     controller_reset: int = 5
-    read_controller_reset: int = 3
+    read_controller_reset: int = 6
     spi_reset: int = 1
     read_spi_reset: int = 0
     global_reset: int = 2
-    read_global_reset: int = 6
+    read_global_reset: int = 8
     spi_select: int = 4
-    read_spi_select: int = 7
+    read_spi_select: int = 3
 
 
 PINS = Mcp2210Pins()

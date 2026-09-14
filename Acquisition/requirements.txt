@@ -1,4 +1,23 @@
-# Offline configuration UI only.
-click>=8.0
+# PROACT acquisition framework — Python dependencies
+# Core numerics
+numpy>=1.21
+scipy>=1.7
+h5py>=3.7
+# Hardware: ChipWhisperer-Husky driver (pulls in pyusb/libusb, naeusb, etc.)
+chipwhisperer>=6.0
+pyserial>=3.5
+# Controller programming over the board's MCP2210 USB-to-SPI bridge.
+# Keep the hardware-verified driver version explicit; it pulls in hidapi too,
+# which is also listed so install/check output names the native HID dependency.
+mcp2210-python==1.0.4
+hidapi>=0.14
+# Oscilloscope backend (VISA over pure-python backend; no NI-VISA needed)
+pyvisa>=1.16
+pyvisa-py>=0.8
+# Fancy CLI
 rich>=13.0
 questionary>=2.0
+click>=8.0
+tqdm>=4.60
+colorama>=0.4
+prompt_toolkit>=3.0

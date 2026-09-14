@@ -27,7 +27,7 @@ Setup refuses the reserved `~/.proact-venv` bench environment. Use a dedicated p
 
 Launchers select `PROACT_PYTHON` if explicitly set, then `PROACT_VENV`, then this repository's `.venv`, then an available shared/system interpreter. Explicit broken overrides report an error instead of silently choosing another environment. Every launcher puts the checked-out Python package first. Check the paths printed by `doctor` before using an existing interpreter.
 
-`doctor --json` reports the interpreter, workspace, discoverable dependency versions and missing firmware files. Package discovery does not check version constraints or prove that drivers can import or that a board is connected. It performs no USB enumeration.
+`doctor --json` reports the interpreter, workspace, discoverable dependency versions and missing firmware files. It checks the declared core version constraints, but does not prove that drivers can import or that a board is connected. It performs no USB enumeration.
 
 The public host release does not include firmware sources, generated VMEM images, an FPGA bitstream or reference capture datasets. Missing image files in `doctor` are expected until you supply matching artifacts. GUI operation needs the matching controller VMEM; Sw-RV workloads additionally need their instruction/data images, and an unconfigured FPGA needs its matching bitstream.
 

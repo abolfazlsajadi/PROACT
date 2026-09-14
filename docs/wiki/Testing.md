@@ -26,16 +26,16 @@ flowchart TD
     Q --> O[Board-free]:::step
     Q --> H[Bench-only]:::step
 
-    O --> T1[1. tools/run_tests.sh<br/>1258 pass / 1 skip]:::step
+    O --> T1[1. tools/run_tests.sh<br/>1513 pass / 43 explicit skips]:::step
     O --> T2[2. tools/verify_all.sh<br/>builds · RTL · sim]:::step
     O --> T3[3. check_gui_layout.py]:::step
     O --> T4[4. gen_gui_screenshots.py]:::step
-    T1 --> CI[GitHub Actions<br/>4 jobs, no board]:::ok
+    T1 --> CI[GitHub Actions<br/>2 jobs / 3 executions, no board]:::ok
     T3 --> CI
     T4 --> CI
 
     H --> HP[5. fullcheck.py A–Z<br/>16 pass / 0 fail / 0 skip<br/>on the real CW305]:::ok
-    HP --> ASIC[ASIC screening<br/>same check, not run yet]:::warn
+    HP --> ASIC[ASIC screening<br/>16 pass / 0 fail / 0 skip]:::ok
     classDef step fill:#eef1fc,stroke:#4657d6,color:#1b2233
     classDef ok fill:#e7f6ec,stroke:#16a34a,color:#08351a
     classDef warn fill:#fde8e8,stroke:#dc2626,color:#7f1d1d
@@ -57,16 +57,20 @@ The host library in `Software/Python/proact_host/` has a full pytest suite under
 ./tools/run_tests.sh tests/test_transport.py::test_write_key_frame
 ```
 
-Current result on this repo:
+Current offline result in this public-source checkout, using the complete existing
+host test environment and treating warnings as errors:
 
 ```
-1258 passed, 1 skipped in 4.7s
-SKIPPED [1] tests/test_storage.py: could not import 'h5py'
+1513 passed, 43 skipped
 ```
 
-The single skip is the HDF5 `TraceStore` path, guarded by `importorskip` — `h5py` is an optional extra and is not in the project venv. There are **no xfails left**: the two product bugs the suite originally pinned as `xfail` (the ASCON block-aligned pad bug and the missing `CMD_POKE`/`CMD_PEEK`/`CMD_AEADKAT` entries in `config/hardware.json`) have both been fixed, and the tests now assert the corrected behaviour.
+The 43 skips are explicit public-source skips for firmware and design fixtures that
+are deliberately excluded, plus the mutually exclusive direct test for an
+environment without `h5py`; mocked fallback regressions still ran. The complete
+private design checkout historically passed 1,555 tests with that one no-HDF5 test
+skipped. There are no xfails left.
 
-`tools/run_tests.sh` picks the interpreter exactly like `run_cli.sh` does — `$PROACT_VENV`, else `~/.proact-venv`, else the repo's `.venv`, else a system `python3` that can import `pytest` **and** `proact_host` — then `cd`s to the repo root and runs `pytest tests`, passing `"$@"` through. Only `pytest` and `numpy` are required.
+`tools/run_tests.sh` uses the shared launcher order: explicit `PROACT_PYTHON`, then `PROACT_VENV`, the repo's `.venv`, a preserved legacy `~/.proact-venv`, and finally a system Python that can import `pytest`, `numpy` and `proact_host`. It then changes to the repo root and passes all arguments to pytest.
 
 Configuration lives in **`pytest.ini` at the repository root**, deliberately not in `Software/Python/pyproject.toml`: that file sits one directory *below* `tests/`, so pytest would only find it when invoked from inside `Software/Python`, and its `testpaths` would resolve to the wrong directory. The settings are `testpaths = tests`, `addopts = -q -ra --strict-markers --strict-config --tb=short`, `xfail_strict = true`, and `pythonpath = Software/Python` (which `tests/conftest.py` also does, so a bare `pytest` works from a clean checkout with nothing installed).
 
@@ -78,12 +82,23 @@ Configuration lives in **`pytest.ini` at the repository root**, deliberately not
 | `test_validation.py` | 184 | The PASS/FAIL verdict engine. AES-128 anchored to **external** ground truth (FIPS-197 App. B/C.1, NIST SP 800-38A F.1.1, the App. A.1 key schedule), plus `validate_aes` / `validate_aead` behaviour on good, wrong and malformed chip output. |
 | `test_regs_map.py` | 157 | `config/hardware.json` → `regs.py` / `Software/common/proact_regs.h` stay in sync, and both stay in sync with the command bytes and frame ids in `Software/Controller/main.c`. The C header is compared *semantically* by evaluating its `#define`s, because the committed copy carries a hand-added comment block. |
 | `test_transport.py` | 142 | The exact byte stream sent to the silicon and the `0xA5` reply-frame parser, driven through an in-memory fake link. A wrong command byte or payload width produces garbage traces, never an exception — so it has to be asserted. |
-| `test_cli_parser.py` | 128 | Argument parsing, defaults, required options, the offline subcommands (`version`, `info`, `test`, `decrypt-soft --selftest`), handler exit-status propagation, and the friendly bench-error diagnostics (a board timeout prints a hint, not a traceback; `PROACT_DEBUG=1` restores it). |
+| `test_cli_parser.py` | 129 | Argument parsing, defaults, required options, the offline subcommands (`version`, `info`, `test`, `decrypt-soft --selftest`), handler exit-status propagation, and the friendly bench-error diagnostics (a board timeout prints a hint, not a traceback; `PROACT_DEBUG=1` restores it). |
+| `test_gui_workflows.py` | 87 | Offscreen GUI lifecycle, responsiveness, background polling, task recovery and device-free workflow behavior. |
 | `test_monitor.py` | 49 | The UART monitor's contract — never raise on bad bytes, never desync permanently — checked exhaustively over all 256 byte values and across mixed ASCII/binary framing. |
 | `test_inputs.py` | 42 | The capture-input generator: FIXED variables are byte-identical every run, RANDOM variables actually vary. Both fail *silently* if they regress and would quietly invalidate an entire dataset. Plus `parse_input_file`'s user-facing error strings. |
 | `test_storage.py` | 33 | `TraceStore` append/flush/`load` round-trips: shapes, dtypes, bytes, ragged-row handling, and survival of an interrupted campaign. `.npz` unconditionally; the HDF5 path via `importorskip`. |
 | `test_vmem.py` | 24 | `parse_vmem` address bookkeeping (`@` re-basing, one word per data line) and `Mcp2210Programmer._frame`'s MSB-first 64-bit `{addr, data}` packing — a fencepost here writes firmware to the wrong memory. |
-| `test_programmer.py` | 6 | The pure, device-free parts of the SPI loader. |
+| `test_cli_updates.py` | 44 | CLI preflight checks, `doctor` dependency-version rules, output contracts and resource cleanup, all with fake devices. |
+| `test_review_regressions.py` | 38 | Capture input preflight and UART cleanup regressions found during review. |
+| `test_storage_chunked.py` | 34 | Bounded chunking, checkpoint replacement and multi-chunk trace loading. |
+| `test_storage_integrity.py` | 27 | Corruption detection, metadata preservation and legacy archive handling. |
+| `test_programmer.py` | 15 | Device-free SPI-loader framing, exact MCP2210 SDK guard, batched GPIO setup and cleanup. |
+| `test_host_boundaries.py` | 17 | Input, firmware, authentication and resource-boundary regressions. |
+| `test_experiment_errors.py` | 12 | Capture API validation and cleanup when fake UART or scope operations fail. |
+| `test_gui_followup.py` | 10 | Offscreen capture-review and setup-state regressions. |
+| `test_benchmark_portability.py` | 9 | Benchmark entry points reject unusable or documentation-only baselines. |
+| `test_workspace_tools.py` | 9 | Environment setup, launcher isolation, lazy imports and setup safety. |
+| **Collected total** | **1,556** | **1,513 passed and 43 explicit public-source skips in the verified run.** |
 
 ### What it does **not** prove
 
@@ -102,6 +117,11 @@ Those areas belong to check 5 (`proact selfcheck` / `tools/full_selftest.py`) on
 ## 2. The offline gate — `tools/verify_all.sh`
 
 Everything that can be checked against the frozen RTL without a board is consolidated into a single gate script:
+
+> [!NOTE]
+> This section documents the companion full-design checkout. Its RTL, firmware
+> sources and `tools/verify_all.sh` are not included in this public source release;
+> the current public checks are the host and Acquisition jobs described below.
 
 ```bash
 RTL_ROOT=/path/to/ASIC/rtl bash tools/verify_all.sh
@@ -171,19 +191,19 @@ An inline Python block feeds a **mock transport** (no serial port, no hardware) 
 
 ## 3. The GUI layout guard — `tools/check_gui_layout.py`
 
-The GUI is a bench instrument: a page that silently needs scrolling hides a control the operator is looking for. This script constructs the real `MainWindow` **offscreen** (`QT_QPA_PLATFORM=offscreen`, no hardware, no board polling) and measures, at four window sizes, how many pixels each page, the sidebar, and the tab bar overflow their viewport.
+The GUI is a bench instrument: a page that silently needs scrolling hides a control the operator is looking for. This script constructs the real `MainWindow` **offscreen** (`QT_QPA_PLATFORM=offscreen`, no hardware, no board polling) and measures, at five window sizes, how many pixels each page, the sidebar, and the tab bar overflow their viewport.
 
 ```bash
-python3 tools/check_gui_layout.py            # the four standard sizes
+python3 tools/check_gui_layout.py            # the five standard sizes
 python3 tools/check_gui_layout.py 1280 800   # one specific size
 ```
 
-Sizes checked: **1280×720, 1366×768, 1600×900, 1920×1040**. The horizontal tab-bar measurement matters as much as the vertical one — if the seven tabs need more width than the bar has, Qt hides some behind scroll arrows and whole pages become unreachable.
+Sizes checked: **1280×720, 1280×800, 1366×768, 1600×900, 1920×1040**. The horizontal tab-bar measurement matters as much as the vertical one — if the seven tabs need more width than the bar has, Qt hides some behind scroll arrows and whole pages become unreachable.
 
 Exit status is 1 if anything overflows at any size, so it doubles as a regression guard. Current result:
 
 ```
-PASS: every page fits without scrolling at all 4 sizes (1280x720 .. 1920x1040)
+PASS: all 7 pages fit at all 5 tested sizes.
 ```
 
 **What it does not prove:** that the GUI *works*. It measures geometry only — no widget is clicked, no signal is fired, no chip is touched. A page can fit perfectly and still be wired to the wrong handler.
@@ -193,8 +213,8 @@ PASS: every page fits without scrolling at all 4 sizes (1280x720 .. 1920x1040)
 Regenerates the GUI images used by the wiki and the PDF manual, again offscreen and disconnected — exactly the state the published screenshots show, so no board or scope is needed.
 
 ```bash
-~/.proact-venv/bin/python tools/gen_gui_screenshots.py            # -> docs/images/
-~/.proact-venv/bin/python tools/gen_gui_screenshots.py /tmp/shots # -> somewhere else
+.venv/bin/python tools/gen_gui_screenshots.py            # -> docs/images/
+.venv/bin/python tools/gen_gui_screenshots.py /tmp/shots # -> somewhere else
 ```
 
 It renders the window at 1400×900 and saves one PNG per page. Pages are matched **by tab title, not index**, so reordering a tab cannot silently shuffle the published images — and the `TABS` map is exhaustive: a tab that exists in the GUI but not in the map makes the script exit 1 with `undocumented tab(s) … -- add them to TABS and to the GUI documentation`. That turns it into a second, cheap guard: **the GUI cannot grow an undocumented page.** The seven expected titles are *Crypto experiment*, *ChipWhisperer*, *CPA analysis*, *Registers*, *Memory / Sw-RV*, *Self-Check (A–Z)*, *UART monitor*.
@@ -230,7 +250,7 @@ Each step yields a `CheckItem(name, status, detail, category)` with status `PASS
 | `swrv_software_aes` | core | software AES on the Sw-RV target matches the reference (`SKIP` unless `swrv_words=(imem, dmem, base)` is supplied — the CLI supplies it automatically from `Software/SW_RV/*.vmem` when those are built) |
 | `capture_trace` | scope | *(optional)* one armed Husky capture returns a non-flat trace (`SKIP` unless `do_capture=True` **and** a scope is connected) |
 
-**Result (2026-08-07, CW305 FPGA build):** **16 pass / 0 fail / 0 skip** from the GUI with a Husky attached, and **14 pass / 0 fail / 1 skip** from the CLI with no scope (`capture_trace` SKIPs; `scope_clock_lock` is not emitted at all). Because it only needs the UART — plus optionally the scope — it also serves as the **ASIC chip-screening procedure**: connect a fabricated chip over the same UART and run the same check. The tutorial notebook `examples/PROACT_Tutorial.ipynb` ends with a runnable A–Z section.
+**Hardware results:** the CW305 FPGA build reported **16 pass / 0 fail / 0 skip** from the GUI with a Husky attached on 2026-08-07, and **14 pass / 0 fail / 1 skip** from the CLI with no scope (`capture_trace` SKIPs; `scope_clock_lock` is not emitted at all). A fabricated ASIC in the CW308 target board subsequently reported **16 pass / 0 fail / 0 skip** through the same GUI procedure, including clock lock and a real trace capture. The tutorial notebook `examples/PROACT_Tutorial.ipynb` ends with a runnable A–Z section.
 
 **What it does not prove:** it is a functional screen, not a characterization. It says nothing about timing margin, power, temperature, yield, long-run stability, or side-channel resistance — and passing on the CW305 says nothing about any particular fabricated die.
 
@@ -244,14 +264,15 @@ The ASCON and Xoodyak co-processors implement the **encryption** datapath — th
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs on pushes to `main`, on pull requests, and on demand. **Everything in it is board-free** — the on-hardware A–Z self-check cannot run in CI and stays a manual bench step. Four jobs:
+`.github/workflows/ci.yml` runs on pushes to `main`, on pull requests, and on demand. **Everything in it is board-free** — the on-hardware A–Z self-check cannot run in CI and stays a manual bench step. It defines two jobs: the `host` matrix runs on Python 3.9 and 3.12, and the `acquisition` job runs on Python 3.10, for three executions in total.
 
-| Job | What it runs |
+| Job / step | What it runs |
 |---|---|
-| **python** | The offline suite on Python 3.9 and 3.12, plus `flake8 --select=F` (real errors, not style) over `Software/Python` and `tests`. The hardware packages (`hid`, `mcp2210`, `chipwhisperer`) are deliberately **not** installed, which also proves `proact_host`'s hardware imports stay lazy. |
-| **gui** | Constructs the GUI offscreen, renders all seven pages and asserts the count is 7, runs `tools/check_gui_layout.py` (must report 0 px overflow), and regenerates the screenshots into a temp directory. |
-| **config** | Re-runs `scripts/gen_hardware.py` and fails on any diff in `Software/Python/proact_host/regs.py` — the generated map cannot drift from `config/hardware.json`. |
-| **scripts** | `bash -n` over `run_gui.sh`, `run_cli.sh` and `tools/*.sh`. |
+| **Host dependencies** (Python 3.9 and 3.12) | Installs the host package with its `dev` extra, including Qt, HDF5, `hidapi` and exact `mcp2210-python`; ChipWhisperer remains absent. Installed drivers are never opened. |
+| **Host suite** | Runs the public host suite with warnings as errors. |
+| **Host static checks** | Runs `flake8` for critical Python name and argument errors, checks generated register-map parity, regenerates the CLI reference and checks shell syntax and whitespace. |
+| **Host GUI checks** | Constructs the GUI offscreen, checks all seven pages at the standard sizes and regenerates screenshots into a temporary directory. |
+| **Acquisition** (Python 3.10) | Installs the public Acquisition requirements, runs all hardware-free Acquisition and strict scope-simulator tests with warnings as errors, runs the flag-mode configuration/rejection matrix, and parses both Acquisition shell launchers. |
 
 Every one of those commands also passes locally on this checkout (on the one bench interpreter, not the full 3.9/3.12 matrix). What CI cannot tell you: whether the chip works. No job in it has ever touched a PROACT board, and none ever will.
 
@@ -280,7 +301,7 @@ flowchart LR
 | **RTL-simulated** | Driven against the actual frozen RTL in a simulator (iverilog KAT, gate step 4). Real gates, virtual time. | No (simulated) |
 | **Hardware** | Executed on the real bench (CW305 FPGA build + Husky) and passed. | **Yes** |
 
-Only a `hardware` label means a real run happened. The full A–Z self-check reached this level on the CW305 on 2026-08-07; the fabricated ASIC has not yet been screened. Label an ASIC result `hardware` only after its own A–Z run passes.
+Only a `hardware` label means a real run happened. The full A–Z self-check reached this level on the CW305 on 2026-08-07 and subsequently on a fabricated ASIC in the CW308 target board. Each additional die still needs its own screen.
 
 `proact_host/selfcheck.py` is the legacy module that attached these labels to individual `CheckResult` objects. It is superseded by `fullcheck.py`, which reports plain PASS/FAIL/SKIP; the labels live on here, as documentation.
 
@@ -290,31 +311,30 @@ Only a `hardware` label means a real run happened. The full A–Z self-check rea
 
 | Layer | Status |
 |---|---|
-| Host library (`proact_host`) | **Unit-tested** — 1258 pass / 1 skip / 0 fail offline, in ~5 s |
+| Host library (`proact_host`) | **Unit-tested** — 1,513 pass / 43 explicit skips / 0 fail offline with warnings as errors |
 | `proact_regs.h` vs frozen RTL | **RTL cross-checked** — 34/34 constants agree (`verify_regs_vs_rtl.py`) |
 | AES driver register sequence | **RTL-simulated** + **hardware** — KAT + decrypt round-trip pass on-chip |
 | AEAD (ASCON/Xoodyak) encrypt | **Hardware** — on-chip encrypt KAT (`CMD_AEADKAT`) passes on both cores |
 | AEAD decrypt | **Runs on the host** by design — `aead_soft` round-trip + bad-tag rejection pass |
 | Controller + target firmware | **Builds clean** (0 warnings) and **runs on hardware** — drives every A–Z step |
-| GUI | **Constructs headless**, all 7 pages render, 0 px layout overflow at four sizes, and it is used live on the bench |
+| GUI | **Constructs headless**, all 7 pages render, 0 px layout overflow at five sizes, and it is used live on the bench |
 | CW305 FPGA + ChipWhisperer | **Hardware** — A–Z self-check 16 pass / 0 fail / 0 skip (clock lock + trace capture included) |
-| Offline CPA | **Reproducible with no board** — the shipped `datasets/` captures recover 16/16 key bytes (`proact cpa --core aes1`) |
-| Fabricated ASIC | **Not yet screened** — reuse the same A–Z check over its UART |
+| Offline CPA | **Acquisition analysis is included** — the legacy `proact cpa`/GUI runner requires a separately supplied capture and companion `examples/cpa_*.py` helper |
+| Fabricated ASIC | **Hardware** — A–Z self-check 16 pass / 0 fail / 0 skip in the CW308 target board, including clock lock and trace capture |
 
 ---
 
 ## What is deliberately *not* verified yet
 
-- **The fabricated ASIC.** Only the CW305 FPGA build of the same design has been on the bench. Screening a chip consists of running the same A–Z check over its UART.
 - **Windows and macOS.** All of the above was run on Linux. Nothing is known to be broken elsewhere; nothing has been tried.
 - **AEAD hardware decrypt.** By design, AEAD decryption runs on the host, so this path is permanently covered by hardware-encrypt → software-decrypt.
 - **The Husky-as-SPI transport** — `capture.husky_spi()` is a deliberate `NotImplementedError` pending a bench check.
-- **Two known controller-firmware defects**, filed but not fixed (they need a firmware release and a re-flash, so the shipped `main.vmem` still has them):
+- **Two known controller-firmware defects**, filed but not fixed. The current bench `main.vmem` is supplied separately and must be rebuilt and re-flashed before firmware fixes take effect:
   - `Software/Controller/main.c`, `MODE_SWRV`: when `swrv_aes_block()` hits `SWRV_TIMEOUT`, the frame is sent anyway from the unchanged `result` buffer — the host receives the **previous** block's output and cannot tell it is stale.
   - `Software/Controller/main.c`, `CMD_LDI` / `CMD_LDD`: an over-large word count is clamped to `0x8000` but the surplus words are **not drained** from the stream, so the remaining bytes are interpreted as commands and the protocol desyncs.
 - **Anything about side-channel resistance.** The platform is built to *measure* leakage, and the CPA results demonstrate that it leaks; no countermeasure claim is made or tested.
 
-Once a fabricated ASIC is available for screening, the register map, trigger (control bit 30), reset/run sequence, and every A–Z step will already have passed on the identical design on the CW305 — a screening run that fails therefore indicates a fault in **that chip**, not in the software.
+The A–Z screen is functional evidence for the tested FPGA and ASIC devices. It does not replace characterization across additional dice, voltage, temperature, timing margin or sustained side-channel campaigns.
 
 ## See also
 

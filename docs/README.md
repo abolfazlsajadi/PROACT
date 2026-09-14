@@ -29,4 +29,7 @@ The GUI screenshot and layout tools also run offline; see [GUI guide](wiki/GUI-G
 
 For implementation ownership and data flow, see the [architecture map](ARCHITECTURE.md).
 
-The [Acquisition configuration interface](../Acquisition/README.md) reviews frequency, UART, trigger and oscilloscope requests offline. It does not apply instrument settings or capture waveforms.
+The [Acquisition framework](../Acquisition/README.md) provides the frequency-first
+wizard, Husky capture, a simulated allowlisted oscilloscope backend, resumable native
+storage, HDF5/CSV export, warm-up, TVLA and target-specific CPA. Live use requires
+separately supplied firmware; physical oscilloscope validation remains pending.

@@ -4,7 +4,7 @@
 > **This page is the bus access contract — the complete list of accesses to avoid and the safe sequences the drivers already use.** PROACT is built on the minimal lowRISC *simple-system* interconnect, so a small number of accesses require care; every driver in this repository already encodes the rules below, so ordinary use is unaffected. This page explains *why* the rules exist, so that they remain intact in any custom low-level sequence. (The behaviors are properties of the fabricated silicon, identical in the FPGA build.)
 
 > [!NOTE]
-> **Verification status.** Where a behavior is described as confirmed, it is **RTL-simulated** (the gate-level signoff simulation passes the canonical operation sequences), **unit-tested** (host protocol / AES reference vectors), or — for the driver sequences that encode these rules — **exercised on the real CW305 FPGA**: the unified A–Z self-check (`proact_host/fullcheck.py`) passes 100% on the bench. The fabricated ASIC has not yet been bench-tested; it shares the design byte-for-byte, so every rule below applies to it unchanged.
+> **Verification status.** Where a behavior is described as confirmed, it is **RTL-simulated** (the gate-level signoff simulation passes the canonical operation sequences), **unit-tested** (host protocol / AES reference vectors), or — for the driver sequences that encode these rules — **exercised on hardware**: the unified A-Z self-check (`proact_host/fullcheck.py`) passes on the real CW305 and reports 16 pass / 0 fail / 0 skip on the fabricated ASIC in the CW308 target board. The rules below remain properties of the frozen design; the screen covers the listed functional sequences, not every prohibited-access failure mode.
 
 ---
 

@@ -14,9 +14,8 @@ On the bench, always launch the CLI through the repository wrapper:
 
 > [!WARNING]
 > **Rationale for the wrapper (and for avoiding `sudo`):** `run_cli.sh` selects the
-> correct interpreter — `$PROACT_VENV`, else the dedicated `~/.proact-venv` (built by
-> `bash tools/setup_env.sh`), else the repo's `.venv`, else the first system Python
-> that can `import hid, serial.tools.list_ports` — then puts `Software/Python` on
+> correct interpreter — explicit `PROACT_PYTHON`, then `PROACT_VENV`, the repo's
+> `.venv`, a preserved legacy `~/.proact-venv`, or a usable system Python — then puts `Software/Python` on
 > `PYTHONPATH` and execs `python -m proact_host.cli`. A bare `python3` under pyenv is
 > often a different interpreter missing those packages. **Do not use `sudo`:** device
 > access is granted by the udev rules (`sudo bash tools/install_udev.sh` once, then
@@ -28,7 +27,8 @@ On the bench, always launch the CLI through the repository wrapper:
 > The wrapper does **not** `cd` anywhere, so relative paths you pass (`--vmem`,
 > `--output`, `--capture`, `--bitstream`) resolve against your *current* directory.
 > Paths the CLI resolves itself — the Sw-RV `.vmem` files for `selfcheck`, the CPA
-> scripts, the shipped reference datasets — are anchored to the repository root.
+> scripts, and the conventional paths for externally supplied reference captures —
+> are anchored to the repository root.
 
 ## Global options
 
@@ -89,7 +89,7 @@ flowchart LR
 ```
 ```
 == proact-host ==
-  version        1.0.0
+  version        1.1.0.dev1
   repo           /path/to/PROACT
   input clock    50.0 MHz (config.py)
 
@@ -146,7 +146,7 @@ Prints the cycle count and the equivalent time at `config.INPUT_CLOCK_HZ`
 (50 MHz on this bench).
 
 ### `version`
-Prints only the `proact_host` version string — currently `1.0.0` — with no
+Prints only the `proact_host` version string — currently `1.1.0.dev1` — with no
 decoration, for scripts.
 
 ---
@@ -293,9 +293,12 @@ plotting the output; the stored `traces` + `output` arrays are the direct input 
 the **last-round CPA** analysis presented there.
 
 ### `cpa` — run the CPA attack on a capture (offline, no board)
-Spawns the matching attack script in `examples/` on a stored capture. With no
-`--capture` it falls back to the shipped reference dataset for that core, so the
-whole attack reproduces on a laptop.
+Spawns the matching attack script in `examples/` on a stored capture. This public
+checkout contains no trace dataset. Pass `--capture FILE`, or put a separately
+obtained reference file at `datasets/<core>_reference.npz`; the latter is the
+fallback path when `--capture` is omitted. The legacy `examples/cpa_*.py` helper
+must also be obtained from the companion design package. For new Acquisition
+captures, the public `Acquisition/` workflow provides packaged automatic analysis.
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -554,9 +557,9 @@ The board-free ones run anywhere; the rest assume the bench described in
 
 **Reproduce the CPA attack with no board**
 ```bash
-./run_cli.sh cpa --core aes1            # shipped dataset -> RECOVERED 16/16 key bytes
-./run_cli.sh cpa --core aes2
-./run_cli.sh cpa --core swrv --plot swrv_cpa.png
+./run_cli.sh cpa --core aes1 --capture /path/to/aes1_reference.npz
+./run_cli.sh cpa --core aes2 --capture /path/to/aes2_reference.npz
+./run_cli.sh cpa --core swrv --capture /path/to/swrv_reference.npz --plot swrv_cpa.png
 ```
 
 **Cold FPGA bring-up, in the order that actually works**
@@ -639,9 +642,9 @@ streamed-load timing (`load`) and hardware-vs-software AES timing (`aes`) — us
 the same backend. It has no wrapper script, so call the venv's Python directly:
 
 ```bash
-~/.proact-venv/bin/python Software/Python/measure.py --help
-~/.proact-venv/bin/python Software/Python/measure.py load --imem Software/Controller/main.vmem
-~/.proact-venv/bin/python Software/Python/measure.py aes --n 200
+.venv/bin/python Software/Python/measure.py --help
+.venv/bin/python Software/Python/measure.py load --imem Software/Controller/main.vmem
+.venv/bin/python Software/Python/measure.py aes --n 200
 ```
 
 ## See also

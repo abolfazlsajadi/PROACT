@@ -89,12 +89,12 @@ The host auto-detects the two USB bridges by VID/PID: **MCP2200 (UART)** = `04D8
 
 ## 3. Launch problems: sudo, pyenv, and MCP2210 desync
 
-Launch with the wrapper scripts — `./run_gui.sh` / `./run_cli.sh` — as the **normal (non-root) user, never with sudo**. They pick the dedicated `~/.proact-venv` (override with `PROACT_VENV`), or fall back to a system Python that has the required packages. Device access comes from the udev rules (§2), not from root.
+Launch with the wrapper scripts — `./run_gui.sh` / `./run_cli.sh` — as the **normal (non-root) user, never with sudo**. They prefer explicit `PROACT_PYTHON`/`PROACT_VENV`, then the project `.venv`, before probing legacy or system interpreters. Device access comes from the udev rules (§2), not from root.
 
 | Symptom | Cause | Fix |
 |---|---|---|
 | `RuntimeError: chipwhisperer is not installed: pip install chipwhisperer` — although the package *is* installed and the tools work without `sudo` | **Running with `sudo`.** `chipwhisperer` is installed under the *user's* `~/.local` (Python 3.10); root's Python cannot see it, so `sudo` actually **breaks** the tools. | Never launch with `sudo`. Run `./run_gui.sh` / `./run_cli.sh` as the normal user. If `sudo` was used to work around a Linux device permission error, the correct fix is the udev script: `sudo bash tools/install_udev.sh` once, then **replug** (§2). |
-| `ModuleNotFoundError: No module named 'PyQt6'` (or `hid`, `mcp2210`, `serial`) from a bare `python3` | **pyenv mismatch:** the `python3` shim points at a different interpreter than the one the packages were installed into. | Use `./run_gui.sh` / `./run_cli.sh` — they prefer `~/.proact-venv` and otherwise probe for a Python that imports all the dependencies. First-time setup: `bash tools/setup_env.sh`. |
+| `ModuleNotFoundError: No module named 'PyQt6'` (or `hid`, `mcp2210`, `serial`) from a bare `python3` | **pyenv mismatch:** the `python3` shim points at a different interpreter than the one the packages were installed into. | Create the project environment with `bash tools/setup_env.sh --with all`, then use `./run_gui.sh` / `./run_cli.sh`. For another path, pass `--venv` during setup and set `PROACT_VENV` when launching. |
 | `Mcp2210CommandResponseDesyncException` on SPI-load / reset operations | The MCP2210 HID endpoint needs strict command/response pairing; **interleaved commands desynchronize it** and every later call fails. Historically the GUI's 1 s reset-indicator poll could overlap a button action and trigger exactly this. | Fixed in current code: all MCP2210 access is serialized through a lock proxy (`_LockedMcp` in `programmer.py`) with a one-shot desync retry, and the indicator poll is skipped when the MCP is busy (`ResetController.try_status()`). Update to the current code if an older version is in use. If it *still* appears, **two processes are sharing the device** (e.g. a second GUI, or `proact program` next to a running GUI) — the lock only serializes within one process. Close the other process and re-open (or replug) the MCP2210. |
 
 ---
@@ -141,6 +141,11 @@ To check the on-chip AEAD *encrypt* side, run the on-chip KAT: `ProactTarget.aea
 
 Firmware is bare-metal RV32 built with `riscv32-unknown-elf-gcc` + `srec_cat`. Each build emits **two** vmem images (imem + dmem).
 
+> [!NOTE]
+> This section applies to the companion full-design checkout. Firmware sources,
+> Makefiles, RTL and `tools/verify_all.sh` are not included in this public source
+> release; supply matching images separately when using only this checkout.
+
 | Symptom | Cause | Fix |
 |---|---|---|
 | `riscv32-unknown-elf-gcc: command not found` | RISC-V toolchain not on `PATH`. | Install a bare-metal RV32 GCC (e.g. the lowRISC build) and put it on `PATH`, **or** pass the prefix to make: `make -C Software/Controller RISCV=riscv32-unknown-elf-`. No local paths are hard-coded — the prefix comes from the `RISCV` variable. |
@@ -168,7 +173,7 @@ This is the section that cost the most bench time, so read it before you start s
 > **The order that works, every time:** upload `PROACT_top.bit` → load `Software/Controller/main.vmem` over SPI → confirm the boot banner → then everything else. On the FPGA there is nothing to load firmware *into* until the bitstream is in the fabric. See [Getting Started](Getting-Started).
 
 > [!WARNING]
-> **Beware of "evidence" that is not evidence.** Two readings looked like proof that the design was alive, and neither was. (a) The Husky's frequency counter with `clkgen_src="extclk"` reporting ~50 MHz and `locked=True` is measuring the **CW305's own PLL** on the 20-pin header — that PLL runs whether or not the FPGA is configured or out of reset. (b) A clean reset-line read-back proves nothing either: `programmer._setup()` configures MCP2210 GPIO 3/6/7/0 as *inputs* and 5/2/4/1 as *outputs* (`config.Mcp2210Pins`), and the reset lines are FPGA **inputs**, so those read-back pins can only be following the MCP2210's own outputs through the interface board — a perfect read-back is consistent with the CW305 being unplugged. The boot banner is the one cheap signal that requires the CPU to actually be executing.
+> **Beware of "evidence" that is not evidence.** Two readings looked like proof that the design was alive, and neither was. (a) The Husky's frequency counter with `clkgen_src="extclk"` reporting ~50 MHz and `locked=True` is measuring the **CW305's own PLL** on the 20-pin header — that PLL runs whether or not the FPGA is configured or out of reset. (b) A clean reset-line read-back proves nothing either: `programmer._setup()` configures MCP2210 GPIO 0/3/6/7/8 as *inputs* and 1/2/4/5 as *outputs* (`config.Mcp2210Pins`), and the reset lines are FPGA **inputs**, so those read-back pins can only be following the MCP2210's own outputs through the interface board — a perfect read-back is consistent with the CW305 being unplugged. The boot banner is the one cheap signal that requires the CPU to actually be executing.
 
 ---
 
@@ -179,8 +184,8 @@ Work down this list — the first four need no board at all, so they separate "m
 ```bash
 ./run_cli.sh info       # address map + input clock + confirms trigger = bit30 (0x40000000)
 ./run_cli.sh test       # host protocol + AES reference + software ASCON/Xoodyak (no hardware)
-bash tools/run_tests.sh # the full offline regression suite (1258 pass / 1 skip, ~5 s)
-./run_cli.sh cpa --core aes1     # end-to-end CPA on datasets/ -> RECOVERED 16/16 key bytes
+bash tools/run_tests.sh # public offline result: 1,513 pass / 43 explicit skips
+./run_cli.sh cpa --core aes1 --capture /path/to/aes1_reference.npz  # external local capture
 ./run_cli.sh devices    # list detected MCP2200/MCP2210 + serial ports (+ their serials)
 ./run_cli.sh monitor --secs 5    # dump whatever the chip is actually sending (noise-safe)
 bash tools/verify_all.sh         # the offline gate: builds + regs-vs-RTL + KATs
@@ -188,7 +193,7 @@ bash tools/verify_all.sh         # the offline gate: builds + regs-vs-RTL + KATs
 
 If `info`/`test`/`run_tests.sh` fail, the problem is the host environment (§3), not the board. If they pass and `devices` finds nothing, it is USB/permissions (§2). If `devices` is fine and the chip is still silent, go to §8 and get the boot banner.
 
-(`./run_cli.sh <cmd>` is `proact <cmd>` with the correct Python interpreter — see §3.) With a board attached, run the single unified A–Z check: `./run_cli.sh selfcheck` (add `--capture --platform fpga` for the scope steps), the GUI's *Self-Check (A–Z)* tab, or `proact_host.fullcheck.run_full_check()` from Python (`~/.proact-venv/bin/python`). It reports 14 pass / 1 skip without a scope and 16 pass with one; it passes 100% on the CW305 bench and doubles as the ASIC chip-screening procedure.
+(`./run_cli.sh <cmd>` is `proact <cmd>` with the selected Python interpreter — see §3.) With a board attached, run the single unified A–Z check: `./run_cli.sh selfcheck` (add `--capture --platform fpga` for the scope steps), the GUI's *Self-Check (A–Z)* tab, or `proact_host.fullcheck.run_full_check()` from the selected environment. It reports 14 pass / 1 skip without a scope and 16 pass with one; it passes 100% on the CW305 bench and doubles as the ASIC chip-screening procedure.
 
 `proact info` explicitly prints `trigger  control bit30 = 0x40000000 (NOT bit31)` — a fast sanity check of the trigger-bit convention.
 

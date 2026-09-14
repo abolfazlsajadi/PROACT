@@ -78,8 +78,8 @@ software access conventions, which the drivers in this repository already implem
 Chapter 2 documents those conventions so the behavior is fully understood.
 \end{danger}
 \vfill
-{\small Generated from the maintained sources in this repository
-(\code{config/hardware.json}, the firmware/host code, and the Markdown docs).}
+{\small Generated from the maintained public host sources and documentation,
+with firmware/RTL behavior documented from the companion design package.}
 \end{titlepage}
 
 \tableofcontents
@@ -258,7 +258,7 @@ scripts share one tested library instead of each re-implementing the serial
 protocol. The recommended install is one command, followed by \emph{always}
 launching through the wrapper scripts:
 \begin{lstlisting}[style=sh]
-bash tools/setup_env.sh   # one-time: builds a dedicated venv at ~/.proact-venv
+bash tools/setup_env.sh --with all   # one-time: creates/reuses project .venv
 ./run_cli.sh info         # the CLI -- prints the address map, no board needed
 ./run_gui.sh              # the GUI
 \end{lstlisting}
@@ -280,6 +280,12 @@ The two RISC-V cores run C programs compiled in this step: the
 \emph{controller} firmware (the command server the host communicates with) and the
 \emph{target} firmware (software AES on the Sw-RV core). \code{make} cross-compiles
 them and produces \code{.vmem} images that are loaded into the chip's memories.
+\begin{notebox}
+This public source checkout does not include the controller/Sw-RV firmware
+sources or built images. The commands below apply in the companion design
+package. For bench use, build there or supply matching \code{.vmem} files
+separately and select them explicitly in the host tools.
+\end{notebox}
 \begin{lstlisting}[style=sh]
 make -C Software/Controller RISCV=riscv32-unknown-elf-   # -> main.vmem (one image)
 make -C Software/SW_RV      RISCV=riscv32-unknown-elf-    # -> sw_rv_*.vmem (two)
@@ -750,8 +756,11 @@ at the bottom of the page --- a one-line reminder plus the single button
 
 \begin{center}\includegraphics[width=\textwidth]{gui_cpa.png}\end{center}
 \textbf{CPA analysis:} the offline correlation power-analysis attack, on its own
-page. Leave \emph{Capture} empty to attack the reference traces shipped in
-\code{datasets/}, or browse to your own \code{.npz}/\code{.h5}; pick the leakage
+page. Browse to a separately supplied \code{.npz}/\code{.h5}; leaving
+\emph{Capture} empty checks the conventional
+\code{datasets/<core>\_reference.npz} path, but this public checkout contains no
+trace dataset. The legacy GUI runner also requires the companion
+\code{examples/cpa\_*.py} scripts. Pick the leakage
 model (\code{aes1}/\code{aes2} last-round ciphertext, \code{swrv} first-round
 S-box) and the moving-average filter width (\emph{auto} picks it from the data;
 measured best AES1 8, AES2 2, Sw-RV 16), then \emph{Run CPA}. It needs no
@@ -794,9 +803,11 @@ Platform & Clock & Program \\ \midrule
 \end{tabular}\end{center}
 The GUI's ChipWhisperer tab exposes the frequency (ASIC) and the bitstream +
 ``Program FPGA bitstream'' button (FPGA). The \textbf{GUI companion firmware} ---
-the controller command server (\code{Software/Controller/main.vmem}) --- is
-the on-chip program that understands all the GUI's commands; the Programming panel
-has a one-click button to select it.
+the controller command server (conventionally
+\code{Software/Controller/main.vmem}) --- is supplied separately in this public
+source release. It is the on-chip program that understands all the GUI's commands;
+the Programming panel has a one-click button to select that conventional path when
+the file is present, or the operator can browse to another matching image.
 
 The capture order matches the verified PROACT trigger sequence:
 \begin{center}
@@ -832,9 +843,9 @@ per line as \code{key=.. pt=.. nonce=.. ad=..} (hex).
 \begin{notebox}
 The FPGA build is now \textbf{bench-verified end to end}: on a real CW305 +
 Husky the unified A--Z self-check passes 100\% (16 pass, 0 fail, 0 skip;
-2026-08-07). The fabricated \textbf{ASIC has not been screened yet} --- the same
-A--Z check is the screening tool. Every claim below states exactly how it was
-verified.
+2026-08-07). The fabricated \textbf{ASIC is also screened}: the same A--Z check
+reports 16 pass / 0 fail / 0 skip on the CW308 target board (2026-09-11).
+Every claim below states exactly how it was verified.
 \end{notebox}
 \begin{center}\rowcolors{2}{rowalt}{white}
 \begin{longtable}{p{6.6cm}p{7.4cm}}
@@ -848,7 +859,7 @@ GUI & \textbf{constructs + renders} headless \\
 On-chip AEAD encrypt KAT & \textbf{hardware} --- ASCON + Xoodyak both PASS on the CW305 (\code{CMD\_AEADKAT}) \\
 On real FPGA (CW305 + Husky) & \textbf{hardware} --- full A--Z self-check passes 100\%, incl.\ scope lock + trace capture \\
 AEAD decrypt & \textbf{runs on the host by design} --- \code{aead\_soft}, bit-exact round trip (Ch.~6) \\
-On the fabricated ASIC & \textbf{not yet run} --- screened with the same A--Z check \\
+On the fabricated ASIC & \textbf{hardware} --- A--Z screen reports 16 pass / 0 fail / 0 skip on the CW308 target board, including clock lock + trace capture \\
 \bottomrule
 \end{longtable}\end{center}
 Run all offline checks: \code{RTL\_ROOT=/path/to/ASIC/rtl bash tools/verify\_all.sh}.

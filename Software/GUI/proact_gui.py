@@ -11,8 +11,8 @@ LED indicators) beside seven tabbed pages, one per workflow step:
   * ChipWhisperer: connect/disconnect Husky, target clock (default 50 MHz on
     HS2), transport selection (MCP or Husky SPI via GPIO3), trace capture,
     and a jump to the unified self-check
-  * CPA analysis: offline correlation-power-analysis attack on a capture file
-    or the shipped reference dataset (no board required)
+  * CPA analysis: offline correlation-power-analysis attack on a local capture
+    with the separately supplied companion analysis script (no board required)
   * Registers: control-register bit editor + graphical status-register view
   * Memory / Sw-RV: raw bus peek/poke + Sw-RV target program loader
   * Self-Check (A–Z): the single unified pass/fail health check for the chip
@@ -207,7 +207,7 @@ GREEN, RED, GRAY, AMBER, BLUE = "#22c55e", "#ef4444", "#4b5563", "#f59e0b", "#25
 HELP = {
     "connection": "Auto-detect the MCP2210 (SPI loader) and MCP2200 (UART). Leave Port blank to auto-detect; set it to override. See docs/wiki/GUI-Guide.md and Getting-Started.md.",
     "reset": "Reset presets drive the MCP2210 GPIO reset lines. Every preset sets ALL four lines to a safe, deterministic state:\n- Run = the verified running state (CPU+crypto active, SPI loader held).\n- Reset all = everything held (baseline).\n- Controller = hold only the CPU.\n- Global = hold Sw-RV+crypto -- the CPU is held too, because resetting the crypto under a running CPU wedges the bus (hardware fact). Recover with Run.\n- SPI loader released = programming-style state (CPU+crypto held).\nThe checkboxes below mirror the actual read-back pins (synced every second); green LED = released/active, red = held, gray = disconnected. See docs/hardware_hazards.md.",
-    "program": "Stream a controller .vmem into the chip over SPI (64-bit {addr,data} frames) with the reset handshake. Build vmems with `make -C Software/Controller`. See docs/bringup_guide.md.",
+    "program": "Stream a controller .vmem into the chip over SPI (64-bit {addr,data} frames) with the reset handshake. Supply a matching image separately, or build it from the companion design package. See docs/bringup_guide.md.",
     "core": "The hardware/software target to run. Nonce and AD apply only to the AEAD cores (ASCON, Xoodyak); they are disabled for AES1/AES2/Sw-RV.",
     "encdec": "AES1, AES2 and the software AES support encrypt/decrypt. ASCON and Xoodyak hardware support encryption only, so Decrypt is unavailable for those cores. Their self-check uses host-side decryption for the reference round-trip.",
     "inputs": "Each input can be Fixed (enter hex) or Random (new value per run), or read a whole run list from a text file (see experiments/inputs_example.txt).",
@@ -217,12 +217,12 @@ HELP = {
     "compare": "Compare the returned data with the shared software reference for the selected operation. This does not add a hardware decryption path for the encryption-only ASCON/Xoodyak cores.",
     "targetplat": "Which PROACT you are using:\n- ASIC: the fabricated chip. The Husky generates its clock on HS2 (set the frequency in the ChipWhisperer tab, default 50 MHz).\n- FPGA (CW305): the design running on a CW305 Artix-7 board. HS2 is disabled and the CW305's own PLL provides the clock; you must upload the PROACT bitstream (ChipWhisperer tab). Both then load the controller firmware over SPI and talk over UART the same way.",
     "cw": "ChipWhisperer Husky + the target platform's clock. ASIC: clock generated on HS2 (default 50 MHz). FPGA (CW305): upload the PROACT bitstream; the CW305 PLL provides 50 MHz and HS2 is disabled. See docs/wiki/ChipWhisperer.md.",
-    "companion": "The GUI works with a specific on-chip program -- the controller command-server firmware (Software/Controller/main.vmem). It understands every command this GUI sends (select core, key/plaintext, run, read result, registers, Sw-RV load). Build it with 'make -C Software/Controller', then Program it.",
+    "companion": "The GUI works with a specific on-chip program -- the controller command-server firmware. It understands every command this GUI sends (select core, key/plaintext, run, read result, registers, Sw-RV load). Supply the matching main.vmem separately, or build it from the companion design package, then Program it.",
     "transport": "The GUI connects through the MCP2210 SPI loader and MCP2200 UART. The Husky SPI/UART transport entry is unavailable because this GUI does not implement that route.",
     "selfcheck": "The ONE full self-check (A-Z): UART link+baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak reference-vector encrypt KAT + software decrypt round-trip, timer, control write, PRNG, Sw-RV, and -- with the scope connected -- clock lock and a real trace capture. Every step reports PASS/FAIL; export as CSV. Use it to screen ASIC chips.",
     "registers": "Control register: tick bits and write them. Status register: read the live value; each set bit lights up with its meaning.",
     "memory": "Raw bus peek/poke via the controller (CMD_PEEK/CMD_POKE). Enter a hex address and a word count to Read, or a list of hex words to Write. Words are 32-bit and step by 4 bytes. Use it to inspect any peripheral/memory or to push custom data into the Sw-RV data memory (e.g. base 0x08100000 region). Bring-up/debug tool -- there is no bus watchdog, so only touch addresses you know are mapped.",
-    "cpa": "Analyze an existing capture file without connecting a board. With Capture empty, the existing script uses its reference dataset from datasets/. The selected model and moving-average width affect the result; filtering does not guarantee an improvement. Use consistent settings and record the dataset and analysis protocol when comparing results.",
+    "cpa": "Analyze a local capture without connecting a board. This public checkout bundles neither trace data nor the legacy examples/cpa_*.py helpers; supply both from the companion package. With Capture empty, the GUI checks the conventional datasets/<core>_reference.npz path. The Acquisition folder contains the packaged automatic analysis workflow.",
     "swrv": "Load a program into the Sw-RV target core: pick its instruction and data .vmem images (build them under Software/SW_RV/, or use your own) and a data-memory base, then Load. Afterwards choose core 'swrv' in the Crypto experiment tab to run it. This is how you run different software on the target for measurement.",
     "monitor": "Raw UART log. Non-printable/noise bytes are shown as \\xNN (never dropped or crashed on). Export the log to CSV.",
     "capture": "Review setup checks the form without accessing devices. Capture needs both the board UART and the scope connection. Connection handles alone do not verify firmware, clock lock, wiring or waveform quality. Capture saves acquired rows; it does not run a ciphertext reference check or determine how many traces an analysis needs.",
@@ -546,7 +546,8 @@ class MainWindow(QMainWindow):
         # one-click preset: the controller command-server firmware the GUI drives
         bgui = QPushButton("Use GUI companion firmware")
         bgui.setToolTip("Select the controller command-server firmware that works with this GUI "
-                        "(Software/Controller/main.vmem). Build it first with 'make -C Software/Controller'.")
+                        "(Software/Controller/main.vmem when supplied). Obtain it separately or "
+                        "build it from the companion design package.")
         bgui.clicked.connect(self.on_pick_companion)
         pg.addWidget(bgui, 1, 0, 1, 3)
         self.vmem_edit = QLineEdit(placeholderText="controller .vmem  (or the GUI companion firmware)")
@@ -1014,16 +1015,14 @@ class MainWindow(QMainWindow):
         self.capture_review_dialog.raise_()
 
     def _tab_cpa(self):
-        """CPA key-recovery on a capture file. Needs no board, so it is also the
-        teaching/demo page: with an empty Capture field it attacks the reference
-        traces shipped in datasets/."""
+        """CPA key-recovery on a local capture with a companion analysis script."""
         w, v = self._page("Inspect recorded traces", "Select an existing dataset and review analysis output here.", "Offline")
         an, ah = self._titled("CPA attack (offline)", "cpa")
         ag = QGridLayout(an); ag.addLayout(ah, 0, 3)
         ag.setColumnStretch(1, 1); ag.setColumnStretch(2, 1)  # widen the path field
         ag.addWidget(QLabel("Capture"), 1, 0)
         self.cpa_file = QLineEdit()
-        self.cpa_file.setPlaceholderText("leave empty to use the reference dataset in datasets/")
+        self.cpa_file.setPlaceholderText("select .npz/.h5; empty checks datasets/<core>_reference.npz")
         ag.addWidget(self.cpa_file, 1, 1, 1, 2)
         bcpa = QPushButton("Browse")
         bcpa.clicked.connect(lambda: self._pick_into(self.cpa_file, "Capture (*.npz *.h5)"))
@@ -1227,7 +1226,8 @@ class MainWindow(QMainWindow):
         if not os.path.exists(imf):
             self.bus.info.emit("Sw-RV load FAILED",
                                f"instruction file not found:\n{imf}\n\n"
-                               "Build it with:  make -C Software/SW_RV"); return
+                               "Supply matching VMEM images, or build them from the "
+                               "companion design package."); return
         if not os.path.exists(dmf):
             self.bus.info.emit("Sw-RV load FAILED", f"data file not found:\n{dmf}"); return
         def job():
@@ -1926,7 +1926,8 @@ class MainWindow(QMainWindow):
         self.vmem_edit.setText(path)
         if not os.path.exists(path):
             self.bus.log.emit("System",
-                "GUI companion firmware not built yet -- run 'make -C Software/Controller'", "")
+                "GUI companion firmware is not present -- select a separately supplied "
+                "main.vmem or build it from the companion design package", "")
         else:
             self.bus.log.emit("System", "selected GUI companion firmware", "")
 
@@ -2117,23 +2118,31 @@ class MainWindow(QMainWindow):
         self._run(job, "Capturing traces")
 
     def on_cpa(self):
-        """Run the CPA attack on a capture file. Needs no hardware, so it also
-        works as a demo/teaching step with the shipped reference datasets."""
+        """Run a separately supplied CPA helper on a local capture file."""
         core = self.cpa_core.currentText()
         path = self._resolve(self.cpa_file.text().strip()) if self.cpa_file.text().strip() else \
             os.path.join(self._repo_root(), "datasets", f"{core}_reference.npz")
         filt = self.cpa_filter.currentText().split()[0]     # "1 (off)" -> "1"
         if not os.path.exists(path):
-            self.bus.info.emit("CPA", f"capture not found:\n{path}"); return
+            self.bus.info.emit(
+                "CPA",
+                f"capture not found:\n{path}\n\nSelect a separately supplied .npz/.h5 file.")
+            return
+        script = "cpa_swrv.py" if core == "swrv" else "cpa_lastround.py"
+        script_path = os.path.join(self._repo_root(), "examples", script)
+        if not os.path.exists(script_path):
+            self.bus.info.emit(
+                "CPA helper not found",
+                f"Missing: {script_path}\n\nInstall the companion example scripts, or use "
+                "Acquisition automatic analysis for new captures.")
+            return
         self.cpa_btn.setEnabled(False)
         self.cpa_out.setPlainText(f"running CPA on {os.path.basename(path)} ...")
 
         def job():
             import subprocess
             import sys as _sys
-            script = "cpa_swrv.py" if core == "swrv" else "cpa_lastround.py"
-            cmd = [_sys.executable, os.path.join(self._repo_root(), "examples", script),
-                   path, "--filter", filt]
+            cmd = [_sys.executable, script_path, path, "--filter", filt]
             try:
                 r = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
                 self.bus.cpaout.emit((r.stdout or "") + (r.stderr or ""))

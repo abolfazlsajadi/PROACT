@@ -10,10 +10,30 @@ mcp2210/hid are imported lazily so this module can be imported without them.
 """
 import threading
 import time
+from importlib.metadata import PackageNotFoundError, version as distribution_version
 from typing import Callable, Optional
 
 from . import config
 from .vmem import parse_vmem
+
+
+MCP2210_SDK_VERSION = "1.0.4"
+
+
+def _require_supported_sdk():
+    """Reject unverified GPIO-cache behavior before looking for hardware."""
+    try:
+        installed = distribution_version("mcp2210-python")
+    except PackageNotFoundError:
+        raise RuntimeError(
+            "Cannot verify the installed mcp2210-python version; install "
+            f"mcp2210-python=={MCP2210_SDK_VERSION}"
+        ) from None
+    if installed != MCP2210_SDK_VERSION:
+        raise RuntimeError(
+            f"Unsupported mcp2210-python {installed}; GPIO setup is validated only "
+            f"with {MCP2210_SDK_VERSION}. Install mcp2210-python=={MCP2210_SDK_VERSION}"
+        )
 
 
 class _LockedMcp:
@@ -41,12 +61,20 @@ class _LockedMcp:
         def call(*a, **k):
             with self.lock:
                 try:
-                    return attr(*a, **k)
+                    result = attr(*a, **k)
                 except Exception as e:  # noqa: BLE001
                     if "Desync" not in type(e).__name__:
                         raise
                     time.sleep(0.05)
-                    return attr(*a, **k)  # one retry re-syncs cmd/response
+                    result = attr(*a, **k)  # one retry re-syncs cmd/response
+                # mcp2210-python 1.0.4 sends an immediate output update but
+                # leaves its private dirty flag set. Clear it only when an
+                # immediate write succeeded; batched setup still needs the flag
+                # for its final explicit flush.
+                if (name == "set_gpio_output_value"
+                        and getattr(self._mcp, "_immediate_gpio_update", None) is True):
+                    self._mcp._gpio_output_needs_update = False
+                return result
         return call
 
 
@@ -93,12 +121,18 @@ class Mcp2210Programmer:
                 "The 'mcp2210' library is missing. Install it with: "
                 "pip install mcp2210-python"
             ) from None
+        _require_supported_sdk()
         self._Desig = Mcp2210GpioDesignation
         self._Dir = Mcp2210GpioDirection
-        self.mcp = _LockedMcp(Mcp2210(self._detect()))
+        # mcp2210-python initializes its cached GPIO output bitmask to zero even
+        # after reading the live pin levels.  Batch setup so changing a pin's
+        # designation cannot briefly publish that zero mask and assert resets.
+        backend = Mcp2210(self._detect(), immediate_gpio_update=False)
+        self.mcp = _LockedMcp(backend)
         self.lock = self.mcp.lock
         try:
             self._setup()
+            backend._immediate_gpio_update = True
         except BaseException:
             self.close()
             raise
@@ -129,16 +163,35 @@ class Mcp2210Programmer:
 
     def _setup(self):
         p = self.pins
+        backend = getattr(self.mcp, "_mcp", self.mcp)
+        if getattr(backend, "_immediate_gpio_update", None) is not False:
+            raise RuntimeError("MCP2210 GPIO setup is not in safe batched mode")
+        settings = getattr(backend, "_gpio_settings", None)
+        observed_levels = getattr(settings, "gpio_input_level", None)
+        if type(observed_levels) is not int or not 0 <= observed_levels <= 0x1FF:
+            raise RuntimeError("MCP2210 live GPIO levels are unavailable; refusing unsafe setup")
+        if type(getattr(backend, "_gpio_output_needs_update", None)) is not bool:
+            raise RuntimeError("MCP2210 GPIO output cache is unavailable; refusing unsafe setup")
         self.mcp.configure_spi_timing(chip_select_to_data_delay=0,
                                       last_data_byte_to_cs=0, delay_between_bytes=0)
         self.mcp.set_spi_mode(1)
         for i in range(9):
             self.mcp.set_gpio_designation(i, self._Desig.GPIO)
-        for out in (p.controller_reset, p.spi_reset, p.global_reset, p.spi_select):
-            self.mcp.set_gpio_direction(out, self._Dir.OUTPUT)
-        for inp in (p.read_controller_reset, p.read_spi_reset,
-                    p.read_global_reset, p.read_spi_select):
-            self.mcp.set_gpio_direction(inp, self._Dir.INPUT)
+        outputs = {p.controller_reset, p.spi_reset, p.global_reset, p.spi_select}
+        # Define every direction. GPIO7 is the X1 debug feedback on this board;
+        # leaving it in a prior OUTPUT state could drive that external net.
+        for pin in range(9):
+            direction = self._Dir.OUTPUT if pin in outputs else self._Dir.INPUT
+            self.mcp.set_gpio_direction(pin, direction)
+        # Seed the SDK's zero-initialized output cache from the levels observed
+        # before setup, then publish designations, directions and values once.
+        for pin in outputs:
+            self.mcp.set_gpio_output_value(pin, bool(observed_levels & (1 << pin)))
+        self.mcp.gpio_update()
+        # mcp2210-python 1.0.4 does not clear this flag after a successful
+        # SET_GPIO_PIN_VALUE. Clear it so later get_gpio_value()/GUI polls issue
+        # GET commands only instead of repeatedly rewriting reset outputs.
+        backend._gpio_output_needs_update = False
 
     # --- framing ---
     @staticmethod

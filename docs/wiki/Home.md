@@ -49,9 +49,9 @@ Familiarity with the RTL is *not* required to operate the chip.
 | Area | Status |
 |---|---|
 | **CW305 FPGA build** | **Validated on hardware, 2026-08-07.** The GUI-driven A–Z self-check reports **16 pass / 0 fail / 0 skip**, including a real ChipWhisperer Husky trace capture. All four crypto cores match their references (aes1, aes2, ascon, xoodyak), as does `swrv` (software AES on the second core). |
-| **Offline regression suite** | Green. `bash tools/run_tests.sh` → **1258 passed, 1 skipped** (an HDF5 test, skipped because `h5py` is absent) in about five seconds. No board, no network. |
-| **Offline CPA** | `./run_cli.sh cpa --core aes1` recovers **16/16 key bytes** from the reference capture shipped in `datasets/`. |
-| **Bitstream** | `PROACT_top.bit` at the repository root — part `7a100tftg256`, rebuilt 2026-08-07 with the corrected 50 MHz (20.000 ns) timing constraint. |
+| **Offline regression suite** | Green. `bash tools/run_tests.sh` → **1,513 passed, 43 explicit skips** with warnings as errors. The public skips cover omitted firmware/design fixtures and the mutually exclusive no-HDF5 path. No board, no network. |
+| **Offline CPA** | **Acquisition analysis is included.** The legacy `proact cpa`/GUI runner additionally requires a separately supplied capture and companion `examples/cpa_*.py` helper. |
+| **Bitstream** | **Supplied separately.** The verified CW305 image targets part `7a100tftg256` with a 50 MHz (20.000 ns) timing constraint; this public checkout contains neither `PROACT_top.bit` nor its build sources. |
 | **The fabricated ASIC** | ✅ **Screened and passing.** The A–Z self-check runs on a PROACT die in the CW308 target board from the GUI: **16 pass / 0 fail / 0 skip**, including ChipWhisperer clock lock and a real trace capture on silicon. Sustained unattended capture campaigns also run for hours from the CLI without failures. |
 | **Windows / macOS** | ⚠ **Not tested.** Every hardware result above is Linux. |
 
@@ -95,13 +95,13 @@ Each core needs a different leakage model, point of interest and trace count, an
 each gives up the **full AES-128 key**. Bench-measured on the CW305 for all 16
 bytes, with the low-pass filter the CPA scripts apply by default: **AES1 ~4800,
 AES2 ~5300, Sw-RV ~1300** (11500 / 6600 / not reached, unfiltered) — the same
-figures the `capture --traces` help and the GUI tooltip quote. The reference
-captures are shipped in
-[`datasets/`](https://github.com/abolfazlsajadi/PROACT_Design/tree/main/datasets),
-so the attacks reproduce with **no board**:
+figures the `capture --traces` help and the GUI tooltip quote. Reference captures
+and the legacy example helpers are
+[hosted separately](https://github.com/abolfazlsajadi/PROACT_Design). After
+obtaining both locally, the attacks reproduce with **no board**:
 
 ```bash
-./run_cli.sh cpa --core aes1     # -> RECOVERED 16/16 key bytes
+./run_cli.sh cpa --core aes1 --capture /path/to/aes1_reference.npz  # companion helper installed
 ```
 
 The full walk-through is on the [**ChipWhisperer**](ChipWhisperer) page.
@@ -205,7 +205,7 @@ explain why the platform is structured the way it is.
 flowchart TD
     A[bash tools/setup_env.sh]:::step --> B[./run_cli.sh info]:::step
     B --> C{hardware<br/>connected?}:::dec
-    C -->|no| D[./run_cli.sh test<br/>+ cpa on datasets/]:::soft
+    C -->|no| D[./run_cli.sh test<br/>+ cpa on a local capture]:::soft
     C -->|yes| E0[FPGA: upload<br/>PROACT_top.bit]:::step
     E0 --> E[./run_cli.sh program<br/>load firmware + banner]:::step
     E --> F[./run_cli.sh run --core aes1 --compare]:::step
@@ -219,7 +219,7 @@ flowchart TD
     classDef star fill:#fce7f0,stroke:#db2777,color:#831843,font-weight:bold
 ```
 
-1. **First bring-up (5 min, no chip):** `bash tools/setup_env.sh` → `./run_cli.sh info` → `./run_cli.sh test` → `./run_cli.sh cpa --core aes1`. See [Getting Started](Getting-Started).
+1. **First bring-up (5 min, no chip):** `bash tools/setup_env.sh` → `./run_cli.sh info` → `./run_cli.sh test`. CPA additionally needs a local capture and the companion example script. See [Getting Started](Getting-Started).
 2. **Run and validate a crypto op:** upload the bitstream (FPGA), program the firmware, then `./run_cli.sh run --core aes1 --compare --timer`. See [CLI](CLI) / [Python API](Python-API).
 3. **Capture + attack:** `./run_cli.sh capture --core aes1 --traces 5000 --platform fpga --output experiments/aes1`, then run the last-round CPA. See [ChipWhisperer](ChipWhisperer).
 4. **Screen a chip:** connect over UART and run the one unified check — `./run_cli.sh selfcheck` (or the GUI *Self-Check (A–Z)* tab). See [Testing](Testing).
@@ -227,16 +227,16 @@ flowchart TD
 ## First steps
 
 ```bash
-bash tools/setup_env.sh                  # one-time: dedicated ~/.proact-venv for the GUI/CLI
+bash tools/setup_env.sh --with all       # one-time: create/reuse this checkout's .venv
 sudo bash tools/install_udev.sh          # one-time (Linux): USB permissions — then REPLUG the devices
-make -C Software/Controller              # -> main.vmem (one combined text+data image)
-make -C Software/SW_RV                   # -> sw_rv_imem.vmem + sw_rv_dmem.vmem
+# Supply matching controller/Sw-RV .vmem images and the FPGA .bit file separately.
+# Their build sources live in the companion design package, not this checkout.
 ./run_cli.sh info                        # print the address map + config (no hardware needed)
 ./run_gui.sh                             # launch the GUI
 ```
 
 > [!WARNING]
-> **Never run the GUI or CLI with `sudo`.** Device access comes from the udev rules above, and the `./run_gui.sh` / `./run_cli.sh` wrappers pick the right Python (the dedicated `~/.proact-venv`, or a system Python that has the packages) — a bare `python3` under pyenv can be a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. Running with sudo *breaks* ChipWhisperer, which is installed under the user's `~/.local`.
+> **Never run the GUI or CLI with `sudo`.** Device access comes from the udev rules above, and the `./run_gui.sh` / `./run_cli.sh` wrappers prefer an explicit environment and then this checkout's `.venv` before probing legacy or system interpreters. A bare `python3` under pyenv can be a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. Running with sudo can hide user-local packages.
 
 New project members should read **[Getting Started](Getting-Started)** first, then
 the **[Hardware Hazards](Hardware-Hazards)** page — the design notes above are the

@@ -1,5 +1,10 @@
 # Target Software (Sw-RV)
 
+> [!IMPORTANT]
+> This page documents the companion full-design package. This public source
+> checkout contains only the directory notice under `Software/SW_RV/`; the
+> Sw-RV source and built VMEM images must be obtained or built separately.
+
 The **Sw-RV** is the second RISC-V (Ibex) core on the PROACT chip — the *target* whose power is measured. Where the controller core drives the UART, timer and the hardware crypto cores, the Sw-RV runs a **portable software AES-128** (tiny-AES-c). That software AES is the *reference* against which the hardware AES cores (AES1/AES2) are benchmarked: with the same key and plaintext, power traces and cycle counts can be compared against a known-good, non-accelerated implementation.
 
 This page covers the Sw-RV firmware only: the AES workload, the communication mailbox, the status-bit-31 capture trigger, encrypt and decrypt operation, the two-image build, and the rationale for the core's deliberate isolation from the UART.
@@ -253,7 +258,7 @@ In the table below, "hardware" denotes the real CW305 FPGA build (identical froz
 | The software AES-128 itself | **unit-tested** against a reference vector on the host (`validation.py` / `proact test`) |
 | End-to-end selection / mailbox / trigger flow | **passes on hardware** — the `swrv_software_aes` step of the unified A-Z self-check (`proact_host/fullcheck.py`, `run_full_check()`) loads both images over `LDI`/`LDD`, runs a block through the mailbox, and matches the software reference on the real CW305 |
 | Running on the CW305 FPGA | **passes** — the full A-Z self-check is 100% green on the real board |
-| Running on the fabricated ASIC | **not yet run** — the same A-Z self-check is the chip-screening tool |
+| Running on the fabricated ASIC | **passes** — the A-Z screen reports 16 pass / 0 fail / 0 skip on the CW308 target board, including the Sw-RV result and real trace capture |
 
 The unified A-Z self-check (`fullcheck.py`, `run_full_check()`) drives AES1, AES2 and **swrv** with the same key/plaintext and checks each result against the software reference; the Sw-RV step runs when the two target images are supplied (`swrv_words=(imem, dmem, base)`) and is reported `SKIP` otherwise. This check passes 100% on the real CW305 and doubles as the ASIC chip-screening procedure.
 

@@ -46,7 +46,7 @@ positional arguments:
     aead-kat            on-chip ASCON+Xoodyak reference-vector KAT
     decrypt-soft        software AEAD decrypt + tag verify (aead_soft)
     seed                seed the masking PRNG
-    cpa                 run the CPA attack on a capture (offline, no board)
+    cpa                 run a companion CPA helper on a capture (offline)
     capture             capture power traces
     program             load controller firmware over SPI
     reset               apply a reset preset and/or show line states
@@ -226,8 +226,9 @@ options:
   --core {aes1,aes2,swrv}
                         which attack to run: aes1/aes2 use the last-round
                         ciphertext model, swrv the first-round S-box model
-  --capture CAPTURE     capture .npz/.h5 (default: the matching file in
-                        datasets/, so this works with no board)
+  --capture CAPTURE     capture .npz/.h5 (default: matching externally
+                        supplied file in datasets/; companion example script
+                        also required)
   --filter FILTER       moving-average width: 'auto', an integer, or 1 to
                         disable (see the ChipWhisperer wiki page)
   --window WINDOW       sample window lo:hi, or 'auto' (default)

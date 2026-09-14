@@ -6,5 +6,8 @@ Thumbs.db
 # Offline setup outputs and local test caches
 .pytest_cache/
 Acquisition/.venv_path
+Acquisition/.venv/
 Acquisition/data/
+Acquisition/tmp/
+Acquisition/proact_runtime/
 Acquisition/*.config.json

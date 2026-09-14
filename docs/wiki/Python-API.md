@@ -1,6 +1,6 @@
 # Python API
 
-The `proact_host` package is the host-side Python library that drives a PROACT chip from a PC: it opens the UART link, implements the controller command protocol, programs firmware over SPI, drives the reset lines, captures power traces with a ChipWhisperer, validates AES/AEAD results, and stores everything to disk. The `proact` command-line tool and the GUI are both thin wrappers over this package, so every operation they perform is also available from a few lines of Python. Current version: **`proact_host.__version__ == "1.0.0"`**.
+The `proact_host` package is the host-side Python library that drives a PROACT chip from a PC: it opens the UART link, implements the controller command protocol, programs firmware over SPI, drives the reset lines, captures power traces with a ChipWhisperer, validates AES/AEAD results, and stores everything to disk. The `proact` command-line tool and the GUI are both thin wrappers over this package, so every operation they perform is also available from a few lines of Python. Current version: **`proact_host.__version__ == "1.1.0.dev1"`**.
 
 > [!NOTE]
 > **Status.** The library is hardware-verified on the **CW305 FPGA build** (2026-08-07): the unified A–Z self-check (`fullcheck.run_full_check`) reports **16 pass / 0 fail / 0 skip** with a ChipWhisperer Husky attached — UART link + baud, AES1/AES2 encrypt KAT + decrypt round-trip, ASCON/Xoodyak on-chip encrypt KAT, software AEAD decrypt round-trip, timer, control write, PRNG, Sw-RV software AES, plus clock lock and a real trace capture. Without a scope the same sweep is 14 pass / 0 fail / 1 skip. AEAD **decryption** runs on the host with `aead_soft` (see the AEAD section below). The **fabricated ASIC passes the same sweep — 16 pass / 0 fail / 0 skip** — run from the GUI on a die in the CW308 target board with a Husky attached, including a real on-silicon trace capture. Windows/macOS are untested. The one remaining bench-verify stub is `capture.husky_spi()`.
@@ -65,13 +65,13 @@ flowchart TD
 From `Software/Python/` (installs the `proact` command too):
 
 ```bash
-pip install -e .              # core: pyserial>=3.5, hidapi>=0.14, mcp2210-python>=0.1.4, numpy>=1.23
+pip install -e .              # core: pyserial>=3.5, hidapi>=0.14, mcp2210-python==1.0.4, numpy>=1.23
 pip install -e ".[all]"       # + PyQt6>=6.5, h5py>=3.7, chipwhisperer==6.0.0
 ```
 
 Optional extras are grouped: `[gui]`, `[hdf5]`, `[capture]`, or `[all]`. Requires Python ≥ 3.9. Without `h5py`, `TraceStore` transparently falls back to compressed `.npz`.
 
-On the bench, prefer the repo-root launchers `./run_cli.sh` and `./run_gui.sh` (or a one-time `bash tools/setup_env.sh` to build the dedicated `~/.proact-venv`): these launchers select a Python interpreter that has the required packages installed, avoiding a known pyenv pitfall where a bare `python3` resolves to a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. **Never run with sudo** — device permissions come from the udev rules (one-time `sudo bash tools/install_udev.sh`, then replug the USB devices), and sudo breaks chipwhisperer, which is installed under the user's `~/.local`.
+On the bench, prefer the repo-root launchers `./run_cli.sh` and `./run_gui.sh` (after a one-time `bash tools/setup_env.sh --with all` creates the project `.venv`): these launchers select an explicit environment first, then the project environment, avoiding a known pyenv pitfall where a bare `python3` resolves to a different interpreter missing PyQt6/hid/mcp2210/chipwhisperer. **Never run with sudo** — device permissions come from the udev rules (one-time `sudo bash tools/install_udev.sh`, then replug the USB devices), and sudo can hide user-local packages.
 
 ## High-level: `PROACTExperiment`
 
@@ -393,7 +393,7 @@ So `metadata.get("ragged_trace_rows")` is the definitive "which rows are padded"
 | extra keys | — | `metadata["n_traces"]` |
 
 > [!NOTE]
-> The three reference captures shipped in [`datasets/`](https://github.com/abolfazlsajadi/PROACT_Design/tree/main/datasets) are *post-processed* for size: they hold only `traces` (`int16` — the Husky ADC is 12-bit, so this is lossless), `plaintext`, `output` and a single `(16,)` `key` row, since the whole campaign used one fixed key. They carry no `valid`, `expected`, `metadata` or `failures`, so `storage.load()` raises `KeyError: 'metadata is not a file in the archive'` on them — read them with `numpy.load` directly. The CPA example scripts have their own `load_capture()` that accepts both layouts; see `datasets/README.md`.
+> The three reference captures [hosted separately](https://github.com/abolfazlsajadi/PROACT_Design/tree/main/datasets) are *post-processed* for size: they hold only `traces` (`int16` — the Husky ADC is 12-bit, so this is lossless), `plaintext`, `output` and a single `(16,)` `key` row, since the whole campaign used one fixed key. They carry no `valid`, `expected`, `metadata` or `failures`, so `storage.load()` raises `KeyError: 'metadata is not a file in the archive'` on them — read them with `numpy.load` directly. The CPA example scripts have their own `load_capture()` that accepts both layouts. This public checkout contains only `datasets/README.md`; copy an obtained capture locally or pass its path explicitly.
 
 ## Validation
 
@@ -456,7 +456,7 @@ config.INPUT_CLOCK_HZ = 50_000_000     # affects UART baud-divisor math
 config.MCP2210_SERIAL = "0001234567"   # pin a specific board (None = first match)
 ```
 
-`INPUT_CLOCK_HZ` is read from `config/hardware.json` (`clock_hz_default`) so C, Python and the docs cannot disagree. USB IDs (`MCP2200`/`MCP2210` VID `0x04D8`, PID `0x00DF`/`0x00DE`), the `Mcp2210Pins` GPIO map, the MCP serials, and the helpers `divisor_for_baud(baud, clock_hz=None)` / `baud_for_divisor(divisor, clock_hz=None)` are all defined here. Two values depend on the physical bench and are marked as open questions in `config.py` — the MCP serial numbers and the controller/global reset **readback** pin assignment — confirm them on the bench before trusting derived values.
+`INPUT_CLOCK_HZ` is read from `config/hardware.json` (`clock_hz_default`) so C, Python and the docs cannot disagree. USB IDs (`MCP2200`/`MCP2210` VID `0x04D8`, PID `0x00DF`/`0x00DE`), the `Mcp2210Pins` GPIO map, the MCP serials, and the helpers `divisor_for_baud(baud, clock_hz=None)` / `baud_for_divisor(divisor, clock_hz=None)` are all defined here. The MCP serial numbers remain bench-specific. The native CAD and live board readback confirm the reset/select feedback map as SPI reset GPIO0, SPI select GPIO3, controller reset GPIO6, and global reset GPIO8; GPIO7 reads the X1 debug path.
 
 ## Complete function index
 
@@ -510,7 +510,7 @@ proact run --core aes1 --compare --timer     # run + validate + time
 proact aead-kat             # on-chip ASCON+Xoodyak reference-vector KAT
 proact decrypt-soft --selftest               # software AEAD decrypt self-test
 proact capture --core aes1 --traces 1000 --platform fpga --output results/aes1
-proact cpa --core aes1      # offline CPA on the shipped reference dataset
+proact cpa --core aes1 --capture /path/to/aes1_reference.npz  # companion helper required
 proact selfcheck --capture  # the unified A-Z check (fullcheck.run_full_check)
 proact reset --mode run     # safe reset presets; peek/poke for raw bus access
 ```

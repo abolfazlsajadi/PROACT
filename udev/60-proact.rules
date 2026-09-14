@@ -1,0 +1,29 @@
+# PROACT bench USB devices -- grant access without root.
+# Install with:  sudo bash tools/install_udev.sh    (then replug the devices)
+#
+# Covers: MCP2200 (UART bridge), MCP2210 (SPI bridge), and all NewAE /
+# ChipWhisperer devices (Husky scope, CW305 FPGA board, CW-Lite, ...).
+#
+# The MCP2200 and the Husky present CDC-ACM (/dev/ttyACM*) serial nodes. On a
+# desktop with ModemManager running, MM probes every new ttyACM with AT commands
+# for ~15-20 s when it enumerates -- and the MCP2200 RE-ENUMERATES every time the
+# controller is (re)programmed. That probing eats the controller's UART replies,
+# so a capture started right after programming reads back nothing ("no frame
+# marker"). The ID_MM_DEVICE_IGNORE tags below tell ModemManager to leave these
+# bench devices alone, which fixes it permanently. (Stop-gap without reinstalling
+# the rules:  sudo systemctl stop ModemManager .)
+
+# --- Microchip MCP2200 (UART bridge, VID 04d8 / PID 00df) ---
+SUBSYSTEM=="usb",    ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00df", GROUP="dialout", MODE="0660", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00df", GROUP="dialout", MODE="0660", TAG+="uaccess"
+# its serial node (/dev/ttyACM*): keep ModemManager off it
+SUBSYSTEM=="tty",    ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00df", GROUP="dialout", MODE="0660", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
+
+# --- Microchip MCP2210 (SPI bridge, VID 04d8 / PID 00de) ---
+SUBSYSTEM=="usb",    ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00de", GROUP="dialout", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00de", GROUP="dialout", MODE="0660", TAG+="uaccess"
+
+# --- NewAE / ChipWhisperer (Husky, CW305, CW-Lite, ... VID 2b3e) ---
+SUBSYSTEM=="usb",    ATTRS{idVendor}=="2b3e", GROUP="dialout", MODE="0660", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2b3e", GROUP="dialout", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="tty",    ATTRS{idVendor}=="2b3e", GROUP="dialout", MODE="0660", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"

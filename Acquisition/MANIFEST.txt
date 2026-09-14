@@ -1,0 +1,22 @@
+PROACT acquisition framework - public source manifest
+updated 2026-09-14
+
+  Python 3.10+         required runtime
+  acquire.py           responsive wizard and fail-closed flag mode
+  install.sh           POSIX dependency installer/checker
+  run.sh               dedicated-environment launcher
+  requirements.txt     acquisition dependency constraints
+  README.md            setup, capture, formats, analysis and evidence limits
+  acq/                 capture, storage, analysis and target adapters
+  acq/backend/         Husky plus allowlisted simulated scope integration
+  acq/targets/         six workload adapters
+  acq/tests/           hardware-free regression and strict scope simulations
+  analysis_models/     exact-dataset AES, ASCON and Xoodyak CPA primitives
+  docs/SCOPE_GUIDE.md  wiring, model allowlist and physical acceptance procedure
+  docs/ACQUISITION_REPORT.md  implementation and evidence ledger
+  tools/verify_cli_matrix.py  portable flag-mode acceptance matrix
+
+Built controller and Sw-RV firmware, datasets, local runtime copies, virtual
+environments and generated scope figures are intentionally excluded. A live run
+must select a full checkout with PROACT_REPO or set the documented firmware path
+environment variables. Physical oscilloscope validation remains pending.

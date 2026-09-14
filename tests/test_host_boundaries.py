@@ -66,8 +66,12 @@ def test_programmer_close_is_idempotent_and_closes_hid_only():
 def test_setup_failure_closes_opened_hid(monkeypatch):
     calls = []
     fake = SimpleNamespace(_hid=SimpleNamespace(close=lambda: calls.append("closed")))
+    def construct(serial, immediate_gpio_update=True):
+        assert serial == "1234567890"
+        assert immediate_gpio_update is False
+        return fake
     monkeypatch.setitem(sys.modules, "mcp2210", SimpleNamespace(
-        Mcp2210=lambda serial: fake, Mcp2210GpioDesignation=object(), Mcp2210GpioDirection=object()))
+        Mcp2210=construct, Mcp2210GpioDesignation=object(), Mcp2210GpioDirection=object()))
     p = Mcp2210Programmer()
     monkeypatch.setattr(p, "_detect", lambda: "1234567890")
     def fail(): raise RuntimeError("setup failed")
